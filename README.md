@@ -61,7 +61,7 @@ The container is based on a LÖVE `rectangle`. Space is distributed equally betw
 
 ### :content({})
 
-Adds passed table as children to the container.
+Adds children to container.
 
 ### :center()
 
