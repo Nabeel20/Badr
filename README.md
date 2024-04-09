@@ -101,7 +101,8 @@ end)
 
 ### :render()
 
-Calls container and its children `draw` function
+This function calls the `draw` function for the container and all of its children.
+Should be called within `love.draw` function.
 
 ### :draw()
 
