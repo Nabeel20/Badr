@@ -59,6 +59,14 @@ local c = container()
 This function makes a new 'container' that can manage its 'children'. You can pass an optional table to set the `x`, `y`, `width`, and `height`. <br>
 The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
 
+<details>
+  <summary>Container's props</summary>
+
+- `autoLayout` (table): a table with x and y keys, used to calculate layout if width and height are not defined.
+- `canHover` (boolean): can be used to add hover effect without the logic added.
+- `background` (boolean): if true container draw mode is fill.
+</details>
+
 ### :content({})
 
 Adds children to container.
