@@ -111,18 +111,6 @@ This function return another function to make sure the drawing order of children
 
 ```lua
 text = badar:extend()
-function text:new(text)
-    badar.new(self)
-    self.text = text
-end
-function text:draw()
-    love.graphics.print(self.text, self.x, self.y)
-    return function()
-        return self
-    end
-end
-```
-
 ## License
 
 This library is free software; you can redistribute it and/or modify it under
