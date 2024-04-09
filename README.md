@@ -12,7 +12,7 @@ There are also dependencies that should be added to enhance functionality:
 - [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
 - [Hump:Signal](https://github.com/vrld/hump/blob/master/signal.lua) which facilitates the passing of mouse events for all elements.
 
-### Example
+### Usage
 
 ```lua
 function love.load()
@@ -39,13 +39,6 @@ function love.draw()
     main:render()
 end
 ```
-
-## Reactivity
-
-You can define your UI tree of nodes within `love.load` or `love.draw`.<br>
-
-- Use `load` function for animations purposes (e.g `flux`) or for readability.
-- Use `draw` for more 'reactivity' as you don't need to use `:update()` function to update values, but you need to define your component within `draw`
 
 ## Functions
 
