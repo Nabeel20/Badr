@@ -7,10 +7,10 @@ Badar focuses on composition, auto-layout and reactivity; width, height, positio
 
 The `badar.lua` file should be dropped into an existing project and required by it.<br>
 
-Dependencies you should also add:
+There are also dependencies that should be added to enhance functionality:
 
-- [classic](https://github.com/rxi/classic) to make it easier to build your own UI components.
-- [Hump:Signal](https://github.com/vrld/hump/blob/master/signal.lua) Pass mouse events for all elements.
+- [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
+- [Hump:Signal](https://github.com/vrld/hump/blob/master/signal.lua) which facilitates the passing of mouse events for all elements.
 
 ### Example
 
