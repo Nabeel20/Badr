@@ -69,11 +69,11 @@ Centers container's child.
 
 ### :row(gap)
 
-Aligns children on the x-axis, with defined `gap` space between them. Default gap is 0.
+This function aligns child elements along the x-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
 ### :column(gap)
 
-Aligns children on the y-axis, with defined `gap` space between them. Default gap is 0.
+This function aligns child elements along the y-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
 ### :color(color, backgroundFilled)
 
