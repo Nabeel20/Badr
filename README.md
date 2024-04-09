@@ -86,7 +86,7 @@ This function adds padding to the container. The padding is applied in the follo
 
 ### :onClick(fn)
 
-Sets the function fn to be called when mouse is clicked within the container.
+Sets `fn` to be executed when mouse left button is clicked.
 
 ### update(function(o) return o end)
 
