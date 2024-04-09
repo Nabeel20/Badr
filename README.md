@@ -90,8 +90,7 @@ Sets `fn` to be executed when mouse left button is clicked.
 
 ### update(function(o) return o end)
 
-Provides a way to change container properties. Can be used for animation and reactivity purposes.<br>
-You must return the argument.
+This function allows for the modification of container properties. You _must_ return argument to apply your updates.
 
 ```lua
 container():update(function(o)
