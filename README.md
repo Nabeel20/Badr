@@ -75,10 +75,10 @@ This function aligns child elements along the x-axis, with a predefined `gap` of
 
 This function aligns child elements along the y-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
-### :color(color, backgroundFilled)
+### :color(color (table), fillBackground (boolean))
 
-Sets color and draw mode of container. Second argument (boolean) is optional, default is `false`. <br>
-You can pass `canHover` to your container constructor to respond to `hover` without logic attached.
+Sets color and draw mode of its container. The second argument is optional, and the default value is `false`.<br>
+Set `canHover = true` to your container constructor to 'fill' the container on mouse hover.
 
 ### :padding({0,0,0,0})
 
