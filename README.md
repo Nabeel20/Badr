@@ -104,13 +104,6 @@ end)
 This function calls the `draw` function for the container and all of its children.
 Should be called within `love.draw` function.
 
-### :draw()
-
-Used to override `draw` function when creating your own component. <br>
-This function return another function to make sure the drawing order of children; use `:render()` as it is syntax sugar for `:draw()()`.
-
-```lua
-text = badar:extend()
 ## License
 
 This library is free software; you can redistribute it and/or modify it under
