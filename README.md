@@ -49,23 +49,15 @@ You can define your UI tree of nodes within `love.load` or `love.draw`.<br>
 
 ## Functions
 
-### Creating new "container"
+### Creating a new "container"
 
 ```lua
 local container = require 'path.to.bardar.lua'
 local c = container()
 ```
 
-Creates a new "container" to mange its "children". You can pass an optional table to define `x`, `y`, `width` and `height`. <br>
-Container are based on LÖve `rectangle`. <br>
-Container calculates its children width and height if width and height are not specified, using `autoLayout` table. You can set them to false, if you want to calculate them manually (e.g text width). <br>
-Using auto layout, the available space is distributed equally between children.
-
-```lua
-    autoLayout={x = self.width == 0, y = self.height == 0 }
-```
-
-You can define container position using `x` and `y` otherwise the are defined automatically.
+This function makes a new 'container' that can manage its 'children'. You can pass an optional table to set the `x`, `y`, `width`, and `height`. <br>
+The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
 
 ### :content({})
 
