@@ -82,7 +82,7 @@ Set `canHover = true` to your container constructor to 'fill' the container on m
 
 ### :padding({0,0,0,0})
 
-Adds padding. The order: Top → right → bottom → left
+This function adds padding to the container. The padding is applied in the following order: Top, Right, Bottom, and then Left.
 
 ### :onClick(fn)
 
