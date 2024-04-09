@@ -52,7 +52,7 @@ You can define your UI tree of nodes within `love.load` or `love.draw`.<br>
 ### Creating a new "container"
 
 ```lua
-local container = require 'path.to.bardar.lua'
+local container = require 'path.to.badar.lua'
 local c = container()
 ```
 
