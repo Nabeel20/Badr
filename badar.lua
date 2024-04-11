@@ -61,6 +61,7 @@ function badar:new(obj)
             self.hovered = false
         end
     end
+    self._rounded = obj.rounded or { 0, 0 }
     self.parent = {
         width = 0,
         height = 0,
@@ -87,7 +88,10 @@ function badar:draw()
         self.x,
         self.y,
         self.width,
-        self.height)
+        self.height,
+        self._rounded[1],
+        self.rounded[2]
+    )
 
     return function()
         love.graphics.push()
@@ -223,6 +227,11 @@ function badar:isPointInside(px, py, rect)
 
     local rx1, ry1, rx2, ry2 = rect[1], rect[2], rect[3], rect[4]
     return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
+end
+
+function badar:rounded(v)
+    self._rounded = v
+    return self
 end
 
 return badar
