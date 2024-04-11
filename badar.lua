@@ -98,18 +98,6 @@ function badar:draw()
         local offset = 0;
 
         for _, child in ipairs(self.children) do
-            if self._row then
-                child.x = math.floor(offset);
-                offset = offset + child.width + self.gap
-
-                if child.autoLayout.x then
-                    child.width = math.floor((1 / childrenNumber) * available_space.width)
-                end
-                if child.autoLayout.y then
-                    child.height = self.height - self._padding[1] - self._padding[3]
-                end
-            end
-
             if self._column then
                 child.y = math.floor(offset);
                 offset = offset + child.height + self.gap
@@ -141,6 +129,21 @@ function badar:row(gap)
     gap = gap or 0
     self.gap = gap
     self._row = true
+    local offset = 0
+    local autoLayoutChildren, availableSpace = calculateLayout(self)
+    for _, c in ipairs(self.children) do
+        c.x = offset;
+        offset = offset + c.width + self.gap
+
+        if c.autoLayout.x then
+            c.width = availableSpace.width / autoLayoutChildren
+            offset = offset + c.width
+        end
+        if c.autoLayout.y then
+            -- child expand to fill parent height
+            c.height = self.height - self._padding[1] - self._padding[3]
+        end
+    end
     return self;
 end
 
