@@ -65,7 +65,7 @@ function badar:new(obj)
     self.parent = {
         width = 0,
         height = 0,
-        padding = 0,
+        padding = { 0, 0, 0, 0 },
     }
     self.children = obj.children or {}
     self._color = obj.color or { 1, 1, 1 }
@@ -157,6 +157,13 @@ function badar:column(gap)
 end
 
 function badar:content(content)
+    for _, c in ipairs(content) do
+        c.parent = {
+            width = self.width,
+            height = self.height,
+            padding = self._padding
+        }
+    end
     self.children = content;
     if self._row then self:row(self.gap) end
     if self._column then self:column(self.gap) end
