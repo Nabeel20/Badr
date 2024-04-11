@@ -87,7 +87,7 @@ function badar:draw()
         self.width,
         self.height,
         self._rounded[1],
-        self.rounded[2]
+        self._rounded[2]
     )
 
     return function()
