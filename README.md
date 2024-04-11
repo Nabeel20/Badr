@@ -113,6 +113,9 @@ end)
 This function calls the `draw` function for the container and all of its children.
 Should be called within `love.draw` function.
 
+### `:rounded({number, number})`
+
+This functions makes rectangle's corners rounded. Useful for drawing circles.
 
 ## License
 
