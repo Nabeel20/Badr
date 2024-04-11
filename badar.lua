@@ -125,7 +125,6 @@ function badar:row(gap)
 
         if c.autoLayout.x then
             c.width = availableSpace.width / autoLayoutChildren
-            offset = offset + c.width
         end
         if c.autoLayout.y then
             -- child expand to fill parent height
@@ -147,7 +146,6 @@ function badar:column(gap)
 
         if c.autoLayout.y then
             c.height = availableSpace.height / autoLayoutChildren
-            offset = offset + c.height
         end
         if c.autoLayout.x then
             -- Child takes parent full width
