@@ -190,8 +190,12 @@ function badar:onClick(command)
 end
 
 function badar:getRect()
-    return { self.globalPosition.x, self.globalPosition.y, self.globalPosition.x + self.width, self.globalPosition.y +
-    self.height }
+    return {
+        self.globalPosition.x,
+        self.globalPosition.y,
+        self.globalPosition.x + self.width,
+        self.globalPosition.y + self.height
+    }
 end
 
 function badar:render()
