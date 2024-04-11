@@ -20,8 +20,8 @@ end
 
 local function calculateLayout(self)
     local autoLayout_children = 0;
-    local horizontal_padding = self._padding[4] - self._padding[2]
-    local vertical_padding = self._padding[1] - self._padding[3]
+    local horizontal_padding = self._padding[4] + self._padding[2]
+    local vertical_padding = self._padding[1] + self._padding[3]
     local gaps = (self.gap * (#self.children - 1))
 
     local available_width = self.width - horizontal_padding - gaps
