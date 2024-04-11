@@ -95,8 +95,10 @@ Sets `fn` to be executed when mouse left button is clicked.
 
 This function allows for the modification of container properties. You _must_ return argument to apply your updates.
 
+> [!IMPORTANT] > `update()` should be called the last in your calls chain. It depends on what you declare first.
+
 ```lua
-container():update(function(o)
+container():content({children}):update(function(o)
     o.canHover= true
     return o
 end)
