@@ -11,7 +11,6 @@ The `badar.lua` file should be dropped into an existing project and required by 
 There are also dependencies that should be added to enhance functionality:
 
 - [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
-- [Hump:Signal](https://github.com/vrld/hump/blob/master/signal.lua) which facilitates the passing of mouse events for all elements.
 
 ### Usage
 
@@ -38,6 +37,10 @@ end
 
 function love.draw()
     main:render()
+end
+
+function love.mousepressed(x, y, button, istouch)
+    main:mousePressed(x, y, button)
 end
 ```
 
