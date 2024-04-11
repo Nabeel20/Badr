@@ -10,13 +10,7 @@
 
 badar = Object:extend()
 
-local function isPointInside(px, py, rect)
-    px, py = px or 0, py or 0
-    rect = rect or { 0, 0, 0, 0 }
 
-    local rx1, ry1, rx2, ry2 = rect[1], rect[2], rect[3], rect[4]
-    return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
-end
 
 local function calculateLayout(self)
     local autoLayout_children = 0;
@@ -167,7 +161,7 @@ function badar:content(content)
 end
 
 function badar:onHover(mx, my)
-    if isPointInside(mx, my, self:getRect()) then
+    if self:isPointInside(mx, my, self:getRect()) then
         self.hovered = true
     else
         self.hovered = false
@@ -175,7 +169,7 @@ function badar:onHover(mx, my)
 end
 
 function badar:handleClick(mx, my)
-    if isPointInside(mx, my, self:getRect()) then
+    if self:isPointInside(mx, my, self:getRect()) then
         self.clickLogic()
         self.hovered = true
     else
@@ -220,6 +214,14 @@ end
 function badar:update(func)
     self = func(self)
     return self
+end
+
+function badar:isPointInside(px, py, rect)
+    px, py = px or 0, py or 0
+    rect = rect or { 0, 0, 0, 0 }
+
+    local rx1, ry1, rx2, ry2 = rect[1], rect[2], rect[3], rect[4]
+    return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
 end
 
 return badar
