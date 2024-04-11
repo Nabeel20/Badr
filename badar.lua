@@ -93,11 +93,6 @@ function badar:draw()
         local offset = 0;
 
         for _, child in ipairs(self.children) do
-            if self._center then
-                child.x = (self.width - child.width) / 2 - self._padding[4] - self._padding[2]
-                child.y = (self.height - child.height) / 2 - self._padding[1] - self._padding[3]
-            end
-
             if self._row then
                 child.x = math.floor(offset);
                 offset = offset + child.width + self.gap
@@ -130,6 +125,10 @@ end
 
 function badar:center()
     self._center = true
+    for _, c in ipairs(self.children) do
+        c.x = (c.parent.width - c.width) / 2 - c.parent.padding[4] - c.parent.padding[2]
+        c.y = (c.parent.height - c.height) / 2 - c.parent.padding[1] - c.parent.padding[3]
+    end
     return self;
 end
 
