@@ -94,23 +94,10 @@ function badar:draw()
         self.globalPosition.x = screenWidth - self.globalPosition.x
         self.globalPosition.y = screenHeight - self.globalPosition.y
 
-        local childrenNumber, available_space = calculateLayout(self)
-        local offset = 0;
-
         for _, child in ipairs(self.children) do
-            if self._column then
-                child.y = math.floor(offset);
-                offset = offset + child.height + self.gap
-
-                if child.autoLayout.x then
-                    child.width = self.width - self._padding[4] - self._padding[2]
-                end
-                if child.autoLayout.y then
-                    child.height = (1 / childrenNumber) * available_space.height
-                end
-            end
             child:draw()()
         end
+
         love.graphics.pop()
         return self
     end
