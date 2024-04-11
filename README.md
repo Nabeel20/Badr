@@ -6,11 +6,8 @@ Badar focuses on composition, auto-layout and reactivity; width, height, positio
 ## Installation
 
 The `badar.lua` file should be dropped into an existing project and required by it.<br>
-💡 Define two global variables `screenWidth` and `screenHeight`, which badar uses them to calculate mouse position.
-
-There are also dependencies that should be added to enhance functionality:
-
-- [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
+💡 Define two global variables `screenWidth` and `screenHeight`, which badar uses them to calculate mouse position.<br>
+Badar uses [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
 
 ### Usage
 
