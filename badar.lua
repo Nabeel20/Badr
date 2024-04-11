@@ -116,8 +116,7 @@ function badar:center()
 end
 
 function badar:row(gap)
-    gap = gap or 0
-    self.gap = gap
+    self.gap = gap or 0
     self._row = true
     local offset = 0
     local autoLayoutChildren, availableSpace = calculateLayout(self)
