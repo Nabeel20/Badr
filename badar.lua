@@ -148,9 +148,24 @@ function badar:row(gap)
 end
 
 function badar:column(gap)
-    gap = gap or 0;
-    self.gap = gap
+    self.gap = gap or 0
     self._column = true
+
+    local offset = 0
+    local autoLayoutChildren, availableSpace = calculateLayout(self)
+    for _, c in ipairs(self.children) do
+        c.y = offset;
+        offset = offset + c.height + self.gap
+
+        if c.autoLayout.y then
+            c.height = availableSpace.height / autoLayoutChildren
+            offset = offset + c.height
+        end
+        if c.autoLayout.x then
+            -- Child takes parent full width
+            c.width = self.width - self._padding[4] - self._padding[2]
+        end
+    end
     return self;
 end
 
