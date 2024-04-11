@@ -18,20 +18,25 @@ local function isPointInside(px, py, rect)
     return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
 end
 
-local function handleLayout(self)
-    local results = 0;
-    local total_width = self.width - self._padding[4] - self._padding[2] - (self.gap * (#self.children - 1))
-    local total_height = self.height - self._padding[1] - self._padding[3] - (self.gap * (#self.children - 1))
+local function calculateLayout(self)
+    local autoLayout_children = 0;
+    local horizontal_padding = self._padding[4] - self._padding[2]
+    local vertical_padding = self._padding[1] - self._padding[3]
+    local gaps = (self.gap * (#self.children - 1))
+
+    local available_width = self.width - horizontal_padding - gaps
+    local available_height = self.height - vertical_padding - gaps
+
     for _, child in ipairs(self.children) do
         if child.autoLayout.x or child.autoLayout.y then
-            results = results + 1
+            autoLayout_children = autoLayout_children + 1
         else
-            total_width = total_width - child.width
-            total_height = total_height - child.height
+            available_width = available_width - child.width
+            available_height = available_height - child.height
         end
     end
 
-    return results, { width = total_width, height = total_height }
+    return autoLayout_children, { width = available_width, height = available_height }
 end
 
 
@@ -89,7 +94,7 @@ function badar:draw()
         self.globalPosition.x = screenWidth - self.globalPosition.x
         self.globalPosition.y = screenHeight - self.globalPosition.y
 
-        local childrenNumber, available_space = handleLayout(self)
+        local childrenNumber, available_space = calculateLayout(self)
         local offset = 0;
 
         for _, child in ipairs(self.children) do
