@@ -6,6 +6,7 @@ Badar focuses on composition, auto-layout and reactivity; width, height, positio
 ## Installation
 
 The `badar.lua` file should be dropped into an existing project and required by it.<br>
+💡 Define tow global variables `screenWidth` and `screenHeight` to calculate mouse position.
 
 There are also dependencies that should be added to enhance functionality:
 
