@@ -62,36 +62,36 @@ The container is based on a LÖVE `rectangle`. Space is distributed equally betw
 - `background` (boolean): if true container draw mode is fill.
 </details>
 
-### :content({})
+### `:content({})`
 
 Adds children to container.
 
-### :center()
+### `:center()`
 
 Centers container's child.
 
-### :row(gap)
+### `:row(gap)`
 
 This function aligns child elements along the x-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
-### :column(gap)
+### `:column(gap)`
 
 This function aligns child elements along the y-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
-### :color(color (table), fillBackground (boolean))
+### `:color(color (table), fillBackground (boolean))`
 
 Sets color and draw mode of its container. The second argument is optional, and the default value is `false`.<br>
 Set `canHover = true` to your container constructor to 'fill' the container on mouse hover.
 
-### :padding({0,0,0,0})
+### `:padding({0,0,0,0})`
 
 This function adds padding to the container. The padding is applied in the following order: Top, Right, Bottom, and then Left.
 
-### :onClick(fn)
+### `:onClick(fn)`
 
 Sets `fn` to be executed when mouse left button is clicked.
 
-### update(function(o) return o end)
+### `update(function(foo) return foo end)`
 
 This function allows for the modification of container properties. You _must_ return argument to apply your updates.
 
@@ -105,7 +105,7 @@ container():content({children}):update(function(o)
 end)
 ```
 
-### :render()
+### `:render()`
 
 This function calls the `draw` function for the container and all of its children.
 Should be called within `love.draw` function.
