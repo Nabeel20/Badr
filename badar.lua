@@ -71,9 +71,6 @@ function badar:new(obj)
     self._color = obj.color or { 1, 1, 1, 0 }
     self.background = obj.background or false;
 
-    Signal.register('mousePressed', function(mx, my)
-        self:handleClick(mx, my)
-    end)
     return self
 end
 
@@ -232,6 +229,13 @@ end
 function badar:rounded(v)
     self._rounded = v
     return self
+end
+
+function badar:mousePressed(x, y, button)
+    self:handleClick(x, y)
+    for _, child in ipairs(self.children) do
+        child:mousePressed(x, y, button)
+    end
 end
 
 return badar
