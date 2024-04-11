@@ -80,8 +80,11 @@ end
 
 function badar:draw()
     love.graphics.setColor(self._color)
+    local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
+    if (self.background) then drawMode = 'fill' end
+
     love.graphics.rectangle(
-        self:isHover(),
+        drawMode,
         self.x,
         self.y,
         self.width,
@@ -170,16 +173,6 @@ function badar:onHover(mx, my)
     else
         self.hovered = false
     end
-end
-
-function badar:isHover()
-    if self.hovered and self.canHover then
-        return 'fill'
-    end
-    if self.background then
-        return 'fill'
-    end
-    return 'line'
 end
 
 function badar:handleClick(mx, my)
