@@ -70,9 +70,6 @@ function badar:new(obj)
     self._color = obj.color or { 1, 1, 1, 0 }
     self.background = obj.background or false;
 
-    Signal.register('mouseEvent', function(mx, my)
-        self:onHover(mx, my)
-    end)
     Signal.register('mousePressed', function(mx, my)
         self:handleClick(mx, my)
     end)
