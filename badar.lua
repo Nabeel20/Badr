@@ -53,7 +53,14 @@ function badar:new(obj)
     self.canHover = obj.canHover or false
     self.globalPosition = { x = 0, y = 0 }
     self.clickLogic = obj.onClick or function() end;
-
+    self.hoverLogic = obj.onHover or function()
+        local mx, my = love.mouse.getPosition()
+        if self:isPointInside(mx, my, self:getRect()) then
+            self.hovered = true
+        else
+            self.hovered = false
+        end
+    end
     self.parent = {
         width = 0,
         height = 0,
@@ -73,6 +80,7 @@ function badar:new(obj)
 end
 
 function badar:draw()
+    self:onHover(self.hoverLogic)
     love.graphics.setColor(self._color)
     local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
     if (self.background) then drawMode = 'fill' end
@@ -160,12 +168,10 @@ function badar:content(content)
     return self;
 end
 
-function badar:onHover(mx, my)
-    if self:isPointInside(mx, my, self:getRect()) then
-        self.hovered = true
-    else
-        self.hovered = false
-    end
+function badar:onHover(func)
+    self.hoverLogic = func
+    func(self)
+    return self
 end
 
 function badar:handleClick(mx, my)
