@@ -91,7 +91,7 @@ This function adds padding to the container. The padding is applied in the follo
 
 Sets `fn` to be executed when mouse left button is clicked.
 
-### `update(function(foo) return foo end)`
+### `:update(function(foo) return foo end)`
 
 This function allows for the modification of container properties. You _must_ return argument to apply your updates.
 
