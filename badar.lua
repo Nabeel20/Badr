@@ -171,6 +171,9 @@ end
 
 function badar:content(content)
     self.children = content;
+    if self._row then self:row(self.gap) end
+    if self._column then self:column(self.gap) end
+    if self._center then self:center() end
     return self;
 end
 
@@ -225,6 +228,9 @@ end
 
 function badar:padding(padding)
     self._padding = padding
+    if self._row then self:row(self.gap) end
+    if self._column then self:column(self.gap) end
+    if self._center then self:center() end
     return self
 end
 
