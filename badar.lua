@@ -68,7 +68,7 @@ function badar:new(obj)
         padding = 0,
     }
     self.children = obj.children or {}
-    self._color = obj.color or { 1, 1, 1, 0 }
+    self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
 
     return self
