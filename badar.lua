@@ -55,6 +55,11 @@ function badar:new(obj)
     self.globalPosition = { x = 0, y = 0 }
     self.clickLogic = obj.onClick or function() end;
 
+    self.parent = {
+        width = 0,
+        height = 0,
+        padding = 0,
+    }
     self.children = obj.children or {}
     self._color = obj.color or { 1, 1, 1, 0 }
     self.background = obj.background or false;
