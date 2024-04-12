@@ -70,6 +70,7 @@ function badar:new(obj)
         padding = { 0, 0, 0, 0 },
     }
     self.children = obj.children or {}
+    self.opacity = obj.opacity or 1
     self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
 
@@ -78,7 +79,7 @@ end
 
 function badar:draw()
     self:onHover(self.hoverLogic)
-    love.graphics.setColor(self._color)
+    love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
     local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
     if (self.background) then drawMode = 'fill' end
 
