@@ -56,8 +56,10 @@ function badar:new(obj)
     self.hoverLogic = obj.onHover or function()
         local mx, my = love.mouse.getPosition()
         if self:isPointInside(mx, my, self:getRect()) then
+            --   love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
             self.hovered = true
         else
+            --  love.mouse.setCursor()
             self.hovered = false
         end
     end
