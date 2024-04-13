@@ -62,6 +62,19 @@ function badar:new(obj)
             self.hovered = false
         end
     end
+    self.drawFunc = function()
+        local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
+        if (self.background) then drawMode = 'fill' end
+        love.graphics.rectangle(
+            drawMode,
+            self.x,
+            self.y,
+            self.width,
+            self.height,
+            self._rounded[1],
+            self._rounded[2]
+        )
+    end
     self._rounded = obj.rounded or { 0, 0 }
     self.parent = {
         width = 0,
@@ -78,18 +91,7 @@ end
 
 function badar:draw()
     love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
-    local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
-    if (self.background) then drawMode = 'fill' end
-
-    love.graphics.rectangle(
-        drawMode,
-        self.x,
-        self.y,
-        self.width,
-        self.height,
-        self._rounded[1],
-        self._rounded[2]
-    )
+    self.drawFunc()
     self:onHover(self.hoverFunc)
 
     return function()
