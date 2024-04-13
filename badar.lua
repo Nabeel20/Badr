@@ -53,7 +53,7 @@ function badar:new(obj)
     self.canHover = obj.canHover or false
     self.globalPosition = { x = 0, y = 0 }
     self.clickFunc = obj.onClick or function() end;
-    self.hoverLogic = obj.onHover or function()
+    self.hoverFunc = obj.onHover or function()
         if self:isMouseInside() then
             --   love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
             self.hovered = true
@@ -77,7 +77,7 @@ function badar:new(obj)
 end
 
 function badar:draw()
-    self:onHover(self.hoverLogic)
+    self:onHover(self.hoverFunc)
     love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
     local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
     if (self.background) then drawMode = 'fill' end
@@ -174,7 +174,7 @@ function badar:content(content)
 end
 
 function badar:onHover(func)
-    self.hoverLogic = func
+    self.hoverFunc = func
     func(self)
     return self
 end
