@@ -77,7 +77,6 @@ function badar:new(obj)
 end
 
 function badar:draw()
-    self:onHover(self.hoverFunc)
     love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
     local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
     if (self.background) then drawMode = 'fill' end
@@ -91,6 +90,7 @@ function badar:draw()
         self._rounded[1],
         self._rounded[2]
     )
+    self:onHover(self.hoverFunc)
 
     return function()
         love.graphics.push()
