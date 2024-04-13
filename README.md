@@ -92,12 +92,14 @@ This function adds padding to the container. The padding is applied in the follo
 
 Sets `fn` to be executed when mouse left button is clicked.
 
+### `:onHover(fn)`
+
+Sets `fn` to be called when mouse is hovering.
+
 ### `:update(function(foo) return foo end)`
 
 This function allows for the modification of container properties. You _must_ return argument to apply your updates.
 
-> [!IMPORTANT]
-> `update()` should be called the last in your calls chain. It depends on what you declare first.
 
 ```lua
 container():content({children}):update(function(o)
