@@ -60,6 +60,7 @@ The container is based on a LÖVE `rectangle`. Space is distributed equally betw
 - `autoLayout` (table): a table with x and y keys, used to calculate layout if width and height are not defined.
 - `canHover` (boolean): can be used to add hover effect without the logic added.
 - `background` (boolean): if true container draw mode is fill.
+- `opacity`
 </details>
 
 ### `:content({})`
