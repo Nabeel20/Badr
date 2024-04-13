@@ -52,7 +52,7 @@ function badar:new(obj)
     self.hovered = false
     self.canHover = obj.canHover or false
     self.globalPosition = { x = 0, y = 0 }
-    self.clickLogic = obj.onClick or function() end;
+    self.clickFunc = obj.onClick or function() end;
     self.hoverLogic = obj.onHover or function()
         if self:isMouseInside() then
             --   love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
@@ -181,7 +181,7 @@ end
 
 function badar:handleClick()
     if self:isMouseInside() then
-        self.clickLogic()
+        self.clickFunc()
         self.hovered = true
     else
         self.hovered = false
@@ -189,7 +189,7 @@ function badar:handleClick()
 end
 
 function badar:onClick(command)
-    self.clickLogic = command
+    self.clickFunc = command
     self.canHover = true
     return self
 end
