@@ -3,3 +3,4 @@
 /libs/pprint.lua
 /libs/flux.lua
 /.vscode/settings.json
+/conf.lua
