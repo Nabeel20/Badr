@@ -88,7 +88,7 @@ function badar:draw()
     if self:isMouseInside() then
         --  love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
         self.hovered = true
-        self.hoverFunc()
+        self:hoverFunc()
     else
         --   love.mouse.setCursor()
         self.hovered = false
@@ -182,15 +182,15 @@ end
 
 function badar:handleClick()
     if self:isMouseInside() then
-        self.clickFunc()
+        self:clickFunc()
         self.hovered = true
     else
         self.hovered = false
     end
 end
 
-function badar:onClick(command)
-    self.clickFunc = command
+function badar:onClick(func)
+    self.clickFunc = func
     self.canHover = true
     return self
 end
