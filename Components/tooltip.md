@@ -15,7 +15,7 @@ function love.load()
 end
 
 function love.draw()
-
+    container_with_tooltip:render()
 end
 ```
 
