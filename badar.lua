@@ -285,4 +285,16 @@ function badar:align(alignment)
     return self
 end
 
+function badar:fitContent()
+    local width, height = 0, 0
+    for _, child in ipairs(self.children) do
+        width = width + child.width;
+        height = height + child.height
+    end
+    self.width = width;
+    self.height = height;
+    self.autoLayout = { x = false, y = false }
+    return self
+end
+
 return badar
