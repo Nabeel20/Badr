@@ -62,13 +62,10 @@ function badar:new(obj)
             self.y,
             self.width,
             self.height,
-            self._rounded[1],
-            self._rounded[2]
             self._rounded,
             self._rounded
         )
     end
-    self._rounded = obj.rounded or { 0, 0 }
     self._rounded = obj.rounded or 0
     self.parent = {
         width = 0,
@@ -79,7 +76,6 @@ function badar:new(obj)
     self.opacity = obj.opacity or 1 -- set to zero to hide border
     self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
-
     return self
 end
 
@@ -200,10 +196,6 @@ end
 
 function badar:getRect()
     return {
-        self.globalPosition.x,
-        self.globalPosition.y,
-        self.globalPosition.x + self.width,
-        self.globalPosition.y + self.height
         self.globalPosition.x - self._padding[4],
         self.globalPosition.y - self._padding[1],
         self.globalPosition.x + self.width - self._padding[2],
