@@ -5,7 +5,8 @@ Badar focuses on composition, auto-layout and reactivity; width, height, positio
 
 ### Components
 
-- [Tooltip](Components/tooltip.md)
+- [tooltip](Components/tooltip.md)
+- [text](components/text.lua)
 
 ## Installation
 
