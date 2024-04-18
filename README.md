@@ -84,6 +84,14 @@ This function aligns child elements along the x-axis, with a predefined `gap` of
 
 This function aligns child elements along the y-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
 
+### `:align(alignment (string))`
+
+This function aligns children on the cross axis. Default alignment is on `start`, there also `center` and `end`.
+
+### `:fitContent()`
+
+This function calculate container dimension based on its children dimensions.
+
 ### `:color(color (table), fillBackground (boolean))`
 
 Sets color and draw mode of its container. The second argument is optional, and the default value is `false`.<br>
