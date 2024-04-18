@@ -11,7 +11,6 @@
 badar = Object:extend()
 
 
-
 local function calculateLayout(self)
     local autoLayout_children = 0;
     local horizontal_padding = self._padding[4] + self._padding[2]
@@ -74,7 +73,6 @@ function badar:new(obj)
         padding = { 0, 0, 0, 0 },
     }
     self.children = obj.children or {}
-    self.opacity = obj.opacity or 1
     self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
 
@@ -136,6 +134,7 @@ function badar:row(gap)
         end
         offset = offset + c.width + self.gap
     end
+    self:align(self.alignment)
     return self;
 end
 
@@ -157,6 +156,7 @@ function badar:column(gap)
         end
         offset = offset + c.height + self.gap
     end
+    self:align(self.alignment)
     return self;
 end
 
@@ -172,6 +172,7 @@ function badar:content(content)
     if self._row then self:row(self.gap) end
     if self._column then self:column(self.gap) end
     if self._center then self:center() end
+    self:align(self.alignment)
     return self;
 end
 
@@ -246,6 +247,41 @@ function badar:mousePressed(x, y, button)
     for _, child in ipairs(self.children) do
         child:mousePressed(x, y, button)
     end
+end
+
+function badar:align(alignment)
+    self.alignment = alignment
+    local highest = 0
+    local widest = 0
+    for _, child in ipairs(self.children) do
+        highest = math.max(child.height, highest)
+        widest = math.max(child.width, widest)
+    end
+    if self._row then
+        for _, child in ipairs(self.children) do
+            if child.height ~= highest then
+                if self.alignment == 'center' then
+                    child.y = (highest - child.height) / 2
+                end
+                if self.alignment == 'end' then
+                    child.y = highest - child.height
+                end
+            end
+        end
+    end
+    if self._column then
+        for _, child in ipairs(self.children) do
+            if child.width ~= widest then
+                if self.alignment == 'center' then
+                    child.x = (widest - child.width) / 2
+                end
+                if self.alignment == 'end' then
+                    child.x = widest - child.width
+                end
+            end
+        end
+    end
+    return self
 end
 
 return badar
