@@ -17,7 +17,7 @@ function text:new(txt, obj)
 
     self.glyphWidth = 0
     self._lineHeight = 1
-    self._limit = 0
+    self._limit = 250
     self.pressed = false;
     self.selection = {
         start  = 0,
