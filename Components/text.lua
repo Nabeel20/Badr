@@ -17,7 +17,7 @@ function text:new(txt, obj)
 
     self.glyphWidth = 0
     self._lineHeight = 1
-    self._limit = 250
+    self._limit = self.font:getWidth(self._text)
     self.pressed = false;
     self.selection = {
         start  = 0,
@@ -29,7 +29,6 @@ function text:new(txt, obj)
     self.height = self.font:getHeight(self._text)
     self.autoLayout = { x = false, y = false }
     self.alignment = 'left'
-    self.autoLayout = { x = 0, y = 0 }
     self.drawFunc = function()
         love.graphics.setFont(self.font)
         self.font:setLineHeight(self._lineHeight)
