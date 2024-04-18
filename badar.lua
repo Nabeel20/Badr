@@ -204,6 +204,10 @@ function badar:getRect()
         self.globalPosition.y,
         self.globalPosition.x + self.width,
         self.globalPosition.y + self.height
+        self.globalPosition.x - self._padding[4],
+        self.globalPosition.y - self._padding[1],
+        self.globalPosition.x + self.width - self._padding[2],
+        self.globalPosition.y + self.height - self._padding[3]
     }
 end
 
