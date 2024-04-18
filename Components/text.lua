@@ -27,6 +27,7 @@ function text:new(txt, obj)
     }
     self.width = self.font:getWidth(self._text)
     self.height = self.font:getHeight(self._text)
+    self.autoLayout = { x = false, y = false }
     self.alignment = 'left'
     self.autoLayout = { x = 0, y = 0 }
     self.drawFunc = function()
