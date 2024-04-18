@@ -64,9 +64,12 @@ function badar:new(obj)
             self.height,
             self._rounded[1],
             self._rounded[2]
+            self._rounded,
+            self._rounded
         )
     end
     self._rounded = obj.rounded or { 0, 0 }
+    self._rounded = obj.rounded or 0
     self.parent = {
         width = 0,
         height = 0,
