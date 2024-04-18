@@ -73,6 +73,7 @@ function badar:new(obj)
         padding = { 0, 0, 0, 0 },
     }
     self.children = obj.children or {}
+    self.opacity = obj.opacity or 1 -- set to zero to hide border
     self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
 
