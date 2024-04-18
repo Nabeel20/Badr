@@ -85,11 +85,9 @@ function badar:draw()
     self.drawFunc()
 
     if self:isMouseInside() then
-        --  love.mouse.setCursor(love.mouse.getSystemCursor("hand"))
         self.hovered = true
         self:hoverFunc()
     else
-        --   love.mouse.setCursor()
         self.hovered = false
     end
 
@@ -285,15 +283,28 @@ function badar:align(alignment)
     return self
 end
 
-function badar:fitContent()
-    local width, height = 0, 0
+function badar:fitContent(minWidth, minHeight)
+    minWidth = minWidth or 0
+    minHeight = minHeight or 0
+    local width, height, widest, highest = 0, 0, 0, 0
     for _, child in ipairs(self.children) do
         width = width + child.width;
         height = height + child.height
+        highest = math.max(child.height, highest)
+        widest = math.max(child.width, widest)
     end
-    self.width = width;
-    self.height = height;
+    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
+    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
+
+    self.width = width + horizontalSpace
+    self.height = height + verticalSpace
     self.autoLayout = { x = false, y = false }
+    if self._row then
+        self.height = math.max(highest + self._padding[1] + self._padding[3], minHeight)
+    end
+    if self._column then
+        self.width = math.max(widest + self._padding[4] + self._padding[2], minWidth)
+    end
     return self
 end
 
