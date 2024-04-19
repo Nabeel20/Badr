@@ -95,18 +95,6 @@ function badar:draw()
     end
 end
 
-function badar:row(gap)
-    self.gap = gap or 0
-    self._row = true
-    local offset = 0
-    for _, c in ipairs(self.children) do
-        c.x = offset;
-        offset = offset + c.width + self.gap
-    end
-    self:align(self.alignment)
-    return self;
-end
-
 function badar:content(content)
     for _, c in ipairs(content) do
         c.parent = {
