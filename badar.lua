@@ -24,6 +24,7 @@ function badar:new(obj)
         padding = { 0, 0, 0, 0 },
         corner = 0,
         opacity = 0,
+        filled = false,
     }
     self._padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
     self.gap = 0;
@@ -36,7 +37,7 @@ function badar:new(obj)
     self.hoverFunc = obj.onHover or function() end;
     self.drawFunc = function()
         local drawMode = (self.hovered and self.canHover) and 'fill' or 'line'
-        if (self.background) then drawMode = 'fill' end
+        if (self._style.filled) then drawMode = 'fill' end
         love.graphics.rectangle(
             drawMode,
             self.x,
@@ -49,7 +50,6 @@ function badar:new(obj)
     end
     self.children = obj.children or {}
     self.opacity = obj.opacity or 1 -- set to zero to hide border
-    self.background = obj.background or false;
     return self
 end
 
