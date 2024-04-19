@@ -121,19 +121,6 @@ function badar:row(gap)
     return self;
 end
 
-function badar:column(gap)
-    self.gap = gap or 0
-    self._column = true
-
-    local offset = 0
-    for _, c in ipairs(self.children) do
-        c.y = offset;
-        offset = offset + c.height + self.gap
-    end
-    self:align(self.alignment)
-    return self;
-end
-
 function badar:content(content)
     for _, c in ipairs(content) do
         c.parent = {
