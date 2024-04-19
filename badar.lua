@@ -31,6 +31,7 @@ function badar:new(obj)
     self.hovered = false
     self.canHover = obj.canHover or false
     self.globalPosition = { x = 0, y = 0 }
+
     self.clickFunc = obj.onClick or function() end;
     self.hoverFunc = obj.onHover or function() end;
     self.drawFunc = function()
@@ -42,20 +43,17 @@ function badar:new(obj)
             self.y,
             self.width,
             self.height,
-            self._rounded,
-            self._rounded
+            self._style.corner,
+            self._style.corner
         )
     end
-    self._rounded = obj.rounded or 0
     self.children = obj.children or {}
     self.opacity = obj.opacity or 1 -- set to zero to hide border
-    self._color = obj.color or { 1, 1, 1 }
     self.background = obj.background or false;
     return self
 end
 
 function badar:draw()
-    love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
     love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self.opacity })
     self.drawFunc()
 
@@ -152,11 +150,6 @@ function badar:isMouseInside()
 
     local rx1, ry1, rx2, ry2 = rect[1], rect[2], rect[3], rect[4]
     return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
-end
-
-function badar:rounded(v)
-    self._rounded = v
-    return self
 end
 
 function badar:mousePressed(x, y, button)
