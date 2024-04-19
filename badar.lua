@@ -11,27 +11,27 @@
 badar = Object:extend()
 
 
-local function calculateLayout(self)
-    local autoLayout_children = 0;
-    local horizontal_padding = self._padding[4] + self._padding[2]
-    local vertical_padding = self._padding[1] + self._padding[3]
-    local gaps = (self.gap * (#self.children - 1))
-
-    local available_width = self.width - horizontal_padding - gaps
-    local available_height = self.height - vertical_padding - gaps
-
+function badar:calculateLayout()
+    local width, height, widest, highest = 0, 0, 0, 0
     for _, child in ipairs(self.children) do
-        if child.autoLayout.x or child.autoLayout.y then
-            autoLayout_children = autoLayout_children + 1
-        else
-            available_width = available_width - child.width
-            available_height = available_height - child.height
-        end
+        width = width + child.width;
+        height = height + child.height
+        highest = math.max(child.height, highest)
+        widest = math.max(child.width, widest)
     end
+    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
+    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
 
-    return autoLayout_children, { width = available_width, height = available_height }
+    self.height = math.max(height + verticalSpace, self.minHeight)
+    self.width = math.max(width + horizontalSpace, self.minWidth)
+    if self._row then
+        self.height = highest + self._padding[1] + self._padding[3]
+    end
+    if self._column then
+        self.width = widest + self._padding[4] + self._padding[2]
+    end
+    return self
 end
-
 
 function badar:new(obj)
     obj = obj or {}
@@ -40,9 +40,7 @@ function badar:new(obj)
     self.y = obj.y or 0
     self.width = obj.width or 0
     self.height = obj.height or 0
-    self.autoLayout = { x = self.width == 0, y = self.height == 0 } -- to calculate dimensions automatically
 
-    self._padding = obj.padding or { 0, 0, 0, 0 }                   -- top, right, bottom, left
     self._center = false
     self._row = false;
     self._column = false;
@@ -119,17 +117,8 @@ function badar:row(gap)
     self.gap = gap or 0
     self._row = true
     local offset = 0
-    local autoLayoutChildren, availableSpace = calculateLayout(self)
     for _, c in ipairs(self.children) do
         c.x = offset;
-
-        if c.autoLayout.x then
-            c.width = availableSpace.width / autoLayoutChildren
-        end
-        if c.autoLayout.y then
-            -- child expand to fill parent height
-            c.height = self.height - self._padding[1] - self._padding[3]
-        end
         offset = offset + c.width + self.gap
     end
     self:align(self.alignment)
@@ -141,17 +130,8 @@ function badar:column(gap)
     self._column = true
 
     local offset = 0
-    local autoLayoutChildren, availableSpace = calculateLayout(self)
     for _, c in ipairs(self.children) do
         c.y = offset;
-
-        if c.autoLayout.y then
-            c.height = availableSpace.height / autoLayoutChildren
-        end
-        if c.autoLayout.x then
-            -- Child takes parent full width
-            c.width = self.width - self._padding[4] - self._padding[2]
-        end
         offset = offset + c.height + self.gap
     end
     self:align(self.alignment)
@@ -167,6 +147,8 @@ function badar:content(content)
         }
     end
     self.children = content;
+    self:calculateLayout()
+
     if self._row then self:row(self.gap) end
     if self._column then self:column(self.gap) end
     if self._center then self:center() end
@@ -282,29 +264,5 @@ function badar:align(alignment)
     return self
 end
 
-function badar:fitContent(minWidth, minHeight)
-    minWidth = minWidth or 0
-    minHeight = minHeight or 0
-    local width, height, widest, highest = 0, 0, 0, 0
-    for _, child in ipairs(self.children) do
-        width = width + child.width;
-        height = height + child.height
-        highest = math.max(child.height, highest)
-        widest = math.max(child.width, widest)
-    end
-    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
-    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
-
-    self.width = width + horizontalSpace
-    self.height = height + verticalSpace
-    self.autoLayout = { x = false, y = false }
-    if self._row then
-        self.height = math.max(highest + self._padding[1] + self._padding[3], minHeight)
-    end
-    if self._column then
-        self.width = math.max(widest + self._padding[4] + self._padding[2], minWidth)
-    end
-    return self
-end
 
 return badar
