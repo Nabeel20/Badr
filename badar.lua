@@ -21,12 +21,11 @@ function badar:new(obj)
 
     self._style = {
         color = { 1, 1, 1 },
-        padding = { 0, 0, 0, 0 },
+        padding = { 0, 0, 0, 0 }, -- top, right, bottom, left
         corner = 0,
-        opacity = 1, -- set to zero to hide border
+        opacity = 1,              -- set to zero to hide border
         filled = false,
     }
-    self._style.padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
     self.gap = 0;
 
     self.hovered = false
