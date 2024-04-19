@@ -116,9 +116,7 @@ function badar:content(content)
         }
     end
     self.children = content;
-
-    if self._column then self:column(self.gap) end
-    self:align(self.alignment)
+    self:calculateLayout()
     return self;
 end
 
