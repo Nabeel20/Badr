@@ -24,6 +24,8 @@ function badar:calculateLayout()
 
     self.height = math.max(height + verticalSpace, self.minHeight)
     self.width = math.max(width + horizontalSpace, self.minWidth)
+    self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
+    self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
     if self._row then
         self.height = highest + self._padding[1] + self._padding[3]
     end
