@@ -20,10 +20,10 @@ Badar uses [classic](https://github.com/rxi/classic) which simplifies the proces
 function love.load()
     local container = require 'libs.badar'
 
-    local button = container({ width = 25, height = 25 }):color({ 1, 0, 0 })
-    local square = container({ width = 10, height = 10 }):color({ 0, 0, 1 }, true)
+    local button = container({ width = 25, height = 25 }):style({ color = { 1, 0, 0 } })
+    local square = container({ width = 10, height = 10 }):style({ color = { 1, 0, 0 }, filled = true })
 
-    main = container({ width = screenWidth, height = screenHeight })
+    main = container({ minWidth = screenWidth, minHeight = screenHeight })
         :content({
             square,
             button:onClick(function()
@@ -32,9 +32,9 @@ function love.load()
                     return sq
                 end)
             end),
-        })
-        :column()
-        :padding({ 16, 16, 16, 16 })
+        }):style({
+            padding = { 16, 16, 16, 16 }
+        }):align('column')
 end
 
 function love.draw()
@@ -52,54 +52,42 @@ end
 
 ```lua
 local container = require 'path.to.badar.lua'
-local c = container()
+local c = container({})
 ```
 
-This function makes a new 'container' that can manage its 'children'. You can pass an optional table to set the `x`, `y`, `width`, and `height`. <br>
-The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
+- `x`, `y`; container's position.
+- `width`, `height`; container's dimensions.
+- `minWidth`, `minHeight`; container's minimum dimensions.
 
-<details>
-  <summary>Container's props</summary>
-  
-- ``x``,``y``,``width``,``height``
-- `autoLayout` (table): a table with x and y keys, used to calculate layout if width and height are not defined.
-- `canHover` (boolean): can be used to add hover effect without the logic added.
-- `background` (boolean): if true container draw mode is fill.
-- `opacity`
-</details>
+This function makes a new 'container' that can manage its 'children'. <br>
+The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
 
 ### `:content({})`
 
 Adds children to container.
 
-### `:center()`
+### `:style({})`
 
-Centers container's child.
+Overrides default container styles.
 
-### `:row(gap)`
+```lua
+:style({
+    color = { 1, 1, 1 },
+    padding = { 0, 0, 0, 0 }, -- top, right, bottom, left
+    corner = 0, -- corner radius
+    opacity = 1,
+    filled = false,
+    hoverEnabled = false,
+})
+```
 
-This function aligns child elements along the x-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
+### `:align(axis, gap, alignment)`
 
-### `:column(gap)`
+- axis (string): `center`, `row`, `column`
+- gap (number)
+- alignment (string): `center`, `end`. "start" is the default behavior.
 
-This function aligns child elements along the y-axis, with a predefined `gap` of space between each element. The default value for the `gap` is set to 0.
-
-### `:align(alignment (string))`
-
-This function aligns children on the cross axis. Default alignment is on `start`, there also `center` and `end`.
-
-### `:fitContent()`
-
-This function calculate container dimension based on its children dimensions.
-
-### `:color(color (table), fillBackground (boolean))`
-
-Sets color and draw mode of its container. The second argument is optional, and the default value is `false`.<br>
-Set `canHover = true` to your container constructor to 'fill' the container on mouse hover.
-
-### `:padding({0,0,0,0})`
-
-This function adds padding to the container. The padding is applied in the following order: Top, Right, Bottom, and then Left.
+Aligns children along the main `axis` and along the cross axis using `alignment`.
 
 ### `:onClick(fn)`
 
@@ -124,10 +112,6 @@ end)
 
 This function calls the `draw` function for the container and all of its children.
 Should be called within `love.draw` function.
-
-### `:rounded({number, number})`
-
-This functions makes rectangle's corners rounded. Useful for drawing circles.
 
 ## License
 
