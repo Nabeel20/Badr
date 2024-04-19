@@ -109,15 +109,6 @@ function badar:draw()
     end
 end
 
-function badar:center()
-    self._center = true
-    for _, c in ipairs(self.children) do
-        c.x = (c.parent.width - c.width) / 2 - c.parent.padding[4] - c.parent.padding[2]
-        c.y = (c.parent.height - c.height) / 2 - c.parent.padding[1] - c.parent.padding[3]
-    end
-    return self;
-end
-
 function badar:row(gap)
     self.gap = gap or 0
     self._row = true
@@ -152,11 +143,8 @@ function badar:content(content)
         }
     end
     self.children = content;
-    self:calculateLayout()
 
-    if self._row then self:row(self.gap) end
     if self._column then self:column(self.gap) end
-    if self._center then self:center() end
     self:align(self.alignment)
     return self;
 end
@@ -203,9 +191,10 @@ end
 
 function badar:padding(padding)
     self._padding = padding
-    if self._row then self:row(self.gap) end
-    if self._column then self:column(self.gap) end
-    if self._center then self:center() end
+    self:calculateLayout()
+    -- if self._row then self:row(self.gap) end
+    -- if self._column then self:column(self.gap) end
+    -- if self._center then self:center() end
     return self
 end
 
@@ -234,16 +223,25 @@ function badar:mousePressed(x, y, button)
     end
 end
 
-function badar:align(alignment)
-    self.alignment = alignment
+function badar:align(axis, gap, alignment)
+    self.axis = axis or 'row'
+    self.gap = gap or 0;
+    self.alignment = alignment or nil;
+    self:calculateLayout()
     local highest = 0
     local widest = 0
+
     for _, child in ipairs(self.children) do
         highest = math.max(child.height, highest)
         widest = math.max(child.width, widest)
     end
-    if self._row then
-        for _, child in ipairs(self.children) do
+
+        if axis == 'center' then
+            child.x = (self.width - child.width) / 2 - self._padding[4] - self._padding[2]
+            child.y = (self.height - child.height) / 2 - self._padding[1] - self._padding[3]
+        end
+        if axis == 'row' then
+            child.x = offset;
             if child.height ~= highest then
                 if self.alignment == 'center' then
                     child.y = (highest - child.height) / 2
@@ -253,9 +251,10 @@ function badar:align(alignment)
                 end
             end
         end
-    end
-    if self._column then
-        for _, child in ipairs(self.children) do
+        if axis == 'column' then
+            child.y = offset;
+            offset = offset + child.height + self.gap
+            --alignment
             if child.width ~= widest then
                 if self.alignment == 'center' then
                     child.x = (widest - child.width) / 2
@@ -265,6 +264,10 @@ function badar:align(alignment)
                 end
             end
         end
+    end
+
+    if self.axis == 'row' then
+        self.height = math.max(highest + self._padding[1] + self._padding[3], self.minHeight)
     end
     return self
 end
