@@ -126,13 +126,6 @@ function badar:render()
     return self:draw()()
 end
 
-function badar:color(color, isFilled)
-    isFilled = isFilled or false
-    self._color = color
-    self.background = isFilled
-    return self
-end
-
 function badar:padding(padding)
     self._padding = padding
     self:calculateLayout()
