@@ -27,7 +27,10 @@ function badar:new(obj)
         filled = false,
     }
     self.gap = 0;
-
+    self.hideBorder = obj.hideBorder or false;
+    if self.hideBorder then
+        self._style.opacity = 0
+    end
     self.hovered = false
     self.canHover = obj.canHover or false
     self.globalPosition = { x = 0, y = 0 }
