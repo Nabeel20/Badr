@@ -40,7 +40,10 @@ function badar:new(obj)
     self.y = obj.y or 0
     self.width = obj.width or 0
     self.height = obj.height or 0
+    self.minWidth = obj.minWidth or 0
+    self.minHeight = obj.minHeight or 0
 
+    self._padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
     self._center = false
     self._row = false;
     self._column = false;
