@@ -19,10 +19,13 @@ function badar:new(obj)
     self.minWidth = obj.minWidth or 0
     self.minHeight = obj.minHeight or 0
 
+    self._style = {
+        color = { 1, 1, 1 },
+        padding = { 0, 0, 0, 0 },
+        corner = 0,
+        opacity = 0,
+    }
     self._padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
-    self._center = false
-    self._row = false;
-    self._column = false;
     self.gap = 0;
 
     self.hovered = false
@@ -53,6 +56,7 @@ end
 
 function badar:draw()
     love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
+    love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self.opacity })
     self.drawFunc()
 
     if self:isMouseInside() then
@@ -231,6 +235,13 @@ function badar:calculateLayout()
     local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
     self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
     self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
+    return self
+end
+
+function badar:style(style)
+    for key, value in pairs(style) do
+        self._style[key] = value
+    end
     return self
 end
 
