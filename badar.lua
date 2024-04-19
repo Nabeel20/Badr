@@ -118,12 +118,6 @@ function badar:render()
     return self:draw()()
 end
 
-function badar:padding(padding)
-    self._style.padding = padding
-    self:calculateLayout()
-    return self
-end
-
 function badar:update(func)
     self = func(self)
     return self
@@ -220,6 +214,7 @@ function badar:style(style)
     for key, value in pairs(style) do
         self._style[key] = value
     end
+    self:calculateLayout()
     return self
 end
 
