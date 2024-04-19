@@ -23,7 +23,7 @@ function badar:new(obj)
         color = { 1, 1, 1 },
         padding = { 0, 0, 0, 0 },
         corner = 0,
-        opacity = 0,
+        opacity = 1, -- set to zero to hide border
         filled = false,
     }
     self._padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
@@ -54,7 +54,7 @@ function badar:new(obj)
 end
 
 function badar:draw()
-    love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self.opacity })
+    love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
     self.drawFunc()
 
     if self:isMouseInside() then
