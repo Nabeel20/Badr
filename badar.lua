@@ -151,9 +151,6 @@ end
 function badar:padding(padding)
     self._padding = padding
     self:calculateLayout()
-    -- if self._row then self:row(self.gap) end
-    -- if self._column then self:column(self.gap) end
-    -- if self._center then self:center() end
     return self
 end
 
