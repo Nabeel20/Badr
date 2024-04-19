@@ -61,11 +61,6 @@ function badar:new(obj)
         )
     end
     self._rounded = obj.rounded or 0
-    self.parent = {
-        width = 0,
-        height = 0,
-        padding = { 0, 0, 0, 0 },
-    }
     self.children = obj.children or {}
     self.opacity = obj.opacity or 1 -- set to zero to hide border
     self._color = obj.color or { 1, 1, 1 }
