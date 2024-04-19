@@ -49,7 +49,6 @@ function badar:new(obj)
         )
     end
     self.children = obj.children or {}
-    self.opacity = obj.opacity or 1 -- set to zero to hide border
     return self
 end
 
