@@ -26,7 +26,7 @@ function badar:new(obj)
         opacity = 1, -- set to zero to hide border
         filled = false,
     }
-    self._padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
+    self._style.padding = obj.padding or { 0, 0, 0, 0 } -- top, right, bottom, left
     self.gap = 0;
 
     self.hovered = false
@@ -65,7 +65,7 @@ function badar:draw()
 
     return function()
         love.graphics.push()
-        love.graphics.translate(math.floor(self.x + self._padding[4]), math.floor(self.y + self._padding[1]))
+        love.graphics.translate(math.floor(self.x + self._style.padding[4]), math.floor(self.y + self._style.padding[1]))
         self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(screenWidth, screenHeight)
         self.globalPosition.x = screenWidth - self.globalPosition.x
         self.globalPosition.y = screenHeight - self.globalPosition.y
@@ -84,7 +84,7 @@ function badar:content(content)
         c.parent = {
             width = self.width,
             height = self.height,
-            padding = self._padding
+            padding = self._style.padding
         }
     end
     self.children = content;
@@ -114,10 +114,10 @@ end
 
 function badar:getRect()
     return {
-        self.globalPosition.x - self._padding[4],
-        self.globalPosition.y - self._padding[1],
-        self.globalPosition.x + self.width - self._padding[2],
-        self.globalPosition.y + self.height - self._padding[3]
+        self.globalPosition.x - self._style.padding[4],
+        self.globalPosition.y - self._style.padding[1],
+        self.globalPosition.x + self.width - self._style.padding[2],
+        self.globalPosition.y + self.height - self._style.padding[3]
     }
 end
 
@@ -126,7 +126,7 @@ function badar:render()
 end
 
 function badar:padding(padding)
-    self._padding = padding
+    self._style.padding = padding
     self:calculateLayout()
     return self
 end
@@ -168,8 +168,8 @@ function badar:align(axis, gap, alignment)
 
     for _, child in ipairs(self.children) do
         if axis == 'center' then
-            child.x = (self.width - child.width) / 2 - self._padding[4] - self._padding[2]
-            child.y = (self.height - child.height) / 2 - self._padding[1] - self._padding[3]
+            child.x = (self.width - child.width) / 2 - self._style.padding[4] - self._style.padding[2]
+            child.y = (self.height - child.height) / 2 - self._style.padding[1] - self._style.padding[3]
         end
         if axis == 'row' then
             child.x = offset;
@@ -200,10 +200,10 @@ function badar:align(axis, gap, alignment)
     end
 
     if self.axis == 'row' then
-        self.height = math.max(highest + self._padding[1] + self._padding[3], self.minHeight)
+        self.height = math.max(highest + self._style.padding[1] + self._style.padding[3], self.minHeight)
     end
     if self.axis == 'column' then
-        self.width = math.max(widest + self._padding[4] + self._padding[2], self.minWidth)
+        self.width = math.max(widest + self._style.padding[4] + self._style.padding[2], self.minWidth)
     end
     return self
 end
@@ -216,8 +216,8 @@ function badar:calculateLayout()
         highest = math.max(child.height, highest)
         widest = math.max(child.width, widest)
     end
-    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
-    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
+    local horizontalSpace = self._style.padding[4] + self._style.padding[2] + (self.gap * (#self.children - 1))
+    local verticalSpace = self._style.padding[1] + self._style.padding[3] + (self.gap * (#self.children - 1))
     self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
     self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
     return self
