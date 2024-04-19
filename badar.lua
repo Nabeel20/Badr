@@ -6,25 +6,8 @@
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
-
-
 badar = Object:extend()
 
-
-function badar:calculateLayout()
-    local width, height, widest, highest = 0, 0, 0, 0
-    for _, child in ipairs(self.children) do
-        width = width + child.width;
-        height = height + child.height
-        highest = math.max(child.height, highest)
-        widest = math.max(child.width, widest)
-    end
-    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
-    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
-    self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
-    self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
-    return self
-end
 
 function badar:new(obj)
     obj = obj or {}
@@ -233,6 +216,21 @@ function badar:align(axis, gap, alignment)
     if self.axis == 'column' then
         self.width = math.max(widest + self._padding[4] + self._padding[2], self.minWidth)
     end
+    return self
+end
+
+function badar:calculateLayout()
+    local width, height, widest, highest = 0, 0, 0, 0
+    for _, child in ipairs(self.children) do
+        width = width + child.width;
+        height = height + child.height
+        highest = math.max(child.height, highest)
+        widest = math.max(child.width, widest)
+    end
+    local horizontalSpace = self._padding[4] + self._padding[2] + (self.gap * (#self.children - 1))
+    local verticalSpace = self._padding[1] + self._padding[3] + (self.gap * (#self.children - 1))
+    self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
+    self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
     return self
 end
 
