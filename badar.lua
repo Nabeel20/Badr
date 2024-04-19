@@ -80,13 +80,6 @@ function badar:draw()
 end
 
 function badar:content(content)
-    for _, c in ipairs(content) do
-        c.parent = {
-            width = self.width,
-            height = self.height,
-            padding = self._style.padding
-        }
-    end
     self.children = content;
     self:calculateLayout()
     return self;
