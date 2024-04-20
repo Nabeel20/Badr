@@ -17,7 +17,7 @@ end
 function text:new(txt, obj)
     obj = obj or {}
     text.super.new(self, obj)
-    self.textStyle = {
+    local textStyle = {
         padding = { 0, 0, 0, 0 },
         color = { 0, 0, 0 },
         size = 16,
@@ -26,7 +26,7 @@ function text:new(txt, obj)
         alignment = 'left',
         limit = 1000,
     }
-    extend(self._style, self.textStyle)
+    extend(self._style, textStyle)
     if self._style.fontFamily ~= '' then
         self.font = love.graphics.newFont(self._style.fontFamily, self._style.size)
     else
@@ -43,8 +43,8 @@ function text:new(txt, obj)
         width  = 0,
         height = 0,
     }
-    self.width = self.font:getWidth(self._text)
-    self.height = self.font:getHeight(self._text)
+    self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
+    self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
 
     self.drawFunc = function()
         self._style.limit = self.font:getWidth(self._text)
@@ -72,7 +72,9 @@ function text:new(txt, obj)
 
         --text
         love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
-        love.graphics.printf(self._text, self.x, self.y, self._style.limit, self._style.alignment)
+        love.graphics.printf(self._text, self.x + self._style.padding[4], self.y + self._style.padding[1],
+            self._style.limit,
+            self._style.alignment)
     end
 
     return self
@@ -94,8 +96,8 @@ function text:style(style)
     else
         self.font = love.graphics.newFont(self._style.size)
     end
-    self.width = self.font:getWidth(self._text)
-    self.height = self.font:getHeight(self._text)
+    self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
+    self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
     return self
 end
 
