@@ -1,7 +1,7 @@
 # Badar 🌕
 
 Badar (Full moon in Arabic) is a declarative, flexbox inspired GUI library for LÖVE 2D.<br>
-Badar focuses on composition, auto-layout and reactivity; width, height, position auto-calculated (if not provided) based on parent properties.
+Badar focuses on composition and reactivity. Container expands based on children dimensions.
 
 ### Components
 
