@@ -221,7 +221,7 @@ function badar:style(style)
     return self
 end
 
-function badar:findNode(target)
+function badar:find(target)
     if self == nil then
         return nil
     end
