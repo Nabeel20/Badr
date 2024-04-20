@@ -41,7 +41,7 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button, istouch)
-    main:mousePressed(x, y, button)
+    main:mousepressed(x, y, button)
 end
 ```
 
