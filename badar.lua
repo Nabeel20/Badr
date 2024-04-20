@@ -137,7 +137,7 @@ end
 function badar:mousepressed(button)
     self:handleClick(button)
     for _, child in ipairs(self.children) do
-        child:mousePressed(button)
+        child:mousepressed(button)
     end
 end
 
