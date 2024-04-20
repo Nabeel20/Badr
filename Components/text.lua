@@ -1,23 +1,41 @@
 local badar = require 'badar'
 text = badar:extend()
 
+-- Copyright (c) 2020 rxi
+function extend(t, ...)
+    for i = 1, select("#", ...) do
+        local x = select(i, ...)
+        if x then
+            for k, v in pairs(x) do
+                t[k] = v
+            end
+        end
+    end
+    return t
+end
+
 function text:new(txt, obj)
     obj = obj or {}
     text.super.new(self, obj)
-
-    self._text = txt;
-    self._color = { 0, 0, 0 }
-    self.fontSize = 16
-    self.fontName = ''
-    if self.fontName ~= '' then
-        self.font = love.graphics.newFont(self.fontName, self.fontSize)
+    self.textStyle = {
+        padding = { 0, 0, 0, 0 },
+        color = { 0, 0, 0 },
+        size = 16,
+        fontFamily = 'assets/Poppins-Regular.ttf',
+        lineHeight = 1,
+        alignment = 'left',
+        limit = 1000,
+    }
+    extend(self._style, self.textStyle)
+    if self._style.fontFamily ~= '' then
+        self.font = love.graphics.newFont(self._style.fontFamily, self._style.size)
     else
-        self.font = love.graphics.newFont(self.fontSize)
+        self.font = love.graphics.newFont(self._style.size)
     end
 
+    self._text = txt;
     self.glyphWidth = 0
-    self._lineHeight = 1
-    self._limit = self.font:getWidth(self._text)
+
     self.pressed = false;
     self.selection = {
         start  = 0,
@@ -27,11 +45,12 @@ function text:new(txt, obj)
     }
     self.width = self.font:getWidth(self._text)
     self.height = self.font:getHeight(self._text)
-    self.autoLayout = { x = false, y = false }
-    self.alignment = 'left'
+
     self.drawFunc = function()
+        self._style.limit = self.font:getWidth(self._text)
         love.graphics.setFont(self.font)
-        self.font:setLineHeight(self._lineHeight)
+        self.font:setFilter("nearest", "nearest")
+        self.font:setLineHeight(self._style.lineHeight)
 
         -- if self.pressed then
         --     self.glyphWidth = self.font:getWidth('c')
@@ -52,17 +71,10 @@ function text:new(txt, obj)
         -- end
 
         --text
-        love.graphics.setColor({ self._color[1], self._color[2], self._color[3], self.opacity })
-        love.graphics.printf(self._text, self.x, self.y, self._limit, self.alignment)
+        love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
+        love.graphics.printf(self._text, self.x, self.y, self._style.limit, self._style.alignment)
     end
 
-    return self
-end
-
-function text:size(number)
-    self.fontSize = number
-    self.width = self.font:getWidth(self._text)
-    self.height = self.font:getHeight(self._text)
     return self
 end
 
@@ -75,25 +87,15 @@ function text:getRect()
     }
 end
 
-function text:lineHeight(number)
-    self._lineHeight = number
+function text:style(style)
+    text.super.style(self, style)
+    if self._style.fontFamily ~= '' then
+        self.font = love.graphics.newFont(self._style.fontFamily, self._style.size)
+    else
+        self.font = love.graphics.newFont(self._style.size)
+    end
     self.width = self.font:getWidth(self._text)
     self.height = self.font:getHeight(self._text)
-    return self
-end
-
-function text:fontFamily(fontFamily)
-    self.font = love.graphics.newFont(fontFamily, self.fontSize)
-    return self
-end
-
-function text:limit(number)
-    self._limit = number
-    return self
-end
-
-function text:align(alignment)
-    self.alignment = alignment
     return self
 end
 
