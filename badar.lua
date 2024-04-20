@@ -68,9 +68,10 @@ function badar:draw()
     return function()
         love.graphics.push()
         love.graphics.translate(math.floor(self.x + self._style.padding[4]), math.floor(self.y + self._style.padding[1]))
-        self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(screenWidth, screenHeight)
-        self.globalPosition.x = screenWidth - self.globalPosition.x
-        self.globalPosition.y = screenHeight - self.globalPosition.y
+        local sW, sH = love.graphics.getWidth(), love.graphics.getHeight()
+        self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(sW, sH)
+        self.globalPosition.x = sW - self.globalPosition.x
+        self.globalPosition.y = sH - self.globalPosition.y
 
         for _, child in ipairs(self.children) do
             child:draw()()
@@ -92,7 +93,7 @@ function badar:onHover(func)
     return self
 end
 
-function badar:handleClick()
+function badar:handleClick(btn)
     if self:isMouseInside() then
         self:clickFunc()
         self.hovered = true
