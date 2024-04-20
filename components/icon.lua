@@ -4,20 +4,50 @@ icon = badar:extend()
 function icon:new(fileName, obj)
     obj = obj or {}
     icon.super.new(self, obj)
-    self.fileName = love.graphics.newImage(fileName)
-    self.scale = obj.scale or 1
-    self.width = self.fileName:getWidth() * self.scale
-    self.height = self.fileName:getHeight() * self.scale
-    self.autoLayout = { x = false, y = false }
-    self._tint = obj.tint or false
+    local iconStyle = {
+        tint = false,
+        scale = 1,
+    }
+    extend(self._style, iconStyle)
+
+    self.image = love.graphics.newImage(fileName)
+    self.width = self.image:getWidth() * self._style.scale
+    self.height = self.image:getHeight() * self._style.scale
+
     self.drawFunc = function()
-        if self._tint then
-            --   love.graphics.setColor(1, 0, 0, 1)
+        if self._style.tint then
+            love.graphics.setColor({
+                self._style.color[1],
+                self._style.color[2],
+                self._style.color[3],
+                self._style.opacity
+            })
         end
-        love.graphics.draw(self.fileName, self.x, self.y, 0, self.scale, self.scale)
+
+        love.graphics.draw(
+            self.image,
+            self.x + self._style.padding[4],
+            self.y + self._style.padding[1],
+            0,
+            self._style.scale,
+            self._style.scale
+        )
     end
 
     return self
+end
+
+-- Copyright (c) 2020 rxi
+function extend(t, ...)
+    for i = 1, select("#", ...) do
+        local x = select(i, ...)
+        if x then
+            for k, v in pairs(x) do
+                t[k] = v
+            end
+        end
+    end
+    return t
 end
 
 return icon
