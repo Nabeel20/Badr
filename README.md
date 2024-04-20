@@ -101,14 +101,13 @@ Sets `fn` to be executed when mouse left button is clicked.
 
 Sets `fn` to be called when mouse is hovering. Use with `:update()` to get container props.
 
-### `:update(function(foo) return foo end)`
+### `:update(function(foo) end)`
 
-This function allows for the modification of container properties. You _must_ return argument to apply your updates.
+This function allows for the modification of container properties.
 
 ```lua
 container():content({children}):update(function(o)
     o.canHover= true
-    return o
 end)
 ```
 

@@ -122,7 +122,7 @@ function badar:render()
 end
 
 function badar:update(func)
-    self = func(self)
+    func(self)
     return self
 end
 
