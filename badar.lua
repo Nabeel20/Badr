@@ -11,7 +11,7 @@ badar = Object:extend()
 
 function badar:new(obj)
     obj = obj or {}
-
+    self.id = obj.id or 'default id'
     self.x = obj.x or 0
     self.y = obj.y or 0
     self.width = obj.width or 0
@@ -219,6 +219,25 @@ function badar:style(style)
     end
     self:calculateLayout()
     return self
+end
+
+function badar:findNode(target)
+    if self == nil then
+        return nil
+    end
+
+    if self.id == target then
+        return self
+    end
+
+    for i, child in ipairs(self.children or {}) do
+        local result = child:findNode(target)
+        if result ~= nil then
+            return result
+        end
+    end
+
+    return nil
 end
 
 return badar
