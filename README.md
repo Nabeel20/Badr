@@ -57,6 +57,7 @@ local c = container({})
 - `x`, `y`; container's position.
 - `width`, `height`; container's dimensions.
 - `minWidth`, `minHeight`; container's minimum dimensions.
+- `drawFunc`; can be used to override default 'rectangle' drawing method.
 
 This function makes a new 'container' that can manage its 'children'. <br>
 The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
@@ -64,6 +65,10 @@ The container is based on a LÖVE `rectangle`. Space is distributed equally betw
 ### `:content({})`
 
 Adds children to container.
+
+### `:find(id (string))`
+
+Search container's children and return child which has the same id.
 
 ### `:style({})`
 
