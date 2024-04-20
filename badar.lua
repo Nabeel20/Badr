@@ -199,18 +199,28 @@ function badar:align(axis, gap, alignment)
 end
 
 function badar:calculateLayout()
-    local width, height, widest, highest = 0, 0, 0, 0
+    local totalWidth, totalHeight, widest, highest = 0, 0, 0, 0
     for _, child in ipairs(self.children) do
-        width = width + child.width;
-        height = height + child.height
+        totalWidth = totalWidth + child.width;
+        totalHeight = totalHeight + child.height
         highest = math.max(child.height, highest)
         widest = math.max(child.width, widest)
     end
-    local horizontalSpace = self._style.padding[4] + self._style.padding[2] + (self.gap * (#self.children - 1))
-    local verticalSpace = self._style.padding[1] + self._style.padding[3] + (self.gap * (#self.children - 1))
-    self.height = math.max(math.max(height + verticalSpace, self.minHeight), self.height)
-    self.width = math.max(math.max(width + horizontalSpace, self.minWidth), self.width)
-    return self
+
+    local hPadding = self._style.padding[4] + self._style.padding[2]
+    local vPadding = self._style.padding[1] + self._style.padding[3]
+    local gap = self.gap * (#self.children - 1)
+
+    -- Comparing calculated dimensions with minimum dimensions
+    -- Then comparing that value with the provided width or height
+    self.width = math.max(math.max(totalWidth + hPadding + gap, self.minWidth), self.width)
+    self.height = math.max(math.max(totalHeight + hPadding + gap, self.minHeight), self.height)
+    return {
+        widest = widest,
+        highest = highest,
+        contentWidth = totalWidth + hPadding,
+        contentHeight = totalHeight + vPadding
+    }
 end
 
 function badar:style(style)
