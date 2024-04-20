@@ -9,10 +9,11 @@ function icon:new(fileName, obj)
         scale = 1,
     }
     extend(self._style, iconStyle)
-
+    local horizontalPadding = self._style.padding[4] + self._style.padding[2]
+    local verticalPadding = self._style.padding[1] + self._style.padding[3]
     self.image = love.graphics.newImage(fileName)
-    self.width = self.image:getWidth() * self._style.scale
-    self.height = self.image:getHeight() * self._style.scale
+    self.width = (self.image:getWidth() * self._style.scale) + horizontalPadding
+    self.height = (self.image:getHeight() * self._style.scale) + verticalPadding
 
     self.drawFunc = function()
         if self._style.tint then
