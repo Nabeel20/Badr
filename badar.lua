@@ -133,10 +133,10 @@ function badar:isMouseInside()
     return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
 end
 
-function badar:mousePressed(x, y, button)
-    self:handleClick()
+function badar:mousepressed(button)
+    self:handleClick(button)
     for _, child in ipairs(self.children) do
-        child:mousePressed(x, y, button)
+        child:mousePressed(button)
     end
 end
 
