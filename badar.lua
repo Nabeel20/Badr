@@ -231,7 +231,7 @@ function badar:find(target)
     end
 
     for i, child in ipairs(self.children or {}) do
-        local result = child:findNode(target)
+        local result = child:find(target)
         if result ~= nil then
             return result
         end
