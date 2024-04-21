@@ -84,7 +84,8 @@ end
 
 function badar:content(content)
     self.children = content;
-    self:calculateLayout()
+    self.width = self:calculateLayout().computedWidth
+    self.height = self:calculateLayout().computedHeight
     return self;
 end
 
