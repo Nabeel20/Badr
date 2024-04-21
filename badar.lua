@@ -147,54 +147,60 @@ function badar:align(axis, gap, alignment)
     self.gap = gap or 0;
     self.alignment = alignment or nil;
     self:calculateLayout()
-    local offset = 0;
-    local highest = 0
-    local widest = 0
-    if #self.children == 0 then return self end
+    local offset          = 0;
+    local layout          = self:calculateLayout()
+    local widest, highest = layout.widest, layout.highest
 
-    for _, child in ipairs(self.children) do
-        highest = math.max(child.height, highest)
-        widest = math.max(child.width, widest)
+    if #self.children == 0 then return self end
+    local function centerChildren(child)
+        child.x = (self.width - child.width) / 2 - layout.padding.horizontal
+        child.y = (self.height - child.height) / 2 - layout.padding.vertical
     end
 
+    local function row(child)
+        child.x = offset;
+        offset = offset + child.width + self.gap
+        -- alignment
+        if child.height ~= highest then
+            if self.alignment == 'center' then
+                child.y = (highest - child.height) / 2
+            end
+            if self.alignment == 'end' then
+                child.y = highest - child.height
+            end
+        end
+    end
+
+    local function column(child)
+        child.y = offset;
+        offset = offset + child.height + self.gap
+        --alignment
+        if child.width ~= widest then
+            if self.alignment == 'center' then
+                child.x = (widest - child.width) / 2
+            end
+            if self.alignment == 'end' then
+                child.x = widest - child.width
+            end
+        end
+    end
+
+    self.width = layout.computedWidth;
+    self.height = layout.computedHeight;
+
     for _, child in ipairs(self.children) do
-        if axis == 'center' then
-            child.x = (self.width - child.width) / 2 - self._style.padding[4] - self._style.padding[2]
-            child.y = (self.height - child.height) / 2 - self._style.padding[1] - self._style.padding[3]
-        end
-        if axis == 'row' then
-            child.x = offset;
-            offset = offset + child.width + self.gap
-            -- alignment
-            if child.height ~= highest then
-                if self.alignment == 'center' then
-                    child.y = (highest - child.height) / 2
-                end
-                if self.alignment == 'end' then
-                    child.y = highest - child.height
-                end
-            end
-        end
-        if axis == 'column' then
-            child.y = offset;
-            offset = offset + child.height + self.gap
-            --alignment
-            if child.width ~= widest then
-                if self.alignment == 'center' then
-                    child.x = (widest - child.width) / 2
-                end
-                if self.alignment == 'end' then
-                    child.x = widest - child.width
-                end
-            end
-        end
+        if axis == 'center' then centerChildren(child) end
+
+        if axis == 'row' then row(child) end
+
+        if axis == 'column' then column(child) end
     end
 
     if self.axis == 'row' then
-        self.height = math.max(highest + self._style.padding[1] + self._style.padding[3], self.minHeight)
+        self.height = math.max(highest + layout.padding.horizontal, self.minHeight)
     end
     if self.axis == 'column' then
-        self.width = math.max(widest + self._style.padding[4] + self._style.padding[2], self.minWidth)
+        self.width = math.max(widest + layout.padding.vertical, self.minWidth)
     end
     return self
 end
