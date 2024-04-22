@@ -210,11 +210,11 @@ function badar:layout(obj)
         end
     end
 
-    if self.axis == 'row' then
-        self.height = math.max(highest + layout.padding.horizontal, self.minHeight)
+    if self.direction == 'row' then
+        self.height = math.max(highest, self.minHeight)
     end
-    if self.axis == 'column' then
-        self.width = math.max(widest + layout.padding.vertical, self.minWidth)
+    if self.direction == 'column' then
+        self.width = math.max(widest, self.minWidth)
     end
     return self
 end
