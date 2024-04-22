@@ -37,7 +37,10 @@ function badar:new(obj)
     self.globalPosition = { x = 0, y = 0 }
 
     self.clickFunc = obj.onClick or function() end;
-    self.hoverFunc = obj.onHover or function() end;
+    self.hover = obj.hover or {
+        onEnter = function() end,
+        onExit = function() end
+    }
     self.drawFunc = function()
         local drawMode = (self.hovered and self._style.hoverEnabled) and 'fill' or 'line'
         if (self._style.filled) then drawMode = 'fill' end
@@ -59,13 +62,6 @@ function badar:draw()
     love.graphics.scale(self._style.scale)
     love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
     self.drawFunc()
-
-    if self:isMouseInside() then
-        self.hovered = true
-        self:hoverFunc()
-    else
-        self.hovered = false
-    end
 
     return function()
         love.graphics.push()
@@ -93,6 +89,7 @@ end
 
 function badar:onHover(func)
     self.hoverFunc = func
+    pprint(func)
     return self
 end
 
@@ -107,8 +104,8 @@ function badar:getRect()
     return {
         self.globalPosition.x - self._style.padding[4],
         self.globalPosition.y - self._style.padding[1],
-        self.globalPosition.x + self.width - self._style.padding[2],
-        self.globalPosition.y + self.height - self._style.padding[3]
+        (self.globalPosition.x + self.width - self._style.padding[2]) * self._style.scale,
+        (self.globalPosition.y + self.height - self._style.padding[3]) * self._style.scale
     }
 end
 
@@ -276,6 +273,19 @@ function badar:find(target)
     end
 
     return nil
+end
+
+function badar:mousemoved()
+    if self:isMouseInside() then
+        self.hovered = true
+        self.hoverFunc.onEnter()
+    else
+        self.hovered = false
+        self.hoverFunc.onExit()
+    end
+    for _, child in ipairs(self.children) do
+        child:mousemoved()
+    end
 end
 
 return badar
