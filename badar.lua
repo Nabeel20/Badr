@@ -142,14 +142,19 @@ function badar:mousepressed(button)
     end
 end
 
-function badar:align(axis, gap, alignment)
-    self.axis = axis or 'row'
-    self.gap = gap or 0;
-    self.alignment = alignment or nil;
-    self:calculateLayout()
-    local offset          = 0;
-    local layout          = self:calculateLayout()
-    local widest, highest = layout.widest, layout.highest
+function badar:layout(obj)
+    self.direction = obj.direction or 'row'
+    self.gap       = obj.gap or 0;
+    self.alignment = obj.alignment or nil;
+    self.justify   = obj.justify or nil;
+
+    local offset   = 0;
+    local layout   = self:calculateLayout()
+    local widest   = layout.widest + layout.padding.horizontal
+    local highest  = layout.highest + layout.padding.vertical
+    self.width     = layout.computedWidth;
+    self.height    = layout.computedHeight;
+
 
     if #self.children == 0 then return self end
     local function centerChildren(child)
@@ -244,7 +249,8 @@ function badar:style(style)
     for key, value in pairs(style) do
         self._style[key] = value
     end
-    self:calculateLayout()
+    self.width = self:calculateLayout().computedWidth
+    self.height = self:calculateLayout().computedHeight
     return self
 end
 
