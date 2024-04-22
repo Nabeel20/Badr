@@ -90,10 +90,6 @@ Overrides default container styles. Pass the key you want to override.
 
 ### `:layout({})`
 
-- axis (string): `center`, `row`, `column`
-- gap (number)
-- alignment (string): `center`, `end`. "start" is the default behavior.
-
 Aligns children along the main `axis` and along the cross axis using `alignment`, whereas `justify` can be used to align child (not its children) on its parent main axis. <br>
 
 ```lua
