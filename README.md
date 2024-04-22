@@ -85,6 +85,7 @@ Overrides default container styles. Pass the key you want to override.
     opacity = 1,
     filled = false,
     hoverEnabled = false,
+    scale = 1
 })
 ```
 
