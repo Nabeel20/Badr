@@ -157,7 +157,7 @@ function badar:layout(obj)
 
 
     if #self.children == 0 then return self end
-    local function centerChildren(child)
+    local function center(child)
         child.x = (self.width - child.width) / 2 - layout.padding.horizontal
         child.y = (self.height - child.height) / 2 - layout.padding.vertical
     end
