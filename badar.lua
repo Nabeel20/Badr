@@ -87,9 +87,10 @@ function badar:content(content)
     return self;
 end
 
-function badar:onHover(func)
-    self.hoverFunc = func
-    pprint(func)
+function badar:onHover(hoverLogic)
+    for key, value in pairs(hoverLogic) do
+        self.hover[key] = value
+    end
     return self
 end
 
@@ -278,10 +279,10 @@ end
 function badar:mousemoved()
     if self:isMouseInside() then
         self.hovered = true
-        self.hoverFunc.onEnter()
+        self.hover.onEnter()
     else
         self.hovered = false
-        self.hoverFunc.onExit()
+        self.hover.onExit()
     end
     for _, child in ipairs(self.children) do
         child:mousemoved()
