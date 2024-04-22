@@ -102,9 +102,9 @@ Aligns children along the main `axis` and along the cross axis using `alignment`
 })
 ```
 
-### `:onClick(fn)`
+### `:onClick(fn, mouseButton(num))`
 
-Sets `fn` to be executed when mouse left button is clicked. Container is passed as argument to `fn`.
+Sets `fn` to be executed when mouse left button is clicked. Container is passed as argument to `fn`. Default mouseButton is 1 for left mouse button, right one is 2.
 
 ### `:onHover(fn)`
 
