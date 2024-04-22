@@ -190,15 +190,24 @@ function badar:layout(obj)
         end
     end
 
-    self.width = layout.computedWidth;
-    self.height = layout.computedHeight;
+
 
     for _, child in ipairs(self.children) do
-        if axis == 'center' then centerChildren(child) end
-
-        if axis == 'row' then row(child) end
-
-        if axis == 'column' then column(child) end
+        if self.direction == 'center' then center(child) end
+        if self.direction == 'row' then row(child) end
+        if self.direction == 'column' then column(child) end
+        if child.justify == 'end' then
+            if self.direction == 'row' then
+                child.x = self.width - child.width - layout.padding.horizontal;
+            end
+            if self.direction == 'column' then
+                child.y = self.height - child.height - layout.padding.vertical;
+            end
+        end
+        if child.justify == 'center' then
+            child.x = (self.width - child.width) / 2 - layout.padding.horizontal
+            child.y = (self.height - child.height) / 2 - layout.padding.vertical
+        end
     end
 
     if self.axis == 'row' then
