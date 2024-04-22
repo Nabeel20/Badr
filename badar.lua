@@ -122,8 +122,8 @@ function badar:isMouseInside()
     local px, py = love.mouse.getX(), love.mouse.getY()
     local rect = self:getRect()
 
-    local rx1, ry1, rx2, ry2 = rect[1], rect[2], rect[3], rect[4]
-    return px >= rx1 and px <= rx2 and py >= ry1 and py <= ry2
+    local x, y, width, height = rect[1], rect[2], rect[3], rect[4]
+    return px >= x and px <= width and py >= y and py <= height
 end
 
 function badar:mousepressed(button)
