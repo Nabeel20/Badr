@@ -132,9 +132,6 @@ end
 function badar:mousepressed(button)
     if self:isMouseInside() and button == self.mouseButton then
         self:clickFunc()
-        self.hovered = true
-    else
-        self.hovered = false
     end
     for _, child in ipairs(self.children) do
         child:mousepressed(button)
