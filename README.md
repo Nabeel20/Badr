@@ -17,12 +17,12 @@ Badar uses [classic](https://github.com/rxi/classic) which simplifies the proces
 
 ```lua
 function love.load()
-    local container = require 'libs.badar'
+    local container = require 'path.to.badar.lua'
 
     local button = container({ width = 25, height = 25 }):style({ color = { 1, 0, 0 } })
     local square = container({ width = 10, height = 10 }):style({ color = { 1, 0, 0 }, filled = true })
 
-    main = container({ minWidth = screenWidth, minHeight = screenHeight })
+    main = container({ minWidth = screenWidth, minHeight = screenHeight, hideBorder = true })
         :content({
             square,
             button:onClick(function()
@@ -33,7 +33,9 @@ function love.load()
             end),
         }):style({
             padding = { 16, 16, 16, 16 }
-        }):align('column')
+        }):layout({
+            direction ='column'
+        })
 end
 
 function love.draw()
@@ -41,7 +43,7 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button, istouch)
-    main:mousepressed(x, y, button)
+    main:mousepressed(button)
 end
 ```
 
@@ -54,10 +56,11 @@ local container = require 'path.to.badar.lua'
 local c = container({})
 ```
 
+- `id`; a string can be used to find targeted notes.
 - `x`, `y`; container's position.
 - `width`, `height`; container's dimensions.
 - `minWidth`, `minHeight`; container's minimum dimensions.
-- `drawFunc`; can be used to override default 'rectangle' drawing method.
+- `drawFunc`; can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
 
 This function makes a new 'container' that can manage its 'children'. <br>
 The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
@@ -72,7 +75,7 @@ Search container's children and return child which has the same id.
 
 ### `:style({})`
 
-Overrides default container styles.
+Overrides default container styles. Pass the key you want to override.
 
 ```lua
 :style({
@@ -85,29 +88,38 @@ Overrides default container styles.
 })
 ```
 
-### `:align(axis, gap, alignment)`
+### `:layout({})`
 
 - axis (string): `center`, `row`, `column`
 - gap (number)
 - alignment (string): `center`, `end`. "start" is the default behavior.
 
-Aligns children along the main `axis` and along the cross axis using `alignment`.
+Aligns children along the main `axis` and along the cross axis using `alignment`, whereas `justify` can be used to align child (not its children) on its parent main axis. <br>
+
+```lua
+:layout({
+    direction = 'row' -- center and column also
+    gap = 0,
+    alignment = 'center' , -- or end
+    justify = 'end' -- or end
+})
+```
 
 ### `:onClick(fn)`
 
-Sets `fn` to be executed when mouse left button is clicked.
+Sets `fn` to be executed when mouse left button is clicked. Container is passed as argument to `fn`.
 
 ### `:onHover(fn)`
 
-Sets `fn` to be called when mouse is hovering. Use with `:update()` to get container props.
+Sets `fn` to be called when mouse is hovering. Container is passed as argument to `fn`.
 
 ### `:update(function(foo) end)`
 
-This function allows for the modification of container properties.
+This function allows for the modification of container properties. Can be used to animate container props (e.g `flux`)
 
 ```lua
 container():content({children}):update(function(o)
-    o.canHover= true
+    o._style.hoverEnabled= true
 end)
 ```
 
