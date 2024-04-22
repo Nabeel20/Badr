@@ -97,7 +97,7 @@ function badar:onHover(func)
 end
 
 function badar:handleClick(btn)
-    if self:isMouseInside() then
+    if self:isMouseInside() and btn == self.mouseButton then
         self:clickFunc()
         self.hovered = true
     else
@@ -105,8 +105,9 @@ function badar:handleClick(btn)
     end
 end
 
-function badar:onClick(func)
+function badar:onClick(func, mouseButton)
     self.clickFunc = func
+    self.mouseButton = mouseButton or 1
     self._style.hoverEnabled = true
     return self
 end
