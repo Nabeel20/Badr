@@ -96,15 +96,6 @@ function badar:onHover(func)
     return self
 end
 
-function badar:handleClick(btn)
-    if self:isMouseInside() and btn == self.mouseButton then
-        self:clickFunc()
-        self.hovered = true
-    else
-        self.hovered = false
-    end
-end
-
 function badar:onClick(func, mouseButton)
     self.clickFunc = func
     self.mouseButton = mouseButton or 1
@@ -139,7 +130,12 @@ function badar:isMouseInside()
 end
 
 function badar:mousepressed(button)
-    self:handleClick(button)
+    if self:isMouseInside() and button == self.mouseButton then
+        self:clickFunc()
+        self.hovered = true
+    else
+        self.hovered = false
+    end
     for _, child in ipairs(self.children) do
         child:mousepressed(button)
     end
