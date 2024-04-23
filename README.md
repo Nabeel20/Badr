@@ -1,19 +1,15 @@
 # Badar 🌕
 
-Badar (Full moon in Arabic) is a declarative, flexbox inspired GUI library for LÖVE 2D.<br>
-Badar focuses on composition and reactivity. Container expands based on children dimensions.
+Badar _(Full moon in Arabic)_ is a declarative, retained\* and flexbox inspired ui library, with focus on reactivity and composition in mind.
 
 ### Components
 
 - [tooltip](Components/tooltip.md)
 - [text](components/text.lua)
 
-## Installation
-
-The `badar.lua` file should be dropped into an existing project and required by it.<br>
-Badar uses [classic](https://github.com/rxi/classic) which simplifies the process of creating your own UI components.
-
 ### Usage
+
+Badar uses [classic](https://github.com/rxi/classic) as a dependency.
 
 ```lua
 function love.load()
