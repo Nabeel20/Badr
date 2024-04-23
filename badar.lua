@@ -60,6 +60,7 @@ function badar:new(obj)
 end
 
 function badar:draw()
+    if not self._style.visible then
         return function()
             return self
         end
