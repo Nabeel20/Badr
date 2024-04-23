@@ -288,10 +288,10 @@ end
 function badar:mousemoved()
     if self:isMouseInside() then
         self.hovered = true
-        self.hover.onEnter()
+        self.hover.onEnter(self)
     else
         self.hovered = false
-        self.hover.onExit()
+        self.hover.onExit(self)
     end
     for _, child in ipairs(self.children) do
         child:mousemoved()
