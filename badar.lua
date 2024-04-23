@@ -65,9 +65,11 @@ function badar:draw()
             return self
         end
     end
+    love.graphics.push()
     love.graphics.scale(self._style.scale)
     love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
     self.drawFunc()
+    love.graphics.pop()
 
     return function()
         love.graphics.push()
