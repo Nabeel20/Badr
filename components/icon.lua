@@ -3,6 +3,7 @@ icon = badar:extend()
 
 function icon:new(fileName, obj)
     obj = obj or {}
+    fileName = fileName or ''
     icon.super.new(self, obj)
     local iconStyle = {
         tint = false,
@@ -11,6 +12,7 @@ function icon:new(fileName, obj)
     extend(self._style, iconStyle)
     local horizontalPadding = self._style.padding[4] + self._style.padding[2]
     local verticalPadding = self._style.padding[1] + self._style.padding[3]
+    if fileName == '' then return self end
     self.image = love.graphics.newImage(fileName)
     self.width = (self.image:getWidth() * self._style.scale) + horizontalPadding
     self.height = (self.image:getHeight() * self._style.scale) + verticalPadding

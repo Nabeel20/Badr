@@ -178,10 +178,10 @@ function badar:layout(obj)
         -- alignment
         if child.height ~= highest then
             if self.alignment == 'center' then
-                child.y = (highest - child.height) / 2
+                child.y = (highest - child.height - layout.padding.vertical) / 2
             end
             if self.alignment == 'end' then
-                child.y = highest - child.height
+                child.y = highest - child.height - layout.padding.vertical
             end
         end
     end
@@ -192,10 +192,10 @@ function badar:layout(obj)
         --alignment
         if child.width ~= widest then
             if self.alignment == 'center' then
-                child.x = (widest - child.width) / 2
+                child.x = (widest - child.width - layout.padding.horizontal) / 2
             end
             if self.alignment == 'end' then
-                child.x = widest - child.width
+                child.x = widest - child.width - layout.padding.horizontal
             end
         end
     end
