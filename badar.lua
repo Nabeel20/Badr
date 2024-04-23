@@ -39,8 +39,8 @@ function badar:new(obj)
 
     self.clickFunc = obj.onClick or function() end;
     self.hover = obj.hover or {
-        onEnter = function() end,
-        onExit = function() end
+        onEnter = function(s) end,
+        onExit = function(s) end
     }
     self.drawFunc = function()
         local drawMode = (self.hovered and self._style.hoverEnabled) and 'fill' or 'line'
