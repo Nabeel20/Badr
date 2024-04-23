@@ -28,6 +28,7 @@ function badar:new(obj)
         filled = false,
         scale = 1,
         visible = true,
+        borderWidth = 1,
     }
     self.gap = 0;
     self.hideBorder = obj.hideBorder or false;
@@ -65,9 +66,16 @@ function badar:draw()
             return self
         end
     end
+
     love.graphics.push()
     love.graphics.scale(self._style.scale)
-    love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
+    love.graphics.setColor({
+        self._style.color[1],
+        self._style.color[2],
+        self._style.color[3],
+        self._style.opacity
+    })
+    love.graphics.setLineWidth(self._style.borderWidth)
     self.drawFunc()
     love.graphics.pop()
 
