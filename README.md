@@ -121,9 +121,9 @@ Aligns children along the main `axis` and along the cross axis using `alignment`
 
 Sets `fn` to be executed when mouse left button is clicked. Container is passed as argument to `fn`. Default mouseButton is 1 for left mouse button, right one is 2.
 
-### `:onHover(fn)`
+### `:onHover({onEnter = fn, onExit = fn})`
 
-Sets `fn` to be called when mouse is hovering. Container is passed as argument to `fn`.
+Sets _optional_ `onEnter` or `onExit` function to be respond to mouse event. Container props are passed to each function.
 
 ### `:update(function(foo) end)`
 
