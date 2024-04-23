@@ -47,6 +47,21 @@ function love.mousepressed(x, y, button, istouch)
 end
 ```
 
+## Callback functions
+
+### `:render()`
+
+This function calls the `draw` function for the container and all of its children.
+Should be called within `love.draw` function.
+
+### `:mousepressed(button (num))`
+
+Passes the mouse event to container to handle it. Should be used within `love.mousepressed()` function.
+
+### `:mousemoved()`
+
+Passes mouse movement events to container, it is used for 'hover' checking and hover related logic. Should be called within `love.mousemoved()` function.
+
 ## Functions
 
 ### Creating a new "container"
@@ -119,11 +134,6 @@ container():content({children}):update(function(o)
     o._style.hoverEnabled= true
 end)
 ```
-
-### `:render()`
-
-This function calls the `draw` function for the container and all of its children.
-Should be called within `love.draw` function.
 
 ## License
 
