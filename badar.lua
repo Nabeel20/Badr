@@ -226,13 +226,14 @@ function badar:calculateLayout()
     local vPadding = self._style.padding[1] + self._style.padding[3]
     local gap = self.gap * (#self.children - 1)
 
-    -- Comparing calculated dimensions with minimum dimensions
-    -- Then comparing that value with the provided width or height
-    local minimumWidth = math.max(totalWidth + hPadding + gap, self.minWidth)
-    local minimumHeight = math.max(totalHeight + hPadding + gap, self.minHeight)
 
-    local contentWidth = totalWidth + hPadding + gap;
-    local contentHeight = totalHeight + vPadding + gap
+    local contentWidth = (totalWidth + hPadding + gap) * self._style.scale;
+    local contentHeight = (totalHeight + vPadding + gap) * self._style.scale
+
+    local minimumWidth = math.max(contentWidth, self.minWidth)
+    local minimumHeight = math.max(contentHeight, self.minHeight)
+
+
     return {
         highest = highest,
         widest = widest,
