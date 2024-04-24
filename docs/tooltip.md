@@ -6,7 +6,17 @@ Use `:onHover()` to show your tooltip component.
 ### Usage
 
 ```lua
+local buttonStyle = {
+    padding = { 8, 12, 8, 12 },
+    hoverEnabled = true,
+    opacity = 1,
+    color = {1,0,0},
+    corner = 4
+}
 function love.load()
+    local container = require 'path.to.badar.lua'
+    local text = require 'path.to.text.lua'
+
     container_with_tooltip = container()
         :style(buttonStyle)
         :content({
