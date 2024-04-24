@@ -1,5 +1,7 @@
 ## Callback functions
 
+Theses functions can be used to pass events to container to handle it. Add what you need, only render is mandatory.
+
 ### `:render()`
 
 This function calls the `draw` function for the container and all of its children.
