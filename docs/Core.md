@@ -44,10 +44,11 @@ Aligns children along the main `axis` and along the cross axis using `alignment`
 
 ```lua
 :layout({
-    direction = 'row' -- center and column also
+    direction = 'row' -- or column
     gap = 0,
     alignment = 'center' , -- or end
     justify = 'end' -- or end
+    centered = false
 })
 ```
 
