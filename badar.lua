@@ -153,11 +153,11 @@ function badar:mousepressed(button)
 end
 
 function badar:layout(obj)
-    self.direction = obj.direction or 'row'
+    self.direction = obj.direction or nil
     self.gap       = obj.gap or 0;
     self.alignment = obj.alignment or nil;
     self.justify   = obj.justify or nil;
-
+    self.centered  = obj.centered or false;
     local offset   = 0;
     local layout   = self:calculateLayout()
     local widest   = layout.widest + layout.padding.horizontal
@@ -168,8 +168,11 @@ function badar:layout(obj)
 
     if #self.children == 0 then return self end
     local function center(child)
-        child.x = (self.width - child.width) / 2 - layout.padding.horizontal
-        child.y = (self.height - child.height) / 2 - layout.padding.vertical
+        if #self.children > 1 then
+            print('ERROR: Badar. centered container must have only one child.')
+        end
+        child.x = (self.width - child.width - layout.padding.horizontal) / 2
+        child.y = (self.height - child.height - layout.padding.vertical) / 2
     end
 
     local function row(child)
@@ -203,7 +206,7 @@ function badar:layout(obj)
 
 
     for _, child in ipairs(self.children) do
-        if self.direction == 'center' then center(child) end
+        if self.centered then center(child) end
         if self.direction == 'row' then row(child) end
         if self.direction == 'column' then column(child) end
         if child.justify == 'end' then
