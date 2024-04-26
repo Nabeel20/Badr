@@ -3,6 +3,10 @@
 A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it. (radix UI definition). <br>
 Use `:onHover()` to show your tooltip component.
 
+#### TODO
+
+- [ ] add delay
+
 ### Usage
 
 ```lua
@@ -10,7 +14,7 @@ local buttonStyle = {
     padding = { 8, 12, 8, 12 },
     hoverEnabled = true,
     opacity = 1,
-    color = {1,0,0},
+    color = { 1, 0, 0 },
     corner = 4
 }
 function love.load()
@@ -51,7 +55,3 @@ function love.mousemoved(x, y, dx, dy)
     container_with_tooltip:mousemoved()
 end
 ```
-
-#### Todo
-
-- [ ] add delay
