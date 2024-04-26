@@ -18,7 +18,6 @@ function text:new(txt, obj)
     obj = obj or {}
     text.super.new(self, obj)
     local textStyle = {
-        padding = { 0, 0, 0, 0 },
         color = { 0, 0, 0 },
         size = 16,
         fontFamily = 'assets/Poppins-Regular.ttf',
@@ -43,39 +42,24 @@ function text:new(txt, obj)
         width  = 0,
         height = 0,
     }
-    self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
-    self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
+    if type(txt) == "string" then
+        self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
+        self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
 
-    self.drawFunc = function()
-        self._style.limit = self.font:getWidth(self._text)
-        love.graphics.setFont(self.font)
-        self.font:setFilter("nearest", "nearest")
-        self.font:setLineHeight(self._style.lineHeight)
-
-        -- if self.pressed then
-        --     self.glyphWidth = self.font:getWidth('c')
-        --     local snap = math.floor(love.mouse.getX() / self.glyphWidth) * self.glyphWidth
-        --     self.selection.width = self.selection.width + snap
-
-        --     if self.selection.width > self.font:getWidth(self._text) then
-        --         self.selection.width = self.font:getWidth(self._text)
-        --     end
-
-        --     love.graphics.setColor({ 1, 1, 1 })
-        --     love.graphics.rectangle(
-        --         'fill',
-        --         self.selection.start,
-        --         self.y,
-        --         self.selection.width - self.selection.start,
-        --         self.font:getHeight(self._text))
-        -- end
-
-        --text
-        love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style.opacity })
-        love.graphics.printf(self._text, self.x + self._style.padding[4], self.y + self._style.padding[1],
-            self._style.limit,
-            self._style.alignment)
+        self.drawFunc = function()
+            self._style.limit = self.font:getWidth(self._text)
+            love.graphics.setFont(self.font)
+            self.font:setFilter("nearest", "nearest")
+            self.font:setLineHeight(self._style.lineHeight)
+            --text
+            love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style
+                .opacity })
+            love.graphics.printf(self._text, self.x + self._style.padding[4], self.y + self._style.padding[1],
+                self._style.limit,
+                self._style.alignment)
+        end
     end
+
 
     return self
 end
@@ -96,8 +80,8 @@ function text:style(style)
     else
         self.font = love.graphics.newFont(self._style.size)
     end
-    self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
-    self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
+    --  self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
+    -- self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
     return self
 end
 

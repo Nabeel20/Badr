@@ -272,8 +272,6 @@ function badar:style(style)
     for key, value in pairs(style) do
         self._style[key] = value
     end
-    self.width = self:calculateLayout().computedWidth
-    self.height = self:calculateLayout().computedHeight
     return self
 end
 
