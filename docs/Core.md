@@ -62,7 +62,7 @@ Assigns `fn` to be executed when mouse left button is clicked. The container is 
 
 ### `:onHover({onEnter = fn, onExit = fn})`
 
-Sets _optional_ `onEnter` or `onExit` function to be respond to mouse event. Container props are passed to each function.
+Sets an _optional_ `onEnter` or `onExit` function to be respond to mouse events. Container props are passed to each function.
 
 ### `:update(function(foo) end)`
 
