@@ -57,6 +57,7 @@ function badar:new(obj)
         )
     end
     self.children = obj.children or {}
+    self.data = obj.data or nil
     return self
 end
 
