@@ -42,6 +42,9 @@ Overrides default container styles. Pass the key you want to override.
 
 Aligns children along the main `axis` and along the cross axis using `alignment`, whereas `justify` can be used to align child (not its children) on its parent main axis. <br>
 
+> [!IMPORTANT]
+> This function should be called after `content()` and `style` as when you 'finish' defining your component.
+
 ```lua
 :layout({
     direction = 'row' -- or column
