@@ -55,3 +55,20 @@ function text:style(style)
     return self
 end
 ```
+
+To extend container built-in style you can use [rxi lume's extend method](https://github.com/rxi/lume/blob/98847e7812cf28d3d64b289b03fad71dc704547d/lume.lua#L200)
+
+```lua
+-- Copyright (c) 2020 rxi
+function extend(t, ...)
+  for i = 1, select("#", ...) do
+    local x = select(i, ...)
+    if x then
+      for k, v in pairs(x) do
+        t[k] = v
+      end
+    end
+  end
+  return t
+end
+```
