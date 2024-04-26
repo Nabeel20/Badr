@@ -80,8 +80,8 @@ function text:style(style)
     else
         self.font = love.graphics.newFont(self._style.size)
     end
-    --  self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
-    -- self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
+    self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
+    self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
     return self
 end
 
