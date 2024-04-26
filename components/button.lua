@@ -77,17 +77,13 @@ local button = function(txt, options)
             onEnter = function(i)
                 if not options.disabled then
                     love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
-                    i.mouseCaptured = true;
                 end
                 if options.variant == 'ghost' then
                     i._style.opacity = 1
                 end
             end,
             onExit = function(i)
-                if i.mouseCaptured then
-                    love.mouse.setCursor()
-                    i.mouseCaptured = false
-                end
+                love.mouse.setCursor()
                 if options.variant == 'ghost' then
                     i._style.opacity = 0
                 end
