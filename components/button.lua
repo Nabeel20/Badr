@@ -78,7 +78,9 @@ local button = function(txt, options)
                 if options.disabled then
                     love.mouse.setCursor(love.mouse.getSystemCursor('no'))
                 else
-                    love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
+                    local _cursor = 'hand'
+                    if options.loading then _cursor = 'wait' end
+                    love.mouse.setCursor(love.mouse.getSystemCursor(_cursor))
                 end
                 if options.variant == 'ghost' then
                     i._style.opacity = 1

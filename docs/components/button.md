@@ -24,3 +24,4 @@ The second argument is button options :
   - `ghost`
   - `icon`
 - `disabled` _boolean_ : Check this value within `:onClick()` function
+- `loading` _boolean_
