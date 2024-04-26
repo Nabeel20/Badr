@@ -9,6 +9,7 @@ Badar adapts the `löve2d` mentality. You can define a variable in `love.load`, 
 - [API](docs/Core.md)
 - [Callback functions](docs/Callback-functions.md)
 - [How to create custom components?](docs/Custom-component-guide.md)
+- [Components ✨](components)
 
 ### Usage
 
