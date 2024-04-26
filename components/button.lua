@@ -75,7 +75,9 @@ local button = function(txt, options)
         :layout(_layout)
         :onHover({
             onEnter = function(i)
-                if not options.disabled then
+                if options.disabled then
+                    love.mouse.setCursor(love.mouse.getSystemCursor('no'))
+                else
                     love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
                 end
                 if options.variant == 'ghost' then
