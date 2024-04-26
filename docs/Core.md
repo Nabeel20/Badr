@@ -10,6 +10,7 @@ local c = container({})
 - `width`, `height`; container's dimensions.
 - `minWidth`, `minHeight`; container's minimum dimensions.
 - `drawFunc`; can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
+- `data`; a table you can pass any 'custom' data for your needs.
 
 This function makes a new 'container' that can manage its 'children'. <br>
 The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
