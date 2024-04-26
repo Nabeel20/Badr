@@ -1,19 +1,6 @@
 local badar = require 'badar'
 text = badar:extend()
 
--- Copyright (c) 2020 rxi
-function extend(t, ...)
-    for i = 1, select("#", ...) do
-        local x = select(i, ...)
-        if x then
-            for k, v in pairs(x) do
-                t[k] = v
-            end
-        end
-    end
-    return t
-end
-
 function text:new(txt, obj)
     obj = obj or {}
     text.super.new(self, obj)
@@ -83,6 +70,19 @@ function text:style(style)
     self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
     self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
     return self
+end
+
+-- https://github.com/rxi/lume/blob/master/lume.lua
+function extend(t, ...)
+    for i = 1, select("#", ...) do
+        local x = select(i, ...)
+        if x then
+            for k, v in pairs(x) do
+                t[k] = v
+            end
+        end
+    end
+    return t
 end
 
 return text
