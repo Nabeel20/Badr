@@ -7,9 +7,9 @@
 ```lua
 function love.load()
     local _check = checkbox('Checkbox', { value = true })
-    :onValueChanged(function(value, txt)
-       print(value, txt)
-    end)
+        :onValueChanged(function(value, txt)
+            print(value, txt)
+        end)
 end
 ```
 
