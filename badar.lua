@@ -36,16 +36,18 @@ function badar:new(obj)
         self._style.opacity = 0
     end
     self.hovered = false
+    self.pressed = false
+
     self.globalPosition = { x = 0, y = 0 }
 
-    self.clickFunc = obj.onClick or function() end;
+    self._clickFn = obj.onClick or function() end;
     self._hover = {
         onEnter = function(s) end,
         onExit = function(s) end
     }
-    self.mouseReleaseFunc = function() end;
-    self.updateLogic = function() end;
-    self.drawFunc = function()
+    self._mouseReleaseFn = function() end;
+    self._updateFn = function() end;
+    self.drawSelf = function()
         love.graphics.rectangle(
             'fill',
             self.x,
@@ -88,7 +90,6 @@ function badar:new(obj)
     end
     self.children = obj.children or {}
     self.data = obj.data or nil
-    self.pressed = false
     return self
 end
 
@@ -102,7 +103,6 @@ function badar:draw()
     love.graphics.scale(self._style.scale)
     self.drawBorder()
     self.setColor()
-    self.drawFunc()
     love.graphics.pop()
 
     return function()
@@ -136,7 +136,7 @@ function badar:onHover(hoverLogic)
 end
 
 function badar:onClick(func, mouseButton)
-    self.clickFunc = func
+    self._clickFn = func
     self.mouseButton = mouseButton or 1
     self.pressed = true
     return self
@@ -170,7 +170,7 @@ end
 
 function badar:mousepressed(button)
     if self:isMouseInside() and button == self.mouseButton then
-        self:clickFunc()
+        self:_clickFn()
     end
     for _, child in ipairs(self.children) do
         child:mousepressed(button)
@@ -338,7 +338,7 @@ end
 
 function badar:mousereleased()
     if self.pressed then
-        self:mouseReleaseFunc()
+        self:_mouseReleaseFn()
     end
     for _, child in ipairs(self.children) do
         child:mousereleased()
@@ -346,17 +346,17 @@ function badar:mousereleased()
 end
 
 function badar:onMouseRelease(func)
-    self.mouseReleaseFunc = func
+    self._mouseReleaseFn = func
     return self
 end
 
 function badar:onUpdate(func)
-    self.updateLogic = func
+    self._updateFn = func
     return self
 end
 
 function badar:update()
-    self:updateLogic()
+    self:_updateFn()
     for _, child in ipairs(self.children) do
         child:update()
     end
