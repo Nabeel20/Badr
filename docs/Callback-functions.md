@@ -14,3 +14,5 @@ Passes the mouse event to container to handle it. Should be used within `love.mo
 ### `:mousemoved()`
 
 Passes mouse movement events to container, it is used for 'hover' checking and hover related logic. Should be called within `love.mousemoved()` function.
+
+### `:mousereleased()`

@@ -64,6 +64,10 @@ Assigns `fn` to be executed when mouse left button is clicked. The container is 
 
 Sets an _optional_ `onEnter` or `onExit` function to be respond to mouse events. Container props are passed to each function.
 
+### `:onMouseRelease(fn)`
+
+Calls the function if mouse was released after it was captured by container click event.
+
 ### `:update(function(foo) end)`
 
 This function allows for the modification of container properties. Can be used to animate container props (e.g `flux`)
