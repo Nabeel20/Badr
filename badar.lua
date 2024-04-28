@@ -101,9 +101,8 @@ function badar:draw()
 end
 
 function badar:content(content)
+    assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
     self.children = content;
-    self.width = self:calculateLayout().computedWidth
-    self.height = self:calculateLayout().computedHeight
     return self;
 end
 
