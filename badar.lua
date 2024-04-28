@@ -24,7 +24,7 @@ function badar:new(obj)
         hoverColor = nil,
         padding = { 0, 0, 0, 0 }, -- top, right, bottom, left
         corner = 0,
-        opacity = 1,              -- set to zero to hide border
+        opacity = 1,
         scale = 1,
         visible = true,
         borderWidth = 0,
@@ -39,12 +39,14 @@ function badar:new(obj)
     self.pressed = false
 
     self.globalPosition = { x = 0, y = 0 }
+    self.children = obj.children or {}
+    self.data = obj.data or nil
 
-    self._clickFn = obj.onClick or function() end;
     self._hover = {
         onEnter = function(s) end,
         onExit = function(s) end
     }
+    self._clickFn = obj.onClick or function() end;
     self._mouseReleaseFn = function() end;
     self._updateFn = function() end;
     self.drawSelf = function()
@@ -88,8 +90,6 @@ function badar:new(obj)
             })
         end
     end
-    self.children = obj.children or {}
-    self.data = obj.data or nil
 
     return self
 end
