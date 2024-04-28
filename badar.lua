@@ -134,7 +134,7 @@ function badar:render()
     return self:draw()()
 end
 
-function badar:update(func)
+function badar:modify(func)
     func(self)
     return self
 end
