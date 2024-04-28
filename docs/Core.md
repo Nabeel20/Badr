@@ -68,12 +68,12 @@ Sets an _optional_ `onEnter` or `onExit` function to be respond to mouse events.
 
 Calls the function if mouse was released after it was captured by container click event.
 
-### `:update(function(foo) end)`
+### `:modify(function(foo) end)`
 
 This function allows for the modification of container properties. Can be used to animate container props (e.g `flux`)
 
 ```lua
-container():content({children}):update(function(o)
+container():content({children}):modify(function(o)
     o._style.hoverEnabled= true
 end)
 ```
