@@ -27,7 +27,7 @@ local slider = function(options)
             id = 'track'
         })
         :style({
-            color = options.traclColor or { 0, 0, 0 },
+            color = options.trackColor or { 0, 0, 0 },
             filled = true,
             corner = 3,
             visible = false,
