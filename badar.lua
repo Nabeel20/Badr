@@ -28,7 +28,8 @@ function badar:new(obj)
         filled = false,
         scale = 1,
         visible = true,
-        borderWidth = 1,
+        borderWidth = 0,
+        borderColor = { 0, 0, 0 }
     }
     self.gap = 0;
     self.hideBox = obj.hideBox or false;
@@ -58,6 +59,22 @@ function badar:new(obj)
             self._style.corner
         )
     end
+    self.drawBorder = function()
+        if self._style.borderWidth > 0 then
+            love.graphics.setColor(self._style.borderColor)
+            love.graphics.setLineWidth(self._style.borderWidth)
+            love.graphics.rectangle(
+                'line',
+                self.x - 1,
+                self.y - 1,
+                self.width + 2,
+                self.height + 2,
+                self._style.corner,
+                self._style.corner
+            )
+            love.graphics.setLineWidth(1)
+        end
+    end
     self.children = obj.children or {}
     self.data = obj.data or nil
     self.pressed = false
@@ -70,16 +87,16 @@ function badar:draw()
             return self
         end
     end
-
     love.graphics.push()
     love.graphics.scale(self._style.scale)
+    self.drawBorder()
+
     love.graphics.setColor({
         self._style.color[1],
         self._style.color[2],
         self._style.color[3],
         self._style.opacity
     })
-    love.graphics.setLineWidth(self._style.borderWidth)
     self.drawFunc()
     love.graphics.pop()
 
