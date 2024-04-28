@@ -77,3 +77,7 @@ container():content({children}):modify(function(o)
     o._style.hoverEnabled= true
 end)
 ```
+
+### `:onUpdate(fn)`
+
+Sets a function to be called every frame. Container's prop are passed as an argument to `fn`.

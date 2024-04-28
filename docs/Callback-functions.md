@@ -1,11 +1,15 @@
 ## Callback functions
 
-Theses functions can be used to pass events to container to handle it. Add what you need, only render is mandatory.
+Theses functions can be used to pass events to container to handle it. Add what you need, **only render is mandatory**.
 
 ### `:render()`
 
 This function calls the `draw` function for the container and all of its children.
 Should be called within `love.draw` function.
+
+### `:update()`
+
+Used to update container props every frame. It can be used within `draw` or `update`.
 
 ### `:mousepressed(button (num))`
 
