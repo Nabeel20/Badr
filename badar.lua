@@ -44,6 +44,7 @@ function badar:new(obj)
         onExit = function(s) end
     }
     self.mouseReleaseFunc = function() end;
+    self.updateLogic = function() end;
     self.drawFunc = function()
         local drawMode = (self.hovered and self._style.hoverEnabled) and 'fill' or 'line'
         if (self._style.filled) then drawMode = 'fill' end
@@ -327,6 +328,18 @@ end
 function badar:onMouseRelease(func)
     self.mouseReleaseFunc = func
     return self
+end
+
+function badar:onUpdate(func)
+    self.updateLogic = func
+    return self
+end
+
+function badar:update()
+    self:updateLogic()
+    for _, child in ipairs(self.children) do
+        child:update()
+    end
 end
 
 return badar
