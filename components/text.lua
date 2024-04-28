@@ -5,7 +5,7 @@ function text:new(txt, obj)
     obj = obj or {}
     text.super.new(self, obj)
     local textStyle = {
-        color = { 0, 0, 0 },
+        color = { 0, 0, 0 }, -- default is black
         size = 16,
         fontFamily = 'assets/Poppins-Regular.ttf',
         lineHeight = 1,
@@ -18,7 +18,6 @@ function text:new(txt, obj)
     else
         self.font = love.graphics.newFont(self._style.size)
     end
-
     self._text = txt;
     self.glyphWidth = 0
 
@@ -30,20 +29,30 @@ function text:new(txt, obj)
         height = 0,
     }
     if type(txt) == "string" then
-        self.width = self.font:getWidth(self._text) + self._style.padding[2] + self._style.padding[4]
-        self.height = self.font:getHeight(self._text) + self._style.padding[1] + self._style.padding[3]
+        local hPadding = self._style.padding[2] + self._style.padding[4]
+        local vPadding = self._style.padding[1] + self._style.padding[3]
+        self.width = self.font:getWidth(self._text) + hPadding
+        self.height = self.font:getHeight(self._text) + vPadding
 
-        self.drawFunc = function()
+        self.drawSelf = function()
             self._style.limit = self.font:getWidth(self._text)
             love.graphics.setFont(self.font)
             self.font:setFilter("nearest", "nearest")
             self.font:setLineHeight(self._style.lineHeight)
             --text
-            love.graphics.setColor({ self._style.color[1], self._style.color[2], self._style.color[3], self._style
-                .opacity })
-            love.graphics.printf(self._text, self.x + self._style.padding[4], self.y + self._style.padding[1],
+            love.graphics.setColor({
+                self._style.color[1],
+                self._style.color[2],
+                self._style.color[3],
+                self._style.opacity
+            })
+            love.graphics.printf(
+                self._text,
+                self.x + self._style.padding[4],
+                self.y + self._style.padding[1],
                 self._style.limit,
-                self._style.alignment)
+                self._style.alignment
+            )
         end
     end
 
