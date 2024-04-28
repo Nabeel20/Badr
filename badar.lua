@@ -31,8 +31,8 @@ function badar:new(obj)
         borderWidth = 1,
     }
     self.gap = 0;
-    self.hideBorder = obj.hideBorder or false;
-    if self.hideBorder then
+    self.hideBox = obj.hideBox or false;
+    if self.hideBox then
         self._style.opacity = 0
     end
     self.hovered = false
