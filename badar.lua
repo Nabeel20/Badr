@@ -31,10 +31,7 @@ function badar:new(obj)
         borderColor = { 0, 0, 0 }
     }
     self.gap = 0;
-    self.hideBox = obj.hideBox or false;
-    if self.hideBox then
-        self._style.opacity = 0
-    end
+
     self.hovered = false
     self.pressed = false
 
