@@ -28,15 +28,16 @@ function text:style(style)
 end
 ```
 
-### Container `drawFunc`
+### Container `drawSelf`
 
 This prop sets the drawing logic for its container, the default is `love.graphics.rectangle`.
 It can be used for printing [text](components/text.lua) for example.
 
 ```lua
-container({
-    drawFunc = function () end
-})
+function love.load()
+  local  circle = container()
+  circle.drawSelf = function() end
+end
 ```
 
 ### `:getRect()`
