@@ -9,7 +9,7 @@ local c = container({})
 - `x`, `y`; container's position.
 - `width`, `height`; container's dimensions.
 - `minWidth`, `minHeight`; container's minimum dimensions.
-- `drawFunc`; can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
+- `drawSelf`; drawing function that can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
 - `data`; a table you can pass any 'custom' data for your needs.
 
 This function makes a new 'container' that can manage its 'children'. <br>
@@ -30,12 +30,13 @@ Overrides default container styles. Pass the key you want to override.
 ```lua
 :style({
     color = { 1, 1, 1 },
+    hoverColor = { 0, 1, 0 },
     padding = { 0, 0, 0, 0 }, -- top, right, bottom, left
-    corner = 0, -- corner radius
+    corner = 0,               -- corner radius
     opacity = 1,
-    filled = false,
-    hoverEnabled = false,
-    scale = 1
+    scale = 1,
+    borderWidth = 2,
+    borderColor = { 0, 0, 0 }
 })
 ```
 
