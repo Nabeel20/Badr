@@ -21,11 +21,10 @@ function badar:new(obj)
 
     self._style = {
         color = { 1, 1, 1 },
+        hoverColor = nil,
         padding = { 0, 0, 0, 0 }, -- top, right, bottom, left
-        hoverEnabled = false,
         corner = 0,
-        opacity = 1, -- set to zero to hide border
-        filled = false,
+        opacity = 1,              -- set to zero to hide border
         scale = 1,
         visible = true,
         borderWidth = 0,
@@ -47,10 +46,8 @@ function badar:new(obj)
     self.mouseReleaseFunc = function() end;
     self.updateLogic = function() end;
     self.drawFunc = function()
-        local drawMode = (self.hovered and self._style.hoverEnabled) and 'fill' or 'line'
-        if (self._style.filled) then drawMode = 'fill' end
         love.graphics.rectangle(
-            drawMode,
+            'fill',
             self.x,
             self.y,
             self.width,
@@ -75,6 +72,20 @@ function badar:new(obj)
             love.graphics.setLineWidth(1)
         end
     end
+    self.setColor = function()
+        local color = self._style.color
+        if self.hovered and self._style.hoverColor then
+            color = self._style.hoverColor
+        end
+        if color ~= nil then
+            love.graphics.setColor({
+                color[1],
+                color[2],
+                color[3],
+                self._style.opacity
+            })
+        end
+    end
     self.children = obj.children or {}
     self.data = obj.data or nil
     self.pressed = false
@@ -90,13 +101,7 @@ function badar:draw()
     love.graphics.push()
     love.graphics.scale(self._style.scale)
     self.drawBorder()
-
-    love.graphics.setColor({
-        self._style.color[1],
-        self._style.color[2],
-        self._style.color[3],
-        self._style.opacity
-    })
+    self.setColor()
     self.drawFunc()
     love.graphics.pop()
 
@@ -133,7 +138,6 @@ end
 function badar:onClick(func, mouseButton)
     self.clickFunc = func
     self.mouseButton = mouseButton or 1
-    self._style.hoverEnabled = true
     self.pressed = true
     return self
 end
