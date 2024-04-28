@@ -39,7 +39,7 @@ function badar:new(obj)
     self.globalPosition = { x = 0, y = 0 }
 
     self.clickFunc = obj.onClick or function() end;
-    self.hover = obj.hover or {
+    self._hover = {
         onEnter = function(s) end,
         onExit = function(s) end
     }
@@ -130,7 +130,7 @@ end
 
 function badar:onHover(hoverLogic)
     for key, value in pairs(hoverLogic) do
-        self.hover[key] = value
+        self._hover[key] = value
     end
     return self
 end
@@ -322,12 +322,12 @@ end
 function badar:mousemoved()
     if self:isMouseInside() then
         self.hovered = true
-        self.hover.onEnter(self)
+        self._hover.onEnter(self)
         self.mouseEntered = true
     else
         self.hovered = false
         if self.mouseEntered then
-            self.hover.onExit(self)
+            self._hover.onExit(self)
             self.mouseEntered = false
         end
     end
