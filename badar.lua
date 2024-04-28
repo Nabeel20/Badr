@@ -90,6 +90,7 @@ function badar:new(obj)
     end
     self.children = obj.children or {}
     self.data = obj.data or nil
+
     return self
 end
 
@@ -103,6 +104,7 @@ function badar:draw()
     love.graphics.scale(self._style.scale)
     self.drawBorder()
     self.setColor()
+    self.drawSelf()
     love.graphics.pop()
 
     return function()
