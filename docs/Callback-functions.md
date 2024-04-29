@@ -20,3 +20,9 @@ Passes the mouse event to container to handle it. Should be used within `love.mo
 Passes mouse movement events to container, it is used for 'hover' checking and hover related logic. Should be called within `love.mousemoved()` function.
 
 ### `:mousereleased()`
+
+Passes mouse release event to its container. Should be used within `love.mousereleased()` function.
+
+### `:resize()`
+
+Useful for updating container dimensions on resize event. Use with `minWidth` and `minHeight`. Should be used within `love.resize()` function.
