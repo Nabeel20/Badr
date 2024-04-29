@@ -63,10 +63,10 @@ function badar:new(obj)
             love.graphics.setLineWidth(self._style.borderWidth)
             love.graphics.rectangle(
                 'line',
-                self.x - 1,
-                self.y - 1,
-                self.width + 2,
-                self.height + 2,
+                self.x,
+                self.y,
+                self.width,
+                self.height,
                 self._style.corner,
                 self._style.corner
             )
