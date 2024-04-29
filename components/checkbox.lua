@@ -1,25 +1,37 @@
 local container = require 'badar'
+local checkIcon = love.graphics.newImage('assets/check-line.png') -- https://remixicon.com/icon/check-line
+
+local box = container({
+    width = 16,
+    height = 16,
+    id = 'box'
+}):style({
+    borderWidth = 1,
+    corner = 4,
+    opacity = 0
+}):content({
+    icon(checkIcon, { id = 'icon' }):style({ opacity = 0 })
+})
+
 
 local checkbox = function(string, options)
     options = options or {}
-    local _value = options.value or false
     if options.disabled then options.color = Hex('#525252') end
-    local box = container({
-        width = 16,
-        height = 16,
-        id = 'box'
-    }):style({
+    box:style({
         color = options.color or { 0, 0, 0 },
-        filled = options.value or false,
-        corner = 4
-    }):content({
-        icon(love.graphics.newImage('assets/check-line.png')) -- https://remixicon.com/icon/check-line
+        borderColor = options.color or { 0, 0, 0 },
+        opacity = 0
     })
-    local output = container({ data = { value = _value } })
+
+    if options.value then
+        box:style({ opacity = 1 }):find('icon'):style({ opacity = 1 })
+    end
+    local output = container({ value = options.value or false })
         :content({
             box,
             text(string):style({ color = options.color })
         })
+        :style({ opacity = 0 })
         :layout({
             direction = 'row',
             alignment = 'center',
@@ -27,10 +39,19 @@ local checkbox = function(string, options)
         })
         :onClick(function(i)
             if not options.disabled then
-                local _b = i:find('box')
-                i.data.value = not i.data.value
-                _b:style({ filled = i.data.value })
-                i._onValueChange(i.data.value, string)
+                local opacity = 1
+                i.value = not i.value
+
+                if i.value then
+                    opacity = 0
+                else
+                    opacity = 1
+                end
+                box:style({ opacity = opacity }):find('icon'):style({ opacity = opacity })
+
+                if i._onValueChange then
+                    i._onValueChange(i.value, string)
+                end
             end
         end)
         :onHover({
