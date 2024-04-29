@@ -11,14 +11,13 @@ function icon:new(image, obj)
 
     local horizontalPadding = self._style.padding[4] + self._style.padding[2]
     local verticalPadding = self._style.padding[1] + self._style.padding[3]
-    self.image = image
 
     if type(image) == 'userdata' and image:typeOf('Image') then
         self.image = image
         self.width = (self.image:getWidth() * self._style.scale) + horizontalPadding
         self.height = (self.image:getHeight() * self._style.scale) + verticalPadding
 
-        self.drawFunc = function()
+        self.drawSelf = function()
             love.graphics.draw(
                 self.image,
                 self.x + self._style.padding[4],
@@ -29,11 +28,9 @@ function icon:new(image, obj)
             )
         end
     else
-        self.drawFunc = function()
+        self.drawSelf = function()
         end
     end
-
-
     return self
 end
 
