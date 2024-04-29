@@ -11,6 +11,10 @@ badar = Object:extend()
 
 function badar:new(obj)
     obj = obj or {}
+    for key, value in pairs(obj) do
+        self[key] = value
+    end
+
     self.id = obj.id or 'default id'
     self.x = obj.x or 0
     self.y = obj.y or 0
