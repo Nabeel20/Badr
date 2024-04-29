@@ -365,4 +365,19 @@ function badar:update()
     end
 end
 
+function badar:resize()
+    self:layout({
+        direction = self.direction,
+        centered = self.centered,
+        gap = self.gap,
+        alignment = self.alignment,
+        justify = self.justify
+    })
+
+    for _, child in ipairs(self.children) do
+        child:resize()
+    end
+    return self
+end
+
 return badar
