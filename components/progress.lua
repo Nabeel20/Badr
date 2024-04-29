@@ -5,7 +5,6 @@ local objcet = require 'libs.classic'
 
 local progress = function(options)
     options = options or {}
-
     local track = container({
             width = options.value or 0,
             height = 8,
@@ -13,7 +12,6 @@ local progress = function(options)
         })
         :style({
             color = options.trackColor or { 0, 0, 0 },
-            filled = true,
             corner = 4,
             visible = false
         })
@@ -21,16 +19,17 @@ local progress = function(options)
     if options.value then track:style({ visible = true }) end
 
     local output = container({
-        width = options.width or 100,
-        height = 8,
-        id = options.id,
-    }):content({
-        track
-    }):style({
-        color = options.backgroundColor or { 0.89453125, 0.89453125, 0.89453125, 1 },
-        filled = true,
-        corner = 4
-    })
+            width = options.width or 100,
+            height = 8,
+            id = options.id,
+            value = options.value or 0
+        })
+        :content({ track })
+        :style({
+            color = options.backgroundColor or { 0.89453125, 0.89453125, 0.89453125, 1 },
+            filled = true,
+            corner = 4
+        })
 
     local _extend = objcet:extend()
     function _extend:setValue(value)
@@ -42,7 +41,6 @@ local progress = function(options)
         return self
     end
 
-    output.value = 0
     output:implement(_extend)
     return output
 end
