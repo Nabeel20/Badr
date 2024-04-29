@@ -16,6 +16,7 @@ local box = container({
 
 local checkbox = function(string, options)
     options = options or {}
+    options.disabled = options.disabled or false
     if options.disabled then options.color = Hex('#525252') end
     box:style({
         color = options.color or { 0, 0, 0 },
@@ -38,14 +39,15 @@ local checkbox = function(string, options)
             gap = 8
         })
         :onClick(function(i)
+            print('checkBox clicked', i.value)
             if not options.disabled then
                 local opacity = 1
                 i.value = not i.value
 
                 if i.value then
-                    opacity = 0
+                    opacity = 1 -- default opacity is 0
                 else
-                    opacity = 1
+                    opacity = 0
                 end
                 box:style({ opacity = opacity }):find('icon'):style({ opacity = opacity })
 
