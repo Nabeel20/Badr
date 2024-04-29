@@ -16,7 +16,7 @@ end
 The second argument is button options :
 
 - `icon` _love2d Image_ : `love.graphics.newImage(path)`
-- `variation` _string_ :
+- `variant` _string_ :
   - `primary` is the default
   - `secondary`
   - `destructive`
