@@ -26,7 +26,7 @@ function love.load()
         :content({
             square,
             button:onClick(function()
-                square:update(function(sq)
+                square:modify(function(sq)
                     sq.width = sq.width + 10;
                     return sq
                 end)
