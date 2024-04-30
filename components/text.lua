@@ -60,15 +60,6 @@ function text:new(txt, obj)
     return self
 end
 
-function text:getRect()
-    return {
-        self.globalPosition.x,
-        self.globalPosition.y,
-        self.globalPosition.x + self.font:getWidth(self._text),
-        self.globalPosition.y + self.font:getHeight(self._text)
-    }
-end
-
 function text:style(style)
     text.super.style(self, style)
     if self._style.fontFamily ~= '' then
