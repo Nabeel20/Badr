@@ -51,15 +51,30 @@ function badar:new(obj)
     self._mouseReleaseFn = function() end;
     self._updateFn = function() end;
     self.drawSelf = function()
-        love.graphics.rectangle(
-            'fill',
-            self.x,
-            self.y,
-            self.width,
-            self.height,
-            self._style.corner,
-            self._style.corner
-        )
+        local drawRectangle = function(mode)
+            love.graphics.rectangle(
+                mode,
+                math.round(-self.width / 2),
+                math.round(-self.width / 2),
+                math.round(self.width),
+                math.round(self.height),
+                self._style.corner,
+                self._style.corner
+            )
+        end
+        love.graphics.push()
+        love.graphics.translate(math.round(self.x + self.width / 2), math.round(self.y + self.height / 2))
+        love.graphics.scale(self._style.scale, self._style.scale)
+        drawRectangle('fill')
+
+        -- drawing border
+        if self._style.borderWidth > 0 then
+            love.graphics.setColor(self._style.borderColor)
+            love.graphics.setLineWidth(self._style.borderWidth)
+            drawRectangle('line')
+            love.graphics.setLineWidth(1)
+        end
+        love.graphics.pop()
     end
     self.drawBorder = function()
         if self._style.borderWidth > 0 then
@@ -149,8 +164,8 @@ function badar:getRect()
     return {
         self.globalPosition.x - self._style.padding[4],
         self.globalPosition.y - self._style.padding[1],
-        (self.globalPosition.x + self.width - self._style.padding[2]) * self._style.scale,
-        (self.globalPosition.y + self.height - self._style.padding[3]) * self._style.scale
+        (self.globalPosition.x + self.width - self._style.padding[2]),
+        (self.globalPosition.y + self.height - self._style.padding[3])
     }
 end
 
@@ -379,5 +394,7 @@ function badar:resize()
     end
     return self
 end
+
+function math.round(num) return math.floor(num + .5) end
 
 return badar
