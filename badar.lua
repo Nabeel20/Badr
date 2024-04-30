@@ -6,8 +6,8 @@
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
-badar = Object:extend()
-
+local object = require 'libs.classic'
+badar = object:extend()
 
 function badar:new(obj)
     obj = obj or {}
