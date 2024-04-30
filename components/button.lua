@@ -46,6 +46,8 @@ local button = function(txt, options)
         _style.textColor = Hex('#ffffff')
         _style.iconColor = Hex('#ffffff')
     end
+
+
     local _content = {
         text(txt):style({
             color = _style.textColor,
@@ -57,6 +59,7 @@ local button = function(txt, options)
             color = _style.iconColor
         }))
     end
+
     if txt == '' then
         _content = {
             icon(options.icon):style({
@@ -65,11 +68,11 @@ local button = function(txt, options)
         }
         _layout = { centered = true }
     end
-    return container({
-            data = {
-                disabled = options.disabled
-            }
-        })
+    local props = {}
+    for key, value in pairs(options) do
+        props[key] = value
+    end
+    return container(props)
         :content(_content)
         :style(_style)
         :layout(_layout)
