@@ -1,7 +1,5 @@
 local container = require 'badar'
 local flux = require 'libs.flux'
-local objcet = require 'libs.classic'
-
 
 local progress = function(options)
     options = options or {}
@@ -31,17 +29,14 @@ local progress = function(options)
             corner = 4
         })
 
-    local _extend = objcet:extend()
-    function _extend:setValue(value)
+    output.setValue = function(_s, value)
         local t = output:find('track'):style({ visible = true })
         local nextValue = math.min(value, output.width)
         flux.to(t, 0.8, { width = nextValue }):ease('quartout')
         output.value = nextValue
-
-        return self
+        return output
     end
 
-    output:implement(_extend)
     return output
 end
 
