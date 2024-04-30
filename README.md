@@ -28,7 +28,6 @@ function love.load()
             button:onClick(function()
                 square:modify(function(sq)
                     sq.width = sq.width + 10;
-                    return sq
                 end)
             end),
         }):style({
