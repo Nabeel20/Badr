@@ -16,12 +16,16 @@ local progress = function(options)
 
     if options.value then track:style({ visible = true }) end
 
-    local output = container({
-            width = options.width or 100,
-            height = 8,
-            id = options.id,
-            value = options.value or 0
-        })
+    local props = {
+        width = options.width or 100,
+        height = 8,
+        value = options.value or 0
+    }
+    for key, value in pairs(options) do
+        props[key] = value
+    end
+
+    local output = container(props)
         :content({ track })
         :style({
             color = options.backgroundColor or { 0.89453125, 0.89453125, 0.89453125, 1 },
