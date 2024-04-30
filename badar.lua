@@ -90,7 +90,6 @@ function badar:new(obj)
             })
         end
     end
-
     return self
 end
 
@@ -100,12 +99,8 @@ function badar:draw()
             return self
         end
     end
-    love.graphics.push()
-    love.graphics.scale(self._style.scale)
-    self.drawBorder()
     self.setColor()
     self.drawSelf()
-    love.graphics.pop()
 
     return function()
         love.graphics.push()
