@@ -76,22 +76,6 @@ function badar:new(obj)
         end
         love.graphics.pop()
     end
-    self.drawBorder = function()
-        if self._style.borderWidth > 0 then
-            love.graphics.setColor(self._style.borderColor)
-            love.graphics.setLineWidth(self._style.borderWidth)
-            love.graphics.rectangle(
-                'line',
-                self.x,
-                self.y,
-                self.width,
-                self.height,
-                self._style.corner,
-                self._style.corner
-            )
-            love.graphics.setLineWidth(1)
-        end
-    end
     self.setColor = function()
         local color = self._style.color
         if self.hovered and self._style.hoverColor then
