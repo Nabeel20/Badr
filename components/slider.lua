@@ -1,5 +1,4 @@
 local container = require 'badar'
-local object = require 'libs.classic'
 
 local slider = function(options)
     options = options or {}
@@ -89,13 +88,11 @@ local slider = function(options)
                 love.mouse.setCursor()
             end
         })
-    local _extended = object:extend()
-    function _extended:onValueChange(func)
-        self._onValueChange = func
-        return self
-    end
 
-    component:implement(_extended)
+    component.onValueChange = function(_s, func)
+        component._onValueChange = func
+        return component
+    end
     return component
 end
 
