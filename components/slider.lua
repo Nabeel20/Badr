@@ -31,7 +31,8 @@ local slider = function(options)
             filled = true,
             corner = 3,
             visible = false,
-        }):modify(function(o)
+        })
+        :modify(function(o)
             if options.defaultValue then
                 o:style({ visible = true })
             end
@@ -58,12 +59,15 @@ local slider = function(options)
         :onClick(function() isPressed = true end)
         :onMouseRelease(function() isPressed = false end)
 
-
-    local component = container({
-            id = options.id or 'sliderDefault',
-            width = options.width or 200,
-            height = 6
-        })
+    local props = {
+        id = options.id or 'sliderDefault',
+        width = options.width or 200,
+        height = 6
+    }
+    for key, value in pairs(options) do
+        props[key] = value
+    end
+    local component = container(props)
         :content({ track, handler })
         :style({
             corner = 3,
