@@ -187,7 +187,6 @@ function badar:mousepressed(btn)
     self:handlePress(btn, function(data)
         table.insert(events, data)
     end)
-    pprint(#events)
     if #events > 1 then
         events[#events].func(events[#events].self)
     elseif #events > 0 then
