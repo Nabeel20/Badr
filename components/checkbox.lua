@@ -68,13 +68,11 @@ local checkbox = function(string, options)
                 love.mouse.setCursor()
             end
         })
-    local _extended = Object:extend()
-    function _extended:onValueChanged(func)
-        self._onValueChange = func
-        return self
+    output.onValueChange = function(_s, func)
+        output._onValueChange = func
+        return output
     end
 
-    output:implement(_extended)
     return output
 end
 
