@@ -10,7 +10,7 @@ local c = container({})
 - `width`, `height`; container's dimensions.
 - `minWidth`, `minHeight`; container's minimum dimensions.
 - `drawSelf`; drawing function that can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
-- `data`; a table you can pass any 'custom' data for your needs.
+- You can pass as a key-value in function argument or using dot operation (e.g, container.Value = 20)
 
 This function makes a new 'container' that can manage its 'children'. <br>
 The container is based on a LÖVE `rectangle`. Space is distributed equally between children if props was not configured.
@@ -75,7 +75,7 @@ This function allows for the modification of container properties. Can be used t
 
 ```lua
 container():content({children}):modify(function(o)
-    o._style.hoverEnabled= true
+    o.width = 250
 end)
 ```
 
