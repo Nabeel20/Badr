@@ -47,7 +47,7 @@ function badar:new(obj)
         onEnter = function(s) end,
         onExit = function(s) end
     }
-    self._clickFn = obj.onClick or function() end;
+    self._clickFn = nil;
     self._mouseReleaseFn = function() end;
     self._updateFn = function() end;
     self.drawSelf = function()
@@ -165,12 +165,33 @@ function badar:isMouseInside()
     return px >= x and px <= width and py >= y and py <= height
 end
 
-function badar:mousepressed(button)
+function badar:handlePress(button, func)
     if self:isMouseInside() and button == self.mouseButton then
-        self:_clickFn()
+        if type(self._clickFn) == "function" then
+            if type(func) == "function" then
+                func({
+                    func = self._clickFn,
+                    self = self,
+                    id = self.id
+                })
+            end
+        end
     end
     for _, child in ipairs(self.children) do
-        child:mousepressed(button)
+        child:handlePress(button, func)
+    end
+end
+
+function badar:mousepressed(btn)
+    local events = {}
+    self:handlePress(btn, function(data)
+        table.insert(events, data)
+    end)
+    pprint(#events)
+    if #events > 1 then
+        events[#events].func(events[#events].self)
+    elseif #events > 0 then
+        events[1].func(events[1].self)
     end
 end
 
