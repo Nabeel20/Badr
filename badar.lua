@@ -104,7 +104,7 @@ function badar:draw()
 
     return function()
         love.graphics.push()
-        love.graphics.translate(math.floor(self.x + self._style.padding[4]), math.floor(self.y + self._style.padding[1]))
+        love.graphics.translate(math.round(self.x + self._style.padding[4]), math.round(self.y + self._style.padding[1]))
         local sW, sH = love.graphics.getWidth(), love.graphics.getHeight()
         self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(sW, sH)
         self.globalPosition.x = sW - self.globalPosition.x
