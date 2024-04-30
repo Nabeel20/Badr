@@ -55,7 +55,7 @@ function badar:new(obj)
             love.graphics.rectangle(
                 mode,
                 math.round(-self.width / 2),
-                math.round(-self.width / 2),
+                math.round(-self.height / 2),
                 math.round(self.width),
                 math.round(self.height),
                 self._style.corner,
