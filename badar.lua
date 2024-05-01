@@ -195,82 +195,109 @@ function badar:mousepressed(btn)
 end
 
 function badar:layout(obj)
-    self.direction = obj.direction or nil
-    self.gap       = obj.gap or 0;
-    self.alignment = obj.alignment or nil;
-    self.justify   = obj.justify or nil;
-    self.centered  = obj.centered or false;
-    local offset   = 0;
-    local layout   = self:calculateLayout()
-    local widest   = layout.widest + layout.padding.horizontal
-    local highest  = layout.highest + layout.padding.vertical
-    self.width     = layout.computedWidth;
-    self.height    = layout.computedHeight;
+    self._layout    = {
+        direction = obj.direction or nil,
+        gap       = obj.gap or 0,
+        alignment = obj.alignment or nil,
+        justify   = obj.justify or nil,
+        centered  = obj.centered or false,
+    }
 
+    local offset    = 0
+    local layout    = self:calculateLayout()
+    local widest    = layout.widest + layout.padding.horizontal
+    local highest   = layout.highest + layout.padding.vertical
 
-    if #self.children == 0 then return self end
-    local function center(child)
-        if #self.children > 1 then
-            print('ERROR: Badar. centered container must have only one child.')
+    local functions = {
+        centerContent = function(isCentered, child)
+            if isCentered then
+                if #self.children > 1 then
+                    return print('ERROR: Badar. centered container must have only one child.')
+                end
+                child.x = math.round((self.width - child.width - layout.padding.horizontal) / 2)
+                child.y = math.round((self.height - child.height - layout.padding.vertical) / 2)
+            end
+        end,
+        setDirection = function(direction, child)
+            local axis = 'x';
+            local dimension = 'width'
+            if direction == 'column' then
+                axis = 'y';
+                dimension = 'height'
+            end
+            child[axis] = offset;
+            offset = offset + child[dimension] + self._layout.gap
+        end,
+        setAlignment = function(direction, child)
+            local axis = 'x'
+            local dimension = 'width'
+            local paddingAxis = 'horizontal'
+            local alignment = self._layout.alignment
+            local origin = widest
+            if direction == 'row' then
+                axis = 'y';
+                dimension = 'height'
+                paddingAxis = 'vertical'
+                origin = highest
+            end
+            if child[dimension] ~= highest then
+                if alignment == 'center' then
+                    child[axis] = math.round((origin - child[dimension] - layout.padding[paddingAxis]) / 2)
+                end
+                if alignment == 'end' then
+                    child[axis] = math.round(origin - child[dimension] - layout.padding[paddingAxis])
+                end
+            end
+        end,
+        setJustify = function()
+            local dimension = 'width'
+            local content = layout.contentWidth
+            if self._layout.direction == 'column' then
+                dimension = 'height'
+                content = layout.contentHeight
+            end
+            if self._layout.justify == 'center' then
+                offset = (self[dimension] - content) / 2
+            end
+            if self._layout.justify == 'end' then
+                offset = self[dimension] - content
+            end
+            if self._layout.justify == 'space-between' then
+                self._layout.gap = (self[dimension] - (content - layout.gap)) / (#self.children - 1)
+            end
+        end,
+        setCalculatedWidth = function()
+            self.width  = layout.computedWidth;
+            self.height = layout.computedHeight;
+        end,
+        setDimensions = function()
+            if self._layout.direction == 'row' then
+                self.height = math.max(highest, self.minHeight)
+            end
+            if self._layout.direction == 'column' then
+                self.width = math.max(widest, self.minWidth)
+            end
+        end,
+        handleAutoFill = function(child)
+            if child.fill then
+                child.width = self.width - layout.contentWidth
+                child.x = offset - self.gap
+                child.height = math.max(highest, child.height)
+                child.height = self.height - highest
+            end
         end
-        child.x = (self.width - child.width - layout.padding.horizontal) / 2
-        child.y = (self.height - child.height - layout.padding.vertical) / 2
-    end
+    }
 
-    local function row(child)
-        child.x = offset;
-        offset = offset + child.width + self.gap
-        -- alignment
-        if child.height ~= highest then
-            if self.alignment == 'center' then
-                child.y = (highest - child.height - layout.padding.vertical) / 2
-            end
-            if self.alignment == 'end' then
-                child.y = highest - child.height - layout.padding.vertical
-            end
-        end
-    end
-
-    local function column(child)
-        child.y = offset;
-        offset = offset + child.height + self.gap
-        --alignment
-        if child.width ~= widest then
-            if self.alignment == 'center' then
-                child.x = (widest - child.width - layout.padding.horizontal) / 2
-            end
-            if self.alignment == 'end' then
-                child.x = widest - child.width - layout.padding.horizontal
-            end
-        end
-    end
-
-
+    functions.setCalculatedWidth()
+    functions.setJustify()
 
     for _, child in ipairs(self.children) do
-        if self.centered then center(child) end
-        if self.direction == 'row' then row(child) end
-        if self.direction == 'column' then column(child) end
-        if child.justify == 'end' then
-            if self.direction == 'row' then
-                child.x = self.width - child.width - layout.padding.horizontal;
-            end
-            if self.direction == 'column' then
-                child.y = self.height - child.height - layout.padding.vertical;
-            end
-        end
-        if child.justify == 'center' then
-            child.x = (self.width - child.width) / 2 - layout.padding.horizontal
-            child.y = (self.height - child.height) / 2 - layout.padding.vertical
-        end
+        functions.centerContent(self._layout.centered, child)
+        functions.setDirection(self._layout.direction, child)
+        functions.setAlignment(self._layout.direction, child)
     end
 
-    if self.direction == 'row' then
-        self.height = math.max(highest, self.minHeight)
-    end
-    if self.direction == 'column' then
-        self.width = math.max(widest, self.minWidth)
-    end
+    functions.setDimensions()
     return self
 end
 
@@ -285,8 +312,7 @@ function badar:calculateLayout()
 
     local hPadding = self._style.padding[4] + self._style.padding[2]
     local vPadding = self._style.padding[1] + self._style.padding[3]
-    local gap = self.gap * (#self.children - 1)
-
+    local gap = self._layout.gap * (#self.children - 1)
 
     local contentWidth = (totalWidth + hPadding + gap) * self._style.scale;
     local contentHeight = (totalHeight + vPadding + gap) * self._style.scale
