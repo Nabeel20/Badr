@@ -50,7 +50,7 @@ function badar:new(obj)
     }
     self._clickFn = nil;
     self._mouseReleaseFn = function() end;
-    self._updateFn = function() end;
+    self._updateFn = nil;
     self.drawSelf = function()
         local drawRectangle = function(mode)
             love.graphics.rectangle(
@@ -150,6 +150,7 @@ function badar:getRect()
 end
 
 function badar:render()
+    self:update()
     return self:draw()()
 end
 
@@ -396,10 +397,13 @@ function badar:onUpdate(func)
 end
 
 function badar:update()
-    self:_updateFn()
+    if type(self._updateFn) == "function" then
+        self:_updateFn()
+    end
     for _, child in ipairs(self.children) do
         child:update()
     end
+    return self
 end
 
 function badar:resize()
