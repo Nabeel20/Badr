@@ -315,6 +315,8 @@ function badar:calculateLayout()
     local minimumWidth = math.max(contentWidth, self.minWidth)
     local minimumHeight = math.max(contentHeight, self.minHeight)
 
+    local computedWidth = math.max(minimumWidth, self.width)
+    local computedHeight = math.max(minimumHeight, self.height)
 
     return {
         highest = highest,
@@ -326,8 +328,8 @@ function badar:calculateLayout()
         gap = gap,
         contentWidth = contentWidth,
         contentHeight = contentHeight,
-        computedWidth = math.max(minimumWidth, self.width),
-        computedHeight = math.max(minimumHeight, self.height)
+        computedWidth = computedWidth,
+        computedHeight = computedHeight,
     }
 end
 
