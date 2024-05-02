@@ -295,9 +295,9 @@ function badar:layout(obj)
     functions.setJustify()
 
     for _, child in ipairs(self.children) do
-        functions.centerContent(self._layout.centered, child)
-        functions.setDirection(self._layout.direction, child)
-        functions.setAlignment(self._layout.direction, child)
+        functions.centerContent(child)
+        functions.setDirection(child)
+        functions.setAlignment(child)
     end
 
     functions.setDimensions()
