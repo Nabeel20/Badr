@@ -23,6 +23,9 @@ function badar:new(obj)
     self.minWidth = obj.minWidth or 0
     self.minHeight = obj.minHeight or 0
 
+    self.width = math.max(self.minWidth, self.width)
+    self.height = math.max(self.minHeight, self.height)
+
     self._style = {
         color = { 1, 1, 1 },
         hoverColor = nil,
