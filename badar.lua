@@ -281,14 +281,6 @@ function badar:layout(obj)
                 self.width = math.max(widest, self.minWidth)
             end
         end,
-        handleAutoFill = function(child)
-            if child.fill then
-                child.width = self.width - layout.contentWidth
-                child.x = offset - self.gap
-                child.height = math.max(highest, child.height)
-                child.height = self.height - highest
-            end
-        end
     }
 
     functions.setCalculatedWidth()
