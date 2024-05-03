@@ -108,8 +108,8 @@ function badar:draw()
         love.graphics.translate(math.round(self.x + self._style.padding[4]), math.round(self.y + self._style.padding[1]))
         local sW, sH = love.graphics.getWidth(), love.graphics.getHeight()
         self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(sW, sH)
-        self.globalPosition.x = sW - self.globalPosition.x
-        self.globalPosition.y = sH - self.globalPosition.y
+        self.globalPosition.x = math.round(sW - self.globalPosition.x)
+        self.globalPosition.y = math.round(sH - self.globalPosition.y)
 
         for _, child in ipairs(self.children) do
             child:draw()()
@@ -227,7 +227,7 @@ function badar:layout(obj)
                     dimension = 'height'
                 end
                 child[axis] = offset;
-                offset = offset + child[dimension] + self.gap
+                offset = math.round(offset + child[dimension] + self.gap)
             end
         end,
         setAlignment = function(child)
@@ -310,14 +310,11 @@ function badar:calculateLayout()
     local vPadding = self._style.padding[1] + self._style.padding[3]
     local gap = (self.gap or 0) * (#self.children - 1)
 
-    local contentWidth = (totalWidth + hPadding + gap) * self._style.scale;
-    local contentHeight = (totalHeight + vPadding + gap) * self._style.scale
+    local contentWidth = math.round(totalWidth + hPadding + gap)
+    local contentHeight = math.round(totalHeight + vPadding + gap);
 
-    local minimumWidth = math.max(contentWidth, self.minWidth)
-    local minimumHeight = math.max(contentHeight, self.minHeight)
-
-    local computedWidth = math.max(minimumWidth, self.width)
-    local computedHeight = math.max(minimumHeight, self.height)
+    local computedWidth = math.max(contentWidth, self.width)
+    local computedHeight = math.max(contentHeight, self.height)
 
     return {
         highest = highest,
