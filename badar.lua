@@ -123,6 +123,10 @@ end
 function badar:content(content)
     assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
     self.children = content;
+    if #content == 1 then
+        self.width = self:calculateLayout().computedWidth
+        self.height = self:calculateLayout().computedHeight
+    end
     return self;
 end
 
@@ -197,12 +201,21 @@ function badar:mousepressed(btn)
 end
 
 function badar:layout(obj)
+    if self._layout and obj == nil then
+        obj = self._layout
+    end
     self.direction  = obj.direction or nil
     self.gap        = obj.gap or 0
     self.alignment  = obj.alignment or nil
     self.justify    = obj.justify or nil
     self.centered   = obj.centered or false
-
+    self._layout    = {
+        direction = self.direction,
+        gap = self.gap,
+        alignment = self.alignment,
+        justify = self.justify,
+        centered = self.centered,
+    }
     local offset    = 0
     local layout    = self:calculateLayout()
     local widest    = layout.widest + layout.padding.horizontal
@@ -276,15 +289,16 @@ function badar:layout(obj)
         end,
         setDimensions = function()
             if self.direction == 'row' then
-                self.height = math.max(highest, self.minHeight)
+                self.height = math.max(highest, self.height)
+                self.width = layout.computedWidth
             end
             if self.direction == 'column' then
-                self.width = math.max(widest, self.minWidth)
+                self.width = math.max(widest, self.width)
+                self.height = layout.computedHeight
             end
         end,
     }
 
-    functions.setCalculatedWidth()
     functions.setJustify()
 
     for _, child in ipairs(self.children) do
