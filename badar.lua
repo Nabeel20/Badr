@@ -285,11 +285,6 @@ function badar:layout(obj)
                 self.gap = (self[dimension] - (content - layout.gap)) / (#self.children - 1)
             end
         end,
-        --todo
-        setCalculatedWidth = function()
-            self.width  = layout.computedWidth;
-            self.height = layout.computedHeight;
-        end,
         setDimensions = function()
             if self.direction == 'row' then
                 self.height = math.max(highest, self.height)
