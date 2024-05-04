@@ -209,12 +209,14 @@ function badar:layout(obj)
     self.alignment  = obj.alignment or nil
     self.justify    = obj.justify or nil
     self.centered   = obj.centered or false
+    self.alignSelf  = obj.alignSelf or nil
     self._layout    = {
         direction = self.direction,
         gap = self.gap,
         alignment = self.alignment,
         justify = self.justify,
         centered = self.centered,
+        alignSelf = self.alignSelf
     }
     local offset    = 0
     local layout    = self:calculateLayout()
@@ -283,6 +285,7 @@ function badar:layout(obj)
                 self.gap = (self[dimension] - (content - layout.gap)) / (#self.children - 1)
             end
         end,
+        --todo
         setCalculatedWidth = function()
             self.width  = layout.computedWidth;
             self.height = layout.computedHeight;
@@ -297,6 +300,24 @@ function badar:layout(obj)
                 self.height = layout.computedHeight
             end
         end,
+        handleAlignSelf = function(child)
+            if self.direction then
+                local axis = 'x';
+                local dimension = 'width'
+                local padding = layout.padding.horizontal
+                if self.direction == 'row' then
+                    axis = 'y';
+                    dimension = 'height'
+                    padding = layout.padding.vertical
+                end
+                if child.alignSelf == 'end' then
+                    child[axis] = math.round(self[dimension] - child[dimension] - padding)
+                end
+                if child.alignSelf == 'center' then
+                    child[axis] = math.round((self[dimension] - child[dimension] - padding) / 2)
+                end
+            end
+        end
     }
 
     functions.setJustify()
@@ -305,6 +326,7 @@ function badar:layout(obj)
         functions.centerContent(child)
         functions.setDirection(child)
         functions.setAlignment(child)
+        functions.handleAlignSelf(child)
     end
 
     functions.setDimensions()
