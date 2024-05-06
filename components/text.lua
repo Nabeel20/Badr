@@ -6,7 +6,7 @@ function text:new(txt, obj)
     text.super.new(self, obj)
     local textStyle = {
         color = { 0, 0, 0 }, -- default is black
-        size = 16,
+        size = 14,
         fontFamily = 'assets/Poppins-Regular.ttf',
         lineHeight = 1,
         alignment = 'left',
