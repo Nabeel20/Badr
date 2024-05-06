@@ -546,4 +546,14 @@ function sh(ratio)
     return math.round(love.graphics.getHeight() * (ratio / 100))
 end
 
+function table.spread(t1)
+    local first = t1
+    return function(t2)
+        for key, value in pairs(t2) do
+            first[key] = value
+        end
+        return first
+    end
+end
+
 return badar
