@@ -9,69 +9,68 @@ function Hex(hex, value)
         value or 1 }
 end
 
-local styles = {
-    primary = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#00000'),
-        corner = 4,
-        textColor = Hex("#ffffff"),
-        iconColor = Hex("#ffffff"),
-    },
-    secondary = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#f4f4f5'),
-        textColor = Hex("#000000"),
-        iconColor = Hex("#000000"),
-        corner = 4,
-    },
-    destructive = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#dc2626'),
-        hoverColor = Hex('#df3b3b'),
-        textColor = Hex("#ffffff"),
-        iconColor = Hex("#ffffff"),
-        corner = 4,
-    },
-    outline = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#ffffff'),
-        hoverColor = Hex('#f5f5f5'),
-        borderColor = Hex('#e5e5e5'),
-        borderWidth = 2,
-        textColor = Hex('#000000'),
-        iconColor = Hex('#000000'),
-        corner = 4,
-    },
-    icon = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#ffffff'),
-        hoverColor = Hex('#f5f5f5'),
-        borderColor = Hex('#e5e5e5'),
-        borderWidth = 2,
-        textColor = Hex('#000000'),
-        iconColor = Hex('#000000'),
-        corner = 4,
-    },
-    ghost = {
-        opacity = 0,
-        padding = { 8, 12, 8, 12 },
-        hoverColor = Hex('#e5e5e5'),
-        textColor = Hex("#000000"),
-        iconColor = Hex("#000000"),
-        corner = 4,
-
-    },
-    disabled = {
-        padding = { 8, 12, 8, 12 },
-        color = Hex('#e4e4e7'),
-        textColor = Hex('#ffffff'),
-        iconColor = Hex('#ffffff'),
-        corner = 4,
-    }
-}
 local button = function(txt, options)
     options = options or {}
+    local styles = {
+        primary = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#00000'),
+            corner = 4,
+            textColor = Hex("#ffffff"),
+            iconColor = Hex("#ffffff"),
+        },
+        secondary = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#f4f4f5'),
+            textColor = Hex("#000000"),
+            iconColor = Hex("#000000"),
+            corner = 4,
+        },
+        destructive = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#dc2626'),
+            hoverColor = Hex('#df3b3b'),
+            textColor = Hex("#ffffff"),
+            iconColor = Hex("#ffffff"),
+            corner = 4,
+        },
+        outline = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#ffffff'),
+            hoverColor = Hex('#f5f5f5'),
+            borderColor = Hex('#e5e5e5'),
+            borderWidth = 2,
+            textColor = Hex('#000000'),
+            iconColor = Hex('#000000'),
+            corner = 4,
+        },
+        icon = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#ffffff'),
+            hoverColor = Hex('#f5f5f5'),
+            borderColor = Hex('#e5e5e5'),
+            borderWidth = 2,
+            textColor = Hex('#000000'),
+            iconColor = Hex('#000000'),
+            corner = 4,
+        },
+        ghost = {
+            opacity = 0,
+            padding = { 8, 12, 8, 12 },
+            hoverColor = Hex('#e5e5e5'),
+            textColor = Hex("#000000"),
+            iconColor = Hex("#000000"),
+            corner = 4,
 
+        },
+        disabled = {
+            padding = { 8, 12, 8, 12 },
+            color = Hex('#e4e4e7'),
+            textColor = Hex('#ffffff'),
+            iconColor = Hex('#ffffff'),
+            corner = 4,
+        }
+    }
     local layout = {
         direction = 'row',
         alignment = 'center',
@@ -94,16 +93,11 @@ local button = function(txt, options)
         }
         layout = { centered = true }
     end
-    local props = {}
-    for key, value in pairs(options) do
-        props[key] = value
-    end
 
-
-    return container(props)
+    return container(table.spread({})(options))
         :content(content)
-        :style(styles[options.variant or 'primary'])
-        :layout(layout)
+        :style(table.spread(styles[options.variant or 'primary'])(options or {}))
+        :layout(table.spread(layout)(options or {}))
         :onHover({
             onEnter = function(i)
                 if options.disabled then
@@ -124,6 +118,9 @@ local button = function(txt, options)
                 end
             end
         })
+        :onMouseRelease(function()
+            love.mouse.setCursor()
+        end)
 end
 
 
