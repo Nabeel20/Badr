@@ -359,21 +359,6 @@ function badar:update()
     return self
 end
 
-function badar:resize()
-    self:layout({
-        direction = self.direction,
-        centered = self.centered,
-        gap = self.gap,
-        alignment = self.alignment,
-        justify = self.justify
-    })
-
-    for _, child in ipairs(self.children) do
-        child:resize()
-    end
-    return self
-end
-
 function math.round(num) return math.floor(num + .5) end
 
 function table.spread(t1)
