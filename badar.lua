@@ -376,14 +376,6 @@ end
 
 function math.round(num) return math.floor(num + .5) end
 
-function sw(ratio)
-    return math.round(love.graphics.getWidth() * (ratio / 100))
-end
-
-function sh(ratio)
-    return math.round(love.graphics.getHeight() * (ratio / 100))
-end
-
 function table.spread(t1)
     local first = t1
     return function(t2)
