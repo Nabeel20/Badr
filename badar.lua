@@ -127,7 +127,7 @@ function badar:content(content, layout)
     local hPadding = self._style.padding[2] + self._style.padding[4]
     local vPadding = self._style.padding[1] + self._style.padding[3]
     local gap = (layout.gap or 0) * (#children - 1)
-    local isVertical = layout.direction == 'vertical';
+    local isVertical = layout.direction == 'column';
     local contentWidth = 0
     local contentHeight = 0
     for _, child in ipairs(children) do
