@@ -266,8 +266,8 @@ local badar = function(obj)
             return {
                 self.globalPosition.x - self._style.padding[4],
                 self.globalPosition.y - self._style.padding[1],
-                (self.globalPosition.x + self.width - self._style.padding[2]),
-                (self.globalPosition.y + self.height - self._style.padding[3])
+                math.round(self.globalPosition.x + self.width + self._style.padding[2]),
+                math.round(self.globalPosition.y + self.height + self._style.padding[3])
             }
         end
         local px, py = love.mouse.getX(), love.mouse.getY()
