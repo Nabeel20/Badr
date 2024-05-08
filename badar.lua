@@ -112,6 +112,7 @@ local badar = function(obj)
         return self
     end
     self.content = function(content, layout)
+        layout = layout or {}
         assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
         self.children = content;
         local children = self.children;
