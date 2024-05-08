@@ -41,14 +41,10 @@ local text = function(txt, options)
         self.font = love.graphics.newFont(self._style.size)
     end
 
-    self.text = txt;
-    local padding = {
-        horizontal = self._style.padding[2] + self._style.padding[4],
-        vertical = self._style.padding[1] + self._style.padding[3],
-    }
 
-    self.width = self.font:getWidth(self.text) + padding.horizontal
-    self.height = self.font:getHeight(self.text) + padding.vertical
+    self.text = txt;
+    self.width = self.font:getWidth(self.text)
+    self.height = self.font:getHeight(self.text)
 
     -- override style function
     ---@diagnostic disable-next-line: duplicate-set-field
@@ -61,8 +57,8 @@ local text = function(txt, options)
         else
             self.font = love.graphics.newFont(self._style.size)
         end
-        self.width = self.font:getWidth(self.text) + padding.horizontal
-        self.height = self.font:getHeight(self.text) + padding.vertical
+        self.width = self.font:getWidth(self.text)
+        self.height = self.font:getHeight(self.text)
         return self
     end
     return self
