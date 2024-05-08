@@ -1,7 +1,7 @@
 local container = require 'badar'
 
 local text = function(txt, options)
-    local self = container(table.spread({})(options or {}));
+    local self = container(table.spread({}, options));
 
     -- override draw function
     ---@diagnostic disable-next-line: duplicate-set-field
@@ -27,7 +27,7 @@ local text = function(txt, options)
     end
 
     -- expand styles
-    self._style = table.spread(self._style)({
+    self._style = table.spread(self._style, {
         color = { 0, 0, 0 }, -- default is black
         size = 14,
         lineHeight = 1,
