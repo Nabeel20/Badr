@@ -345,14 +345,11 @@ end
 
 function math.round(num) return math.floor(num + .5) end
 
-function table.spread(t1)
-    local first = t1
-    return function(t2)
-        for key, value in pairs(t2) do
-            first[key] = value
-        end
-        return first
+function table.spread(t1, t2)
+    for key, value in pairs(t2) do
+        t1[key] = value
     end
+    return t1
 end
 
 return badar
