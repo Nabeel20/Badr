@@ -1,7 +1,7 @@
 local container = require 'badar'
 
 local text = function(txt, options)
-    local self = container(table.spread({}, options));
+    local self = container(table.spread({}, options or {}));
 
     -- override draw function
     ---@diagnostic disable-next-line: duplicate-set-field

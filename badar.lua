@@ -34,19 +34,21 @@ local badar = function(obj)
 
     --
     self.drawSelf = function()
+        local width = self.width + self._style.padding[2] + self._style.padding[4]
+        local height = self.height + self._style.padding[1] + self._style.padding[3]
         local drawRectangle = function(mode)
             love.graphics.rectangle(
                 mode,
-                math.round(-self.width / 2),
-                math.round(-self.height / 2),
-                math.round(self.width),
-                math.round(self.height),
+                math.round(-width / 2),
+                math.round(-height / 2),
+                math.round(width),
+                math.round(height),
                 self._style.corner,
                 self._style.corner
             )
         end
         love.graphics.push()
-        love.graphics.translate(math.round(self.x + self.width / 2), math.round(self.y + self.height / 2))
+        love.graphics.translate(math.round(self.x + width / 2), math.round(self.y + height / 2))
         love.graphics.scale(self._style.scale, self._style.scale)
         drawRectangle('fill')
 
@@ -144,7 +146,6 @@ local badar = function(obj)
         if self.height == 0 and self.parent == nil then
             assert(false, 'Container with children without height')
         end
-
         -- justify
         local contentDimension = self.width - contentWidth
         if isVertical then contentDimension = self.height - contentHeight end
@@ -168,8 +169,8 @@ local badar = function(obj)
                 if #self.children > 1 then
                     assert(false, 'Centered container must have one child, add them to a container.')
                 end
-                child.x = math.round((self.width - child.width - padding.horizontal) / 2)
-                child.y = math.round((self.height - child.height - padding.vertical) / 2)
+                child.x = math.round((self.width) / 2 - child.width / 2)
+                child.y = math.round((self.height / 2) - child.height / 2)
                 break;
             end
 
