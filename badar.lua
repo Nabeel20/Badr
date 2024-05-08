@@ -33,9 +33,9 @@ local badar = function(obj)
     end
 
     --
-    self.drawSelf = function()
-        local width = self.width + self._style.padding[2] + self._style.padding[4]
-        local height = self.height + self._style.padding[1] + self._style.padding[3]
+    self.drawSelf       = function()
+        local width = self.width
+        local height = self.height
         local drawRectangle = function(mode)
             love.graphics.rectangle(
                 mode,
@@ -61,7 +61,7 @@ local badar = function(obj)
         end
         love.graphics.pop()
     end
-    self.draw = function()
+    self.draw           = function()
         if not self._style.visible then
             return function()
                 return self
@@ -89,8 +89,8 @@ local badar = function(obj)
                 math.round(self.y + self._style.padding[1]))
             local sW, sH = love.graphics.getWidth(), love.graphics.getHeight()
             self.globalPosition.x, self.globalPosition.y = love.graphics.inverseTransformPoint(sW, sH)
-            self.globalPosition.x = math.round(sW - self.globalPosition.x)
-            self.globalPosition.y = math.round(sH - self.globalPosition.y)
+            self.globalPosition.x = math.round(sW - self.globalPosition.x) - self._style.padding[4]
+            self.globalPosition.y = math.round(sH - self.globalPosition.y) - self._style.padding[1]
             for _, child in ipairs(self.children) do
                 child:draw()()
             end
@@ -99,19 +99,21 @@ local badar = function(obj)
             return self
         end
     end
-    self.render = function()
+    self.render         = function()
         self.update()
         self.draw()()
     end
 
     --
-    self.style = function(style)
+    self.style          = function(style)
         for key, value in pairs(style) do
             self._style[key] = value
         end
+        self.width  = self.width + self._style.padding[2] + self._style.padding[4]
+        self.height = self.height + self._style.padding[1] + self._style.padding[3]
         return self
     end
-    self.content = function(content, layout)
+    self.content        = function(content, layout)
         layout = layout or {}
         assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
         self.children = content;
@@ -170,8 +172,8 @@ local badar = function(obj)
                 if #self.children > 1 then
                     assert(false, 'Centered container must have one child, add them to a container.')
                 end
-                child.x = math.round((self.width) / 2 - child.width / 2)
-                child.y = math.round((self.height / 2) - child.height / 2)
+                child.x = math.round((self.width - padding.horizontal) / 2 - child.width / 2)
+                child.y = math.round(((self.height - padding.vertical) / 2) - (child.height / 2))
                 break;
             end
 
@@ -214,7 +216,7 @@ local badar = function(obj)
     end
 
     --
-    self.update = function()
+    self.update         = function()
         if type(self.onUpdateFunction) == "function" then
             self:onUpdateFunction()
         end
@@ -223,13 +225,13 @@ local badar = function(obj)
         end
         return self
     end
-    self.onUpdate = function(func)
+    self.onUpdate       = function(func)
         self.onUpdateFunction = func
         return self
     end
 
     --
-    self.mousereleased = function()
+    self.mousereleased  = function()
         if not self.passMouseEvent then return end;
         if self.pressed and type(self.onMouseRealease_function) == "function" then
             self:onMouseRealease_function()
@@ -244,11 +246,11 @@ local badar = function(obj)
     end
 
     -- utilities
-    self.modify = function(func)
+    self.modify         = function(func)
         func(self);
         return self;
     end
-    self.find = function(target)
+    self.find           = function(target)
         if self.id == target then
             return self
         end
@@ -265,10 +267,10 @@ local badar = function(obj)
     local isMouseInside = function()
         local getRect = function()
             return {
-                self.globalPosition.x - self._style.padding[4],
-                self.globalPosition.y - self._style.padding[1],
-                math.round(self.globalPosition.x + self.width + self._style.padding[2]),
-                math.round(self.globalPosition.y + self.height + self._style.padding[3])
+                self.globalPosition.x,
+                self.globalPosition.y,
+                math.round(self.globalPosition.x + self.width),
+                math.round(self.globalPosition.y + self.height)
             }
         end
         local px, py = love.mouse.getX(), love.mouse.getY()
@@ -278,7 +280,7 @@ local badar = function(obj)
         return px >= x and px <= width and py >= y and py <= height
     end
     --
-    self.mousemoved = function()
+    self.mousemoved     = function()
         if not self.passMouseEvent then return end;
         if isMouseInside() then
             self.hovered = true
@@ -299,7 +301,7 @@ local badar = function(obj)
             child.mousemoved()
         end
     end
-    self.onHover = function(hoverLogic)
+    self.onHover        = function(hoverLogic)
         for key, value in pairs(hoverLogic) do
             self[key] = value
         end
@@ -307,13 +309,13 @@ local badar = function(obj)
     end
 
     --
-    self.onClick = function(func, mouseButton)
+    self.onClick        = function(func, mouseButton)
         self.onClick_function = func
         self.mouseButton = mouseButton or 1
         self.pressed = true
         return self
     end
-    self.mousepressed = function(btn)
+    self.mousepressed   = function(btn)
         if not self.passMouseEvent then return end;
         local events = {}
         self.handlePress(btn, function(data)
@@ -325,7 +327,7 @@ local badar = function(obj)
             events[1].func(events[1].self)
         end
     end
-    self.handlePress = function(button, func)
+    self.handlePress    = function(button, func)
         if isMouseInside() and button == self.mouseButton then
             if type(self.onClick_function) == "function" then
                 if type(func) == "function" then
