@@ -1,4 +1,7 @@
 local container = require 'badar'
+local text = require 'components.text'
+local icon = require 'components.icon'
+
 
 -- https://github.com/s-walrus/hex2color/blob/master/hex2color.lua
 function Hex(hex, value)
@@ -21,10 +24,10 @@ local button = function(txt, options)
         },
         secondary = {
             padding = { 8, 12, 8, 12 },
+            corner = 4,
             color = Hex('#f4f4f5'),
             textColor = Hex("#000000"),
             iconColor = Hex("#000000"),
-            corner = 4,
         },
         destructive = {
             padding = { 8, 12, 8, 12 },
@@ -72,33 +75,38 @@ local button = function(txt, options)
         }
     }
     local layout = {
-        direction = 'row',
-        alignment = 'center',
-        gap = 4,
+        centered = true
     }
+    local buttonText = text(txt).style({ color = styles[options.variant or 'primary'].textColor, size = 15 })
     local content = {
-        text(txt):style({ color = styles[options.variant or 'primary'].textColor })
+        buttonText
     }
     if options.icon then
-        table.insert(content, icon(options.icon):style({
+        table.insert(content, icon(options.icon).style({
             color = styles[options.variant or 'primary'].iconColor
         }))
+        layout = {
+            direction = 'row',
+            alignment = 'center',
+            gap = 4,
+        }
     end
 
     if txt == '' then
         content = {
-            icon(options.icon):style({
+            icon(options.icon).style({
                 color = styles[options.variant or 'primary'].iconColor
             })
         }
-        layout = { centered = true }
     end
 
-    return container(table.spread({})(options))
-        :content(content)
-        :style(table.spread(styles[options.variant or 'primary'])(options or {}))
-        :layout(table.spread(layout)(options or {}))
-        :onHover({
+    return container(table.spread({
+            width = buttonText.width + ((options.icon or {}).width or 0),
+            height = buttonText.height + ((options.icon or {}).height or 0),
+        }, options or {}))
+        .style(table.spread(styles[options.variant or 'primary'], options or {}))
+        .content(content, layout)
+        .onHover({
             onEnter = function(i)
                 if options.disabled then
                     love.mouse.setCursor(love.mouse.getSystemCursor('no'))
@@ -108,17 +116,17 @@ local button = function(txt, options)
                     love.mouse.setCursor(love.mouse.getSystemCursor(_cursor))
                 end
                 if options.variant == 'ghost' then
-                    i:style({ opacity = 1 })
+                    i.style({ opacity = 1 })
                 end
             end,
             onExit = function(i)
                 love.mouse.setCursor()
                 if options.variant == 'ghost' then
-                    i:style({ opacity = 0 })
+                    i.style({ opacity = 0 })
                 end
             end
         })
-        :onMouseRelease(function()
+        .onMouseRelease(function()
             love.mouse.setCursor()
         end)
 end
