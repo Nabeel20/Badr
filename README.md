@@ -29,11 +29,11 @@ function love.load()
 end
 
 function love.draw()
-    main:render()
+    main.render()
 end
 
 function love.mousepressed(x, y, button, istouch)
-    main:mousepressed(button)
+    main.mousepressed(button) -- only mouse button needed
 end
 ```
 
