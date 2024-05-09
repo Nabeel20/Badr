@@ -7,6 +7,7 @@
 -- under the terms of the MIT license. See LICENSE for details.
 --
 local badar = function(obj)
+    obj = obj or {}
     local self = {
         id = 'default',
         x = 0,
