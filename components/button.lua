@@ -78,6 +78,7 @@ local button = function(txt, options)
     local layout = {
         centered = true
     }
+
     local buttonText = text(txt).style({ color = styles[options.variant or 'primary'].textColor, size = 15 })
     local buttonIcon = {};
 
@@ -130,9 +131,6 @@ local button = function(txt, options)
                 end
             end
         })
-        .onMouseRelease(function()
-            love.mouse.setCursor()
-        end)
 end
 
 
