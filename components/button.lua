@@ -78,13 +78,16 @@ local button = function(txt, options)
         centered = true
     }
     local buttonText = text(txt).style({ color = styles[options.variant or 'primary'].textColor, size = 15 })
+    local buttonIcon = {};
+
     local content = {
         buttonText
     }
     if options.icon then
-        table.insert(content, icon(options.icon).style({
+        buttonIcon = icon(options.icon).style({
             color = styles[options.variant or 'primary'].iconColor
-        }))
+        })
+        table.insert(content, buttonIcon)
         layout = {
             direction = 'row',
             alignment = 'center',
@@ -93,16 +96,16 @@ local button = function(txt, options)
     end
 
     if txt == '' then
-        content = {
-            icon(options.icon).style({
-                color = styles[options.variant or 'primary'].iconColor
-            })
-        }
+        table.remove(content, 1)
+        styles[options.variant or 'primary'].padding = { 8, 8, 8, 8 }
+        layout = { centered = true }
+        buttonText.width = 0
+        buttonText.height = 0
     end
 
     return container(table.spread({
-            width = buttonText.width + ((options.icon or {}).width or 0),
-            height = buttonText.height + ((options.icon or {}).height or 0),
+            width = buttonText.width + (buttonIcon.width or 0),
+            height = buttonText.height + (buttonIcon.height or 0)
         }, options or {}))
         .style(table.spread(styles[options.variant or 'primary'], options or {}))
         .content(content, layout)
