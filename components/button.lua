@@ -18,6 +18,7 @@ local button = function(txt, options)
         primary = {
             padding = { 8, 12, 8, 12 },
             color = Hex('#00000'),
+            hoverColor = Hex('#2f2f31'),
             corner = 4,
             textColor = Hex("#ffffff"),
             iconColor = Hex("#ffffff"),
