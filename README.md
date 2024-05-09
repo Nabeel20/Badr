@@ -37,12 +37,6 @@ function love.mousepressed(x, y, button, istouch)
 end
 ```
 
----
-
-Todo:
-
-- [] resize callback function
-
 ## License
 
 This library is free software; you can redistribute it and/or modify it under
