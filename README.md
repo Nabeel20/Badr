@@ -13,28 +13,21 @@ Badar adapts the `löve2d` mentality. You can define a variable in `love.load`, 
 
 ### Usage
 
-Badar uses [classic](https://github.com/rxi/classic) as a dependency (not included).
-
 ```lua
 function love.load()
     local container = require 'path.to.badar.lua'
+    local button = require 'components.button'
+    local text = require 'components.text'
 
-    local button = container({ width = 25, height = 25 }):style({ color = { 1, 0, 0 } })
-    local square = container({ width = 10, height = 10 }):style({ color = { 1, 0, 0 }, filled = true })
-
-    main = container({ minWidth = screenWidth, minHeight = screenHeight, hideBorder = true })
-        :content({
-            square,
-            button:onClick(function()
-                square:modify(function(sq)
-                    sq.width = sq.width + 10;
-                end)
-            end),
-        }):style({
-            padding = { 16, 16, 16, 16 }
-        }):layout({
-            direction ='column'
-        })
+    local counter = text(0)
+    main = container({ width = screenWidth, height = screenHeight })
+        .style({ padding = { 16, 16, 16, 16 } })
+        .content({
+            counter,
+            button('add').onClick(function()
+                counter.text = counter.text + 1
+            end)
+        }, { direction = 'column', gap = 8 })
 end
 
 function love.draw()
@@ -45,6 +38,12 @@ function love.mousepressed(x, y, button, istouch)
     main:mousepressed(button)
 end
 ```
+
+---
+
+Todo:
+
+- [] resize callback function
 
 ## License
 
