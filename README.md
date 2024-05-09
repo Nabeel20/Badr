@@ -7,9 +7,7 @@ Badar _(Full moon in Arabic)_ is a declarative, retained\* and flexbox inspired 
 Badar adapts the `löve2d` mentality. You can define a variable in `love.load`, and invoke `render` in `love.draw`. Other callback functions (e.g, `mousepressed`, `mousemoved`) are used in the same manner.
 
 - [API](docs/Core.md)
-- [Callback functions](docs/Callback-functions.md)
-- [How to create custom components?](docs/Custom-component-guide.md)
-- [Components ✨](components) ([_docs_](docs/components))
+- [Components ✨](components)
 
 ### Usage
 
