@@ -6,9 +6,10 @@ local c = container({})
 ```
 
 - `id`; a string can be used to find targeted notes.
-- `x`, `y`; container's position.
+- `x`and `y`; container's position.
 - `width`, `height`; container's dimensions.
 - `drawSelf`; drawing function that can be used to override default 'rectangle' drawing method (e.g `text` component uses `printf()`)
+- `xratio` and `yratio`, a ratio (0 to 1) to calculate dimensions based on parent size.
 - You can pass as a key-value in function argument or using dot operation (e.g, container.Value = 20)
 
 This function makes a new 'container' that can manage its 'children'. <br>
