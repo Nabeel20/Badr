@@ -360,6 +360,14 @@ local badar = function(obj)
         end
     end
 
+    --
+    self.resize         = function(w, h)
+        if self.xratio then self.width = w * self.xratio end
+        if self.yratio then self.height = h * self.yratio end
+        for _, child in ipairs(self.children) do
+            child.resize(w, h)
+        end
+    end
     return self
 end
 
