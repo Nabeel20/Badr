@@ -164,7 +164,7 @@ local badar = function(obj)
 
         if layout.justify == 'space-between' then
             layout.gap = 0
-            layout.gap = (contentDimension - layout.gap) / (#children - 1)
+            layout.gap = (contentDimension - layout.gap - (children[#children].width / 2)) / (#children - 1)
         end
 
         -- direction and centering
