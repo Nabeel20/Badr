@@ -118,6 +118,7 @@ local badar = function(obj)
         layout = layout or {}
         assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
         self.children = content;
+        self.layout = layout;
         local children = self.children;
         local padding = {
             horizontal = self._style.padding[2] + self._style.padding[4],
@@ -264,6 +265,20 @@ local badar = function(obj)
         end
 
         return nil
+    end
+    self.addChild       = function(child)
+        table.insert(self.children, child)
+        self.content(self.children, self.layout)
+        return self;
+    end
+    self.removeChild    = function(c)
+        for index, child in ipairs(self.children) do
+            if child == c then
+                table.remove(self.children, index)
+                self.content(self.children, self.layout)
+                break
+            end
+        end
     end
     local isMouseInside = function()
         local getRect = function()
