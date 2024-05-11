@@ -329,7 +329,7 @@ local badar = function(obj)
 
     --
     self.onClick        = function(func, mouseButton)
-        self.onClick_function = func
+        self.onClickFun = func
         self.mouseButton = mouseButton or 1
         self.pressed = true
         return self
@@ -355,8 +355,8 @@ local badar = function(obj)
             end
         end
         if mouseButton == 1 then
-            if lastChild.onLeftClick.onClick_function then
-                lastChild.onLeftClick:onClick_function()
+            if lastChild.onLeftClick.onClickFun then
+                lastChild.onLeftClick:onClickFun()
             end
         else
             if lastChild.onRightClick.onRightClick_function then
