@@ -239,6 +239,7 @@ local badar = function(obj)
         if not self.passMouseEvent then return end;
         if self.pressed and type(self.onMouseRealease_function) == "function" then
             self:onMouseRealease_function()
+            self.pressed = false
         end
         for _, child in ipairs(self.children) do
             child:mousereleased()
@@ -350,6 +351,7 @@ local badar = function(obj)
                 lastChild.onLeftClick = child
             end
             if child.isMouseInside() then
+                lastChild.onRightClick = child
             end
         end
         if mouseButton == 1 then
