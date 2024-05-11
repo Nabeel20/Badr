@@ -335,7 +335,7 @@ local badar = function(obj)
         return self
     end
     self.onRightClick   = function(func)
-        self.onRightClick_function = func
+        self.onRClickFun = func
         self.pressed = true
         return self
     end
@@ -359,8 +359,8 @@ local badar = function(obj)
                 lastChild.onLeftClick:onClickFun()
             end
         else
-            if lastChild.onRightClick.onRightClick_function then
-                lastChild.onRightClick:onRightClick_function()
+            if lastChild.onRightClick.onRClickFun then
+                lastChild.onRightClick:onRClickFun()
             end
         end
     end
