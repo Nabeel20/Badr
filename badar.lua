@@ -27,7 +27,8 @@ local badar = function(obj)
         },
         children = {},
         globalPosition = { x = 0, y = 0 },
-        passMouseEvent = true
+        passMouseEvent = true,
+        layout = {},
     }
     for key, value in pairs(obj) do
         self[key] = value
@@ -178,39 +179,40 @@ local badar = function(obj)
                 child.y = math.round(((self.height - padding.vertical) / 2) - (child.height / 2))
                 break;
             end
+            if child.layout.position ~= 'absolute' then
+                if isVertical then
+                    child.y = offset;
+                    offset = offset + child.height + (layout.gap or 0)
 
-            if isVertical then
-                child.y = offset;
-                offset = offset + child.height + (layout.gap or 0)
+                    local alignment = {
+                        ['start'] = 0,
+                        ['center'] = math.round((self.height - padding.horizontal - child.width) / 2),
+                        ['end'] = math.round(self.height - padding.horizontal - child.height)
+                    }
+                    child.x = alignment[layout.alignment or 'start']
 
-                local alignment = {
-                    ['start'] = 0,
-                    ['center'] = math.round((self.height - padding.horizontal - child.width) / 2),
-                    ['end'] = math.round(self.height - padding.horizontal - child.height)
-                }
-                child.x = alignment[layout.alignment or 'start']
+                    if child.alignSelf == 'end' then
+                        child.y = math.round(self.height - child.height - padding.vertical)
+                    end
+                    if child.alignSelf == 'center' then
+                        child.y = math.round((self.height - child.height - padding.horizontal) / 2)
+                    end
+                else -- row
+                    child.x = offset;
+                    offset = offset + child.width + (layout.gap or 0)
+                    local alignment = {
+                        ['start'] = 0,
+                        ['center'] = math.round((self.height - padding.vertical - child.height) / 2),
+                        ['end'] = math.round(self.height - padding.vertical - child.height)
+                    }
+                    child.y = alignment[layout.alignment or 'start'];
 
-                if child.alignSelf == 'end' then
-                    child.y = math.round(self.height - child.height - padding.vertical)
-                end
-                if child.alignSelf == 'center' then
-                    child.y = math.round((self.height - child.height - padding.horizontal) / 2)
-                end
-            else -- row
-                child.x = offset;
-                offset = offset + child.width + (layout.gap or 0)
-                local alignment = {
-                    ['start'] = 0,
-                    ['center'] = math.round((self.height - padding.vertical - child.height) / 2),
-                    ['end'] = math.round(self.height - padding.vertical - child.height)
-                }
-                child.y = alignment[layout.alignment or 'start'];
-
-                if child.alignSelf == 'end' then
-                    child.x = math.round(self.width - child.width - padding.horizontal)
-                end
-                if child.alignSelf == 'center' then
-                    child.x = math.round((self.width - child.width - padding.horizontal) / 2)
+                    if child.alignSelf == 'end' then
+                        child.x = math.round(self.width - child.width - padding.horizontal)
+                    end
+                    if child.alignSelf == 'center' then
+                        child.x = math.round((self.width - child.width - padding.horizontal) / 2)
+                    end
                 end
             end
         end
