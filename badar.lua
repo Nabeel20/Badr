@@ -119,7 +119,10 @@ local badar = function(obj)
         layout = layout or {}
         assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
         self.children = content;
-        self.layout = layout;
+        for key, value in pairs(layout) do
+            self.layout[key] = value
+        end
+
         local children = self.children;
         local padding = {
             horizontal = self._style.padding[2] + self._style.padding[4],
