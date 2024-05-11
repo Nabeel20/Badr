@@ -241,8 +241,10 @@ local badar = function(obj)
             self:onMouseRealease_function()
             self.pressed = false
         end
+
+        self.pressed = false
         for _, child in ipairs(self.children) do
-            child:mousereleased()
+            child.mousereleased()
         end
     end
     self.onMouseRelease = function(func)
@@ -328,15 +330,12 @@ local badar = function(obj)
     end
 
     --
-    self.onClick        = function(func, mouseButton)
+    self.onClick        = function(func)
         self.onClickFun = func
-        self.mouseButton = mouseButton or 1
-        self.pressed = true
         return self
     end
     self.onRightClick   = function(func)
         self.onRClickFun = func
-        self.pressed = true
         return self
     end
     self.mousepressed   = function(mouseButton)
@@ -357,10 +356,12 @@ local badar = function(obj)
         if mouseButton == 1 then
             if lastChild.onLeftClick.onClickFun then
                 lastChild.onLeftClick:onClickFun()
+                lastChild.onLeftClick.pressed = true
             end
         else
             if lastChild.onRightClick.onRClickFun then
                 lastChild.onRightClick:onRClickFun()
+                lastChild.onRightClick.pressed = true
             end
         end
     end
