@@ -25,7 +25,8 @@ Adds children to container. Layout props:
     gap = 0,
     alignment = 'center' , -- or end
     justify = 'end' -- or end
-    centered = false
+    centered = false,
+    position = 'absolute', -- to set coordination manually
 }
 
 ```
