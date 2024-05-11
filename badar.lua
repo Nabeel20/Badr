@@ -333,32 +333,33 @@ local badar = function(obj)
         self.pressed = true
         return self
     end
-    self.mousepressed   = function(btn)
-        if not self.passMouseEvent then return end;
-        local events = {}
-        self.handlePress(btn, function(data)
-            table.insert(events, data)
-        end)
-        if #events > 1 then
-            events[#events].func(events[#events].self)
-        elseif #events > 0 then
-            events[1].func(events[1].self)
-        end
+    self.onRightClick   = function(func)
+        self.onRightClick_function = func
+        self.pressed = true
+        return self
     end
-    self.handlePress    = function(button, func)
-        if isMouseInside() and button == self.mouseButton then
-            if type(self.onClick_function) == "function" then
-                if type(func) == "function" then
-                    func({
-                        func = self.onClick_function,
-                        self = self,
-                        id = self.id
-                    })
-                end
+    self.mousepressed   = function(mouseButton)
+        if not self.passMouseEvent then return end;
+
+        local lastChild = {
+            onLeftClick = self,
+            onRightClick = self,
+        }
+        for _, child in ipairs(self.children) do
+            if child.isMouseInside() then
+                lastChild.onLeftClick = child
+            end
+            if child.isMouseInside() then
             end
         end
-        for _, child in ipairs(self.children) do
-            child.handlePress(button, func)
+        if mouseButton == 1 then
+            if lastChild.onLeftClick.onClick_function then
+                lastChild.onLeftClick:onClick_function()
+            end
+        else
+            if lastChild.onRightClick.onRightClick_function then
+                lastChild.onRightClick:onRightClick_function()
+            end
         end
     end
 
