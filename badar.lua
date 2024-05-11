@@ -282,7 +282,7 @@ local badar = function(obj)
             end
         end
     end
-    local isMouseInside = function()
+    self.isMouseInside  = function()
         local getRect = function()
             return {
                 self.globalPosition.x,
@@ -300,7 +300,7 @@ local badar = function(obj)
     --
     self.mousemoved     = function()
         if not self.passMouseEvent then return end;
-        if isMouseInside() then
+        if self.isMouseInside() then
             self.hovered = true
             if type(self.onEnter) == "function" then
                 self.onEnter(self)
