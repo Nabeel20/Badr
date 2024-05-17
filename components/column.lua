@@ -9,7 +9,6 @@ local column = function(children, parent, layout)
         if child.position ~= 'absolute' then
             child.y = offset;
             offset = offset + child.height + (layout.gap or 0)
-
             local alignment = {
                 ['start'] = 0,
                 ['center'] = math.round((parent.height - padding.horizontal - child.width) / 2),
@@ -25,6 +24,8 @@ local column = function(children, parent, layout)
             end
         end
     end
+
+    return children
 end
 
 return column
