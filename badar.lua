@@ -279,14 +279,12 @@ local badar = function(obj)
     end
     self.addChild       = function(child)
         table.insert(self.children, child)
-        self.content(self.children, self.layout)
         return self;
     end
     self.removeChild    = function(c)
         for index, child in ipairs(self.children) do
             if child == c then
                 table.remove(self.children, index)
-                self.content(self.children, self.layout)
                 break
             end
         end
