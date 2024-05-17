@@ -306,6 +306,7 @@ local badar = function(obj)
         local x, y, width, height = rect[1], rect[2], rect[3], rect[4]
         return px >= x and px <= width and py >= y and py <= height
     end
+
     --
     self.mousemoved     = function()
         if not self.passMouseEvent then return end;
@@ -372,6 +373,12 @@ local badar = function(obj)
         end
     end
 
+    --
+    self.resize         = function(w, h)
+        self.width = w
+        self.height = h
+        self.content(self.snapshot)
+    end
     return self
 end
 
