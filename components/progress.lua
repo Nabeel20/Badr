@@ -21,7 +21,7 @@ local progress = function(options)
             value = options.value or 0,
             height = 8,
         }, options or {}))
-        .content({ track })
+        .content(function() return { track } end)
         .style({
             color = options.backgroundColor or { 0.89453125, 0.89453125, 0.89453125, 1 },
             filled = true,
