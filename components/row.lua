@@ -1,5 +1,6 @@
 local row = function(children, parent, layout)
     layout = layout or {}
+    assert(type(parent) == "table", 'Badar; row must have a parent for axis calculations')
     local padding = {
         horizontal = parent._style.padding[2] + parent._style.padding[4],
         vertical = parent._style.padding[1] + parent._style.padding[3]
