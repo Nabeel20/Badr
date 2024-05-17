@@ -115,114 +115,15 @@ local badar = function(obj)
         self.height = self.height + self._style.padding[1] + self._style.padding[3]
         return self
     end
-    self.content        = function(content, layout)
-        layout = layout or {}
-        assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
-        self.children = content;
-        for key, value in pairs(layout) do
-            self.layout[key] = value
+    self.content        = function(func)
+        assert(type(self.children) == 'table', 'Badar; content function must return a table with children.')
+        self.children = func(self)
+        -- register all definition to use later
+        self.snapshot = func
+        for _, child in ipairs(self.children) do
+            table.spread(self.children, child)
         end
-
-        local children = self.children;
-        local padding = {
-            horizontal = self._style.padding[2] + self._style.padding[4],
-            vertical = self._style.padding[1] + self._style.padding[3]
-        }
-        local gap = (layout.gap or 0) * (#children - 1)
-        local isVertical = layout.direction == 'column';
-        local contentWidth = 0
-        local contentHeight = 0
-
-        for _, child in ipairs(children) do
-            -- handle layout components
-            table.spread(children, child)
-            child.parent = {
-                width = self.width,
-                height = self.height,
-                padding = padding,
-            }
-            if child.width == 0 then
-                child.width = math.round(self.width * (child.xratio or 1))
-            end
-            if child.height == 0 then
-                child.height = math.round(self.height * (child.yratio or 1))
-            end
-            -- ??
-            contentWidth = contentWidth + child.width + gap
-            contentHeight = contentHeight + child.height + gap
-        end
-
-        if self.width == 0 and self.parent == nil then
-            assert(false, 'Container with children without width')
-        end
-        if self.height == 0 and self.parent == nil then
-            assert(false, 'Container with children without height')
-        end
-        -- justify
-        local contentDimension = self.width - contentWidth
-        if isVertical then contentDimension = self.height - contentHeight end
-        local offset = {
-            ['start'] = 0,
-            ['center'] = contentDimension / 2,
-            ['end'] = contentDimension,
-            ['space-between'] = 0
-        }
-        --- @diagnostic disable-next-line: cast-local-type
-        offset = offset[(layout.justify or 'start')]
-
-        if layout.justify == 'space-between' then
-            layout.gap = 0
-            layout.gap = (contentDimension - layout.gap - (children[#children].width / 2)) / (#children - 1)
-        end
-
-        -- direction and centering
-        for _, child in ipairs(children) do
-            if layout.centered then
-                if #self.children > 1 then
-                    assert(false, 'Centered container must have one child, add them to a container.')
-                end
-                child.x = math.round((self.width - padding.horizontal) / 2 - child.width / 2)
-                child.y = math.round(((self.height - padding.vertical) / 2) - (child.height / 2))
-                break;
-            end
-            if child.layout.position ~= 'absolute' then
-                if isVertical then
-                    child.y = offset;
-                    offset = offset + child.height + (layout.gap or 0)
-
-                    local alignment = {
-                        ['start'] = 0,
-                        ['center'] = math.round((self.height - padding.horizontal - child.width) / 2),
-                        ['end'] = math.round(self.height - padding.horizontal - child.height)
-                    }
-                    child.x = alignment[layout.alignment or 'start']
-
-                    if child.alignSelf == 'end' then
-                        child.y = math.round(self.height - child.height - padding.vertical)
-                    end
-                    if child.alignSelf == 'center' then
-                        child.y = math.round((self.height - child.height - padding.horizontal) / 2)
-                    end
-                else -- row
-                    child.x = offset;
-                    offset = offset + child.width + (layout.gap or 0)
-                    local alignment = {
-                        ['start'] = 0,
-                        ['center'] = math.round((self.height - padding.vertical - child.height) / 2),
-                        ['end'] = math.round(self.height - padding.vertical - child.height)
-                    }
-                    child.y = alignment[layout.alignment or 'start'];
-
-                    if child.alignSelf == 'end' then
-                        child.x = math.round(self.width - child.width - padding.horizontal)
-                    end
-                    if child.alignSelf == 'center' then
-                        child.x = math.round((self.width - child.width - padding.horizontal) / 2)
-                    end
-                end
-            end
-        end
-        return self;
+        return self
     end
 
     --
