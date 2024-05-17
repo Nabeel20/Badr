@@ -377,7 +377,9 @@ local badar = function(obj)
     self.resize         = function(w, h)
         self.width = w
         self.height = h
-        self.content(self.snapshot)
+        if self.snapshot then
+            self.content(self.snapshot)
+        end
     end
     return self
 end
