@@ -133,11 +133,13 @@ local badar = function(obj)
         local contentWidth = 0
         local contentHeight = 0
 
-
         for _, child in ipairs(children) do
+            -- handle layout components
+            table.spread(children, child)
             child.parent = {
                 width = self.width,
-                height = self.height
+                height = self.height,
+                padding = padding,
             }
             if child.width == 0 then
                 child.width = math.round(self.width * (child.xratio or 1))
@@ -145,6 +147,7 @@ local badar = function(obj)
             if child.height == 0 then
                 child.height = math.round(self.height * (child.yratio or 1))
             end
+            -- ??
             contentWidth = contentWidth + child.width + gap
             contentHeight = contentHeight + child.height + gap
         end
