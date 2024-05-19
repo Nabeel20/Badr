@@ -16,16 +16,21 @@ function love.load()
     local container = require 'path.to.badar.lua'
     local button = require 'components.button'
     local text = require 'components.text'
+    local column = require = 'components.column'
 
     local counter = text(0)
     main = container({ width = screenWidth, height = screenHeight })
         .style({ padding = { 16, 16, 16, 16 } })
-        .content({
-            counter,
-            button('add').onClick(function()
-                counter.text = counter.text + 1
-            end)
-        }, { direction = 'column', gap = 8 })
+        .content(function(_page)
+            return {
+                column({
+                    counter,
+                    button('add').onClick(function()
+                        counter.text = counter.text + 1
+                    end)
+                }, _page, { gap = 8 })
+            }
+        end)
 end
 
 function love.draw()
