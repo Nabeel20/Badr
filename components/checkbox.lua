@@ -1,9 +1,10 @@
 local container = require 'badar'
-local icon = require 'components.icon'
-local text = require 'components.text'
+local icon      = require 'components.icon'
+local text      = require 'components.text'
+local row       = require 'components.row'
 local checkIcon = love.graphics.newImage('assets/check-line.png') -- https://remixicon.com/icon/check-line
 
-local checkbox = function(string, options)
+local checkbox  = function(string, options)
     options = options or {}
     if options.disabled then options.color = Hex('#525252') end
     local self = container(options or {})
@@ -20,7 +21,9 @@ local checkbox = function(string, options)
             color = options.color or { 0, 0, 0 },
             borderColor = options.color or { 0, 0, 0 },
         })
-        .content({ icon(checkIcon, { id = 'icon' }).style({ opacity = 0 }) })
+        .content(function()
+            return { icon(checkIcon, { id = 'icon' }).style({ opacity = 0 }) }
+        end)
 
     if options.value then
         box.style({ opacity = 1 }).find('icon').style({ opacity = 1 })
@@ -34,12 +37,10 @@ local checkbox = function(string, options)
     self.width         = box.width + checkboxText.width;
     self.height        = box.height + checkboxText.height
 
-    self.content({ box, checkboxText },
-        {
-            direction = 'row',
-            alignment = 'center',
-            gap = 8
-        })
+    self
+        .content(function(i)
+            return { row({ box, checkboxText }, i, { alignment = 'center', gap = 8 }) }
+        end)
         .style({ opacity = 0 })
         .onClick(function(i)
             if not options.disabled then

@@ -115,111 +115,15 @@ local badar = function(obj)
         self.height = self.height + self._style.padding[1] + self._style.padding[3]
         return self
     end
-    self.content        = function(content, layout)
-        layout = layout or {}
-        assert(type(content) == 'table', 'Badar. Content passed to container must be a table.')
-        self.children = content;
-        for key, value in pairs(layout) do
-            self.layout[key] = value
+    self.content        = function(func)
+        assert(type(self.children) == 'table', 'Badar; content function must return a table with children.')
+        self.children = func(self)
+        -- register all definition to use later
+        self.snapshot = func
+        for _, child in ipairs(self.children) do
+            table.spread(self.children, child)
         end
-
-        local children = self.children;
-        local padding = {
-            horizontal = self._style.padding[2] + self._style.padding[4],
-            vertical = self._style.padding[1] + self._style.padding[3]
-        }
-        local gap = (layout.gap or 0) * (#children - 1)
-        local isVertical = layout.direction == 'column';
-        local contentWidth = 0
-        local contentHeight = 0
-
-
-        for _, child in ipairs(children) do
-            child.parent = {
-                width = self.width,
-                height = self.height
-            }
-            if child.width == 0 then
-                child.width = math.round(self.width * (child.xratio or 1))
-            end
-            if child.height == 0 then
-                child.height = math.round(self.height * (child.yratio or 1))
-            end
-            contentWidth = contentWidth + child.width + gap
-            contentHeight = contentHeight + child.height + gap
-        end
-
-        if self.width == 0 and self.parent == nil then
-            assert(false, 'Container with children without width')
-        end
-        if self.height == 0 and self.parent == nil then
-            assert(false, 'Container with children without height')
-        end
-        -- justify
-        local contentDimension = self.width - contentWidth
-        if isVertical then contentDimension = self.height - contentHeight end
-        local offset = {
-            ['start'] = 0,
-            ['center'] = contentDimension / 2,
-            ['end'] = contentDimension,
-            ['space-between'] = 0
-        }
-        --- @diagnostic disable-next-line: cast-local-type
-        offset = offset[(layout.justify or 'start')]
-
-        if layout.justify == 'space-between' then
-            layout.gap = 0
-            layout.gap = (contentDimension - layout.gap - (children[#children].width / 2)) / (#children - 1)
-        end
-
-        -- direction and centering
-        for _, child in ipairs(children) do
-            if layout.centered then
-                if #self.children > 1 then
-                    assert(false, 'Centered container must have one child, add them to a container.')
-                end
-                child.x = math.round((self.width - padding.horizontal) / 2 - child.width / 2)
-                child.y = math.round(((self.height - padding.vertical) / 2) - (child.height / 2))
-                break;
-            end
-            if child.layout.position ~= 'absolute' then
-                if isVertical then
-                    child.y = offset;
-                    offset = offset + child.height + (layout.gap or 0)
-
-                    local alignment = {
-                        ['start'] = 0,
-                        ['center'] = math.round((self.height - padding.horizontal - child.width) / 2),
-                        ['end'] = math.round(self.height - padding.horizontal - child.height)
-                    }
-                    child.x = alignment[layout.alignment or 'start']
-
-                    if child.alignSelf == 'end' then
-                        child.y = math.round(self.height - child.height - padding.vertical)
-                    end
-                    if child.alignSelf == 'center' then
-                        child.y = math.round((self.height - child.height - padding.horizontal) / 2)
-                    end
-                else -- row
-                    child.x = offset;
-                    offset = offset + child.width + (layout.gap or 0)
-                    local alignment = {
-                        ['start'] = 0,
-                        ['center'] = math.round((self.height - padding.vertical - child.height) / 2),
-                        ['end'] = math.round(self.height - padding.vertical - child.height)
-                    }
-                    child.y = alignment[layout.alignment or 'start'];
-
-                    if child.alignSelf == 'end' then
-                        child.x = math.round(self.width - child.width - padding.horizontal)
-                    end
-                    if child.alignSelf == 'center' then
-                        child.x = math.round((self.width - child.width - padding.horizontal) / 2)
-                    end
-                end
-            end
-        end
-        return self;
+        return self
     end
 
     --
@@ -276,14 +180,12 @@ local badar = function(obj)
     end
     self.addChild       = function(child)
         table.insert(self.children, child)
-        self.content(self.children, self.layout)
         return self;
     end
     self.removeChild    = function(c)
         for index, child in ipairs(self.children) do
             if child == c then
                 table.remove(self.children, index)
-                self.content(self.children, self.layout)
                 break
             end
         end
@@ -303,6 +205,7 @@ local badar = function(obj)
         local x, y, width, height = rect[1], rect[2], rect[3], rect[4]
         return px >= x and px <= width and py >= y and py <= height
     end
+
     --
     self.mousemoved     = function()
         if not self.passMouseEvent then return end;
@@ -343,40 +246,29 @@ local badar = function(obj)
     end
     self.mousepressed   = function(mouseButton)
         if not self.passMouseEvent then return end;
-
-        local lastChild = {
-            onLeftClick = self,
-            onRightClick = self,
-        }
-        for _, child in ipairs(self.children) do
-            if child.isMouseInside() then
-                lastChild.onLeftClick = child
-            end
-            if child.isMouseInside() then
-                lastChild.onRightClick = child
+        if self.isMouseInside() then
+            if mouseButton == 1 and self.onClickFun then
+                self:onClickFun()
+                self.pressed = true
+            elseif mouseButton == 2 and self.onRclickFunc then
+                self:onRclickFunc()
+                self.pressed = true
             end
         end
-        if mouseButton == 1 then
-            if lastChild.onLeftClick.onClickFun then
-                lastChild.onLeftClick:onClickFun()
-                lastChild.onLeftClick.pressed = true
-            end
-        else
-            if lastChild.onRightClick.onRClickFun then
-                lastChild.onRightClick:onRClickFun()
-                lastChild.onRightClick.pressed = true
-            end
+
+        for _, child in ipairs(self.children) do
+            child.mousepressed(mouseButton)
         end
     end
 
     --
     self.resize         = function(w, h)
-        if self.xratio then self.width = w * self.xratio end
-        if self.yratio then self.height = h * self.yratio end
-        for _, child in ipairs(self.children) do
-            child.resize(w, h)
+        self.width, self.height = w, h
+        if self.snapshot then
+            self.snapshot(self)
         end
     end
+
     return self
 end
 
