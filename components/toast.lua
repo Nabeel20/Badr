@@ -27,7 +27,9 @@ local toast = function(message, options)
 
     return container({ width = messageComponent.width })
         .style(selectedStyle)
-        .content({ messageComponent }, { alignment = 'center' })
+        .content(function()
+            return { messageComponent }
+        end)
         .modify(function(i)
             i.y = love.graphics.getHeight()
             flux.to(i, 0.3, { y = love.graphics.getHeight() - i.height - (options.offset or 14) })
