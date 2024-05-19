@@ -246,29 +246,18 @@ local badar = function(obj)
     end
     self.mousepressed   = function(mouseButton)
         if not self.passMouseEvent then return end;
-
-        local lastChild = {
-            onLeftClick = self,
-            onRightClick = self,
-        }
-        for _, child in ipairs(self.children) do
-            if child.isMouseInside() then
-                lastChild.onLeftClick = child
-            end
-            if child.isMouseInside() then
-                lastChild.onRightClick = child
+        if self.isMouseInside() then
+            if mouseButton == 1 and self.onClickFun then
+                self:onClickFun()
+                self.pressed = true
+            elseif mouseButton == 2 and self.onRclickFunc then
+                self:onRclickFunc()
+                self.pressed = true
             end
         end
-        if mouseButton == 1 then
-            if lastChild.onLeftClick.onClickFun then
-                lastChild.onLeftClick:onClickFun()
-                lastChild.onLeftClick.pressed = true
-            end
-        else
-            if lastChild.onRightClick.onRClickFun then
-                lastChild.onRightClick:onRClickFun()
-                lastChild.onRightClick.pressed = true
-            end
+
+        for _, child in ipairs(self.children) do
+            child.mousepressed(mouseButton)
         end
     end
 
@@ -280,6 +269,7 @@ local badar = function(obj)
             self.content(self.snapshot)
         end
     end
+
     return self
 end
 
