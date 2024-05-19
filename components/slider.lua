@@ -3,10 +3,6 @@ local row       = require 'components.row'
 
 local slider    = function(options)
     options = options or {};
-    local props = {
-        track = {},
-        handler = {}
-    }
     local track = container({ width = options.value or 0, height = 6 })
         .style({ color = options.trackColor or { 0, 0, 0 }, corner = 3, visible = false })
     local handler = container({ y = -4, width = 16, height = 16, corner = 8 }).style({
@@ -66,11 +62,6 @@ local slider    = function(options)
                 handler
             }
         end)
-
-
-    -- return container({ width = self.width, height = 25 })
-    --     .content(function() return { self } end)
-    --     .style({ opacity = 0 })
 end
 
 return slider
