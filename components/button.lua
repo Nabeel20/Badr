@@ -1,7 +1,8 @@
 local container = require 'badar'
-local text = require 'components.text'
-local icon = require 'components.icon'
-
+local text      = require 'components.text'
+local icon      = require 'components.icon'
+local center    = require 'components.center'
+local row       = require 'components.row'
 
 -- https://github.com/s-walrus/hex2color/blob/master/hex2color.lua
 function Hex(hex, value)
@@ -75,42 +76,33 @@ local button = function(txt, options)
             corner = 4,
         }
     }
-    local layout = {
-        centered = true
-    }
 
-    local buttonText = text(txt).style({ color = styles[options.variant or 'primary'].textColor, size = 15 })
-    local buttonIcon = {};
+    return container(options or {})
+        .content(function(btn)
+            local buttonText = text(txt).style({ color = styles[options.variant or 'primary'].textColor, size = 15 })
+            local buttonIcon = icon(options.icon).style({
+                color = styles[options.variant or 'primary'].iconColor
+            })
+            btn.width = buttonText.width
+            btn.height = buttonText.height
+            btn.style(table.spread(styles[options.variant or 'primary'], options or {}))
 
-    local content = {
-        buttonText
-    }
-    if options.icon then
-        buttonIcon = icon(options.icon).style({
-            color = styles[options.variant or 'primary'].iconColor
-        })
-        table.insert(content, buttonIcon)
-        layout = {
-            direction = 'row',
-            alignment = 'center',
-            gap = 4,
-        }
-    end
+            -- only icon
+            if txt == '' then
+                btn.width, btn.height = buttonIcon.width, buttonIcon.height
+                btn.style(table.spread(styles[options.variant or 'primary'], { padding = { 8, 8, 8, 8 } }))
+                return { center(buttonIcon, btn) }
+            end
 
-    if txt == '' then
-        table.remove(content, 1)
-        styles[options.variant or 'primary'].padding = { 8, 8, 8, 8 }
-        layout = { centered = true }
-        buttonText.width = 0
-        buttonText.height = 0
-    end
+            -- text and icon
+            if options.icon then
+                btn.width = btn.width + buttonIcon.width
+                return row({ buttonText, buttonIcon }, btn, { alignment = 'center', gap = 4, })
+            end
 
-    return container(table.spread({
-            width = buttonText.width + (buttonIcon.width or 0),
-            height = buttonText.height + (buttonIcon.height or 0)
-        }, options or {}))
-        .style(table.spread(styles[options.variant or 'primary'], options or {}))
-        .content(content, layout)
+            -- only text
+            return { center(buttonText, btn) }
+        end)
         .onHover({
             onEnter = function(i)
                 if options.disabled then

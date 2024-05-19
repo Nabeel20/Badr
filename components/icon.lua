@@ -7,6 +7,9 @@ local icon = function(image, options)
         horizontal = self._style.padding[4] + self._style.padding[2],
         vertical = self._style.padding[1] + self._style.padding[3]
     }
+    if image == nil then
+        return self
+    end
     self.image = image
     self.width = (self.image:getWidth() * self._style.scale) + padding.horizontal
     self.height = (self.image:getHeight() * self._style.scale) + padding.vertical
