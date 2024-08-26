@@ -1,46 +1,51 @@
 # Badar 🌕
 
-Badar _(Full moon in Arabic)_ is a declarative, retained\* and flexbox inspired ui library, with focus on reactivity and composition in mind.
-
-### Getting Started
-
-Badar adapts the `löve2d` mentality. You can define a variable in `love.load`, and invoke `render` in `love.draw`. Other callback functions (e.g, `mousepressed`, `mousemoved`) are used in the same manner.
-
-- [API](docs/Core.md)
-- [Components ✨](components)
+Badar _(Full moon in Arabic)_ provides a simple and easy way to write UI. <br/>
+All you need is your `draw` function and your `input` binding. Badar provides a simple `column` and `row` layouts.
 
 ### Usage
 
 ```lua
 function love.load()
-    local container = require 'path.to.badar.lua'
+    love.graphics.setBackgroundColor({ 1, 1, 1 })
+    local label = require 'components.label'
     local button = require 'components.button'
-    local text = require 'components.text'
-    local column = require = 'components.column'
+    menu = require 'components.menu'
 
-    local counter = text(0)
-    main = container({ width = screenWidth, height = screenHeight })
-        .style({ padding = { 16, 16, 16, 16 } })
-        .content(function(_page)
-            return {
-                column({
-                    counter,
-                    button('add').onClick(function()
-                        counter.text = counter.text + 1
-                    end)
-                }, _page, { gap = 8 })
-            }
-        end)
+    local counter = label('0')
+    menu = menu
+        + counter
+        + label {
+            text = 'Doubled: 0',
+            id = 'awesome'
+        }
+        + label 'Badar'
+        + label 'Love2d :D'
+        + button {
+            text = 'Click me!',
+            --
+            onClick = function(self)
+                counter.text = counter.text + 1
+                -- get child index by id
+                menu.children[menu % 'awesome'].text = 'Doubled: ' .. counter.text * 2
+            end
+        }
 end
 
 function love.draw()
-    main.render()
-end
-
-function love.mousepressed(x, y, button, istouch)
-    main.mousepressed(button) -- only mouse button needed
+    menu:draw()
 end
 ```
+
+### Functions
+
+- `component = component + child`
+- `component = component - child`
+- `component % id (string)` return child index
+- `:isMouseInside()`
+
+> [!CAUTION]
+> Input binding is not included check `__add` and `__sub` functions in `badar.lua`.
 
 ## License
 
