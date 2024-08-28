@@ -6,6 +6,8 @@
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
+--* optional signal for input biding
+local signal = require 'components.signal'
 local badar = {
     x = 0,
     y = 0,
@@ -27,11 +29,13 @@ function badar.__add(self, component)
 
     -- Input binding
     if component.onClick ~= nil then
-        -- signal.click:add(function(button)
-        --     if component:isMouseInside() and button == 1 then
-        --         component:onClick()
-        --     end
-        -- end)
+        -- signal uses function signature
+        component.onClickHandler = function(button)
+            if component:isMouseInside() and button == 1 then
+                component:onClick()
+            end
+        end
+        signal.click:add(component.onClickHandler)
     end
     -- child position realative to its parent
     component.parent = self
@@ -48,10 +52,11 @@ end
 function badar.__sub(self, component)
     for index, child in ipairs(self.children) do
         if component == child then
-            -- unbinding input values
-            if type(component.onClick) == "function" then
-                -- signal.click:remove(component.onClick)
+            -- Unbinding input
+            if type(component.onClickHandler) == "function" then
+                signal.click:remove(component.onClickHandler)
             end
+
             table.remove(self.children, index)
             break
         end
