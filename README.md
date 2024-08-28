@@ -1,17 +1,15 @@
 # Badar 🌕
 
-Badar _(Full moon in Arabic)_ provides a simple and easy way to write UI. <br/>
-All you need is your `draw` function and your `input` binding. Badar provides a simple `column` and `row` layouts.
+Badar _(Full moon in Arabic)_ is a simple and fun way to write UI, prioritizing both _**developer experience**_ and _**readability**_.<br/>
 
 ### Usage
 
+Copy [badar.lua](badar.lua) to your project for basic functionality and [signal.lua](components/signal.lua) for basic input handling. <br/>
+For a functional example see: [example.lua](components/example.lua)
+
 ```lua
 function love.load()
-    love.graphics.setBackgroundColor({ 1, 1, 1 })
-    local label = require 'components.label'
-    local button = require 'components.button'
-    menu = require 'components.menu'
-
+    -- ...
     local counter = label('0')
     menu = menu
         + counter
@@ -39,13 +37,45 @@ end
 
 ### Functions
 
+- Creating a `new` component. For inspiration see [components](components).
+
+  ```lua
+  local component = require 'badar'
+  local button = component({
+    x = 10,
+    y = 10,
+    --
+    myCustomProp = true,   -- define your props
+    --
+    column = true,         -- basic column / row layout (optional)
+    row = false,
+    gap = 10,
+    --
+    draw = function(self) love.graphics.print('Button', self.x, self.y) end, -- don't forget to call
+    onClick = function(self) self.x = self.x + 10 end,
+  })
+  ```
+
 - `component = component + child`
+
+  Adds the child to its parent’s children table and manages its input and position.
+
 - `component = component - child`
-- `component % id (string)` return child index
+
+  Removes the child from its parent’s children table, and removes its input binding.
+
+- `component % id (string)`:
+
+  Returns child's index in its parent children list. Useful for modifying children within the same parent.
+
+  ```lua
+  parent.children[component % id].value = newValue
+  ```
+
 - `:isMouseInside()`
 
-> [!CAUTION]
-> Input binding is not included check `__add` and `__sub` functions in `badar.lua`.
+> [!NOTE]
+> Badar uses `signal.lua` for input-binding by default. Feel free to use your own methods (eg. update `__add` and `__sub` in `badar.lua`).
 
 ## License
 
