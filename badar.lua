@@ -11,7 +11,7 @@ local badar = {
     y = 0,
     height = 0,
     width = 0,
-    parentPosition = { x = 0, y = 0 },
+    parent = { x = 0, y = 0 },
     id = love.timer.getTime(),
     children = {}
 }
@@ -33,8 +33,8 @@ function badar.__add(self, component)
         --     end
         -- end)
     end
-    -- to calculate child global position
-    component.parentPosition = { x = self.x, y = self.y }
+    -- child position realative to its parent
+    component.parent = self
     if self.column then component.y = self.height end
     if self.row then component.x = self.width end
     self.height = self.height + component.height + (self.gap or 0)
@@ -70,9 +70,9 @@ end
 
 function badar:isMouseInside()
     local mouseX, mouseY = love.mouse.getPosition()
-    return mouseX >= self.x + self.parentPosition.x and mouseX <= self.x + self.parentPosition.x + self.width and
-        mouseY >= self.y + self.parentPosition.y and
-        mouseY <= self.y + self.parentPosition.y + self.height
+    return mouseX >= self.x + self.parent.x and mouseX <= self.x + self.parent.x + self.width and
+        mouseY >= self.y + self.parent.y and
+        mouseY <= self.y + self.parent.y + self.height
 end
 
 return setmetatable({ new = badar.new }, {
