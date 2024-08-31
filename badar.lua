@@ -64,11 +64,12 @@ function badar.__sub(self, component)
     return self
 end
 
--- return the index of child in parent's children list
+-- Returns child with specific id
 function badar.__mod(self, id)
-    for index, child in ipairs(self.children) do
+    assert(type(id) == "string", 'something went wrong')
+    for _, child in ipairs(self.children) do
         if child.id == id then
-            return index
+            return child
         end
     end
 end
