@@ -66,7 +66,7 @@ end
 
 -- Returns child with specific id
 function badar.__mod(self, id)
-    assert(type(id) == "string", 'something went wrong')
+    assert(type(id) == "string", 'Badar; Provided id must be a string.')
     for _, child in ipairs(self.children) do
         if child.id == id then
             return child
