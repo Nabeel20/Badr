@@ -13,19 +13,14 @@ function love.load()
     local counter = label('0')
     menu = menu
         + counter
-        + label {
-            text = 'Doubled: 0',
-            id = 'awesome'
-        }
-        + label 'Badar'
-        + label 'Love2d :D'
+        + label { text = 'Doubled: 0', id = 'awesome' }
+        + label 'Hello, World!'
         + button {
             text = 'Click me!',
-            --
             onClick = function(self)
                 counter.text = counter.text + 1
-                -- get child index by id
-                menu.children[menu % 'awesome'].text = 'Doubled: ' .. counter.text * 2
+                -- get child by id
+                (self.parent % 'awesome').text = 'Doubled: ' .. counter.text * 2
             end
         }
 end
@@ -37,7 +32,7 @@ end
 
 ### Functions
 
-- Creating a `new` component. For inspiration see [components](components).
+- Creating a `new` component. Default props are (`x`,`y`,`width`,`height`, `parent`, `id`, `column`, `row`, `gap`). For inspiration see [components](components).
 
   ```lua
   local component = require 'badar'
@@ -48,9 +43,7 @@ end
     myCustomProp = true,   -- define your props
     --
     column = true,         -- basic column / row layout (optional)
-    row = false,
     gap = 10,
-    --
     draw = function(self) love.graphics.print('Button', self.x, self.y) end, -- don't forget to call
     onClick = function(self) self.x = self.x + 10 end,
   })
@@ -66,10 +59,10 @@ end
 
 - `component % id (string)`:
 
-  Returns child's index in its parent children list. Useful for modifying children within the same parent.
+  Returns child by id in its parent children list. Useful for modifying children within the same parent.
 
   ```lua
-  parent.children[component % id].value = newValue
+  (parent % id).value = newValue
   ```
 
 - `:isMouseInside()`

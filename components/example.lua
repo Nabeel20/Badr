@@ -30,19 +30,14 @@ function love.load()
     local counter = label('0')
     menu = menu
         + counter
-        + label {
-            text = 'Doubled: 0',
-            id = 'awesome'
-        }
-        + label 'Badar'
-        + label 'Love2d :D'
+        + label { text = 'Doubled: 0', id = 'awesome' }
+        + label 'Hello, World!'
         + button {
             text = 'Click me!',
-            --
             onClick = function(self)
                 counter.text = counter.text + 1
-                -- get child index by id
-                menu.children[menu % 'awesome'].text = 'Doubled: ' .. counter.text * 2
+                -- get child by id
+                (self.parent % 'awesome').text = 'Doubled: ' .. counter.text * 2
             end
         }
 end
