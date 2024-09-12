@@ -39,10 +39,16 @@ function badar.__add(self, component)
     end
     -- child position realative to its parent
     component.parent = self
-    if self.column then component.y = self.height end
-    if self.row then component.x = self.width end
-    self.height = self.height + component.height + (self.gap or 0)
-    self.width = self.width + component.width + (self.gap or 0)
+    if self.column then
+        component.y = self.height
+        self.height = self.height + component.height + (self.gap or 0)
+        self.width = math.max(self.width, component.width)
+    end
+    if self.row then
+        component.x = self.width
+        self.width = self.width + component.width + (self.gap or 0)
+        self.height = math.max(self.height, component.height)
+    end
 
     table.insert(self.children, component)
     return self
