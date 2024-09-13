@@ -37,6 +37,16 @@ function badar.__add(self, component)
         end
         signal.click:add(component.onClickHandler)
     end
+    -- draw signal binding
+    if component.draw then
+        component.drawHandler = function()
+            love.graphics.push()
+            love.graphics.translate(self.x, self.y)
+            component:draw()
+            love.graphics.pop()
+        end
+        signal.draw:add(component.drawHandler)
+    end
     -- child position realative to its parent
     component.parent = self
     if self.column then
@@ -54,17 +64,14 @@ function badar.__add(self, component)
     return self
 end
 
--- Remove child of children and its signals
+-- Remove child and its signals
 function badar.__sub(self, component)
-    for index, child in ipairs(self.children) do
-        if component == child then
-            -- Unbinding input
-            if type(component.onClickHandler) == "function" then
-                signal.click:remove(component.onClickHandler)
-            end
-
-            table.remove(self.children, index)
-            break
+    if self % component.id then
+        if component.onClickHandler then
+            signal.click:remove(component.onClickHandler)
+        end
+        if component.drawHandler then
+            signal.draw:remove(component.drawHandler)
         end
     end
     return self
