@@ -1,49 +1,41 @@
 local component = require 'badar'
 local signal    = require 'components.signal'
-local label     = require 'components.label'
 local button    = require 'components.button'
 
 -- Copy to your main.lua file
 
--- Define your component
-local menu      = component {
-    column = true,
-    gap = 4,
-    x = 10,
-    y = 10,
-    draw = function(self)
-        for _, child in ipairs(self.children) do
-            love.graphics.push()
-            love.graphics.translate(self.x or 0, self.y or 0)
-
-            --! Draw all the children
-            if child.draw then
-                child:draw()
-            end
-            love.graphics.pop()
-        end
-    end
-}
-
 function love.load()
     love.graphics.setBackgroundColor({ 1, 1, 1 })
-    local counter = label('0')
-    menu = menu
-        + counter
-        + label { text = 'Doubled: 0', id = 'awesome' }
-        + label 'Hello, World!'
+    local clicks = 0
+    local menu = component { column = true, gap = 10 }
         + button {
-            text = 'Click me!',
-            onClick = function(self)
-                counter.text = counter.text + 1
-                -- get child by id
-                (self.parent % 'awesome').text = 'Doubled: ' .. counter.text * 2
+            text = 'New game',
+            width = 200,
+            onHover = function()
+                print 'mouse entered'
+                return function()
+                    print('mouse exited')
+                end
             end
         }
+        + button { text = 'Settings', width = 200 }
+        + button { text = 'Credits', width = 200 }
+        + button { text = 'Quit', width = 200, onClick = function() love.event.quit() end }
+        + button {
+            text = 'Clicked: 0',
+            width = 200,
+            onClick = function(self)
+                clicks = clicks + 1
+                self.text = 'Clicked: ' .. clicks
+            end
+        }
+
+    menu.y = love.graphics.getHeight() * 0.5 - menu.height * 0.5
+    menu.x = love.graphics.getWidth() * 0.5 - menu.width * 0.5
 end
 
 function love.draw()
-    menu:draw()
+    signal.draw:emit()
 end
 
 function love.mousepressed(x, y, btn, isTouch, presses)
