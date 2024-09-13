@@ -16,15 +16,14 @@ function template:remove(item)
     end
 end
 
-function template:emit(button)
+function template:emit(...)
     for _, item in ipairs(self) do
-        item(button)
+        item(...)
     end
 end
 
 local signal = {
     click = template:new(),
-    keyPress = template:new()
 }
 
 return signal
