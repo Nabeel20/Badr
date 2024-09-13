@@ -14,7 +14,7 @@ local badar = {
     height = 0,
     width = 0,
     parent = { x = 0, y = 0 },
-    id = love.timer.getTime(),
+    id = tostring(love.timer.getTime()),
     children = {}
 }
 badar.__index = badar
