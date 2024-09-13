@@ -9,59 +9,73 @@ local function Hex(hex, value)
         value or 1 }
 end
 
-return function(options)
-    local _font = options.font or love.graphics.getFont()
-
-    local style = options.style or {
-        disabledColor = { 1, 1, 1 },
-        padding = { top = 8, right = 12, left = 12, bottom = 8 },
-        backgroundColor = Hex('#dc2626'),
-        cornerRadius = 4,
-        hoverColor = Hex('#dc2626'),
-        textColor = Hex("#ffffff"),
-        iconColor = Hex("#ffffff"),
-        borderColor = { 1, 1, 1 },
-        borderWidth = 0,
-        border = false
+return function(props)
+    local font = props.font or love.graphics.getFont()
+    local padding = {
+        horizontal = (props.leftPadding or 12) + (props.rightPadding or 12),
+        vertical = (props.topPadding or 8) + (props.bottomPadding or 8)
     }
+    local width = math.max(props.width or 0, font:getWidth(props.text) + padding.horizontal)
+    local height = math.max(props.height or 0, font:getHeight(props.text) + padding.vertical)
 
     return component {
-        text = options.text,
-        icon = options.icon or nil,
-        opacity = options.opacity or 1,
+        text = props.text,
+        icon = props.icon or nil,
         --
-        onClick = options.onClick,
-        onHover = options.onHover,
-        disabled = options.disabled or false,
-        --
-        width = options.width or _font:getWidth(options.text) + style.padding.left + style.padding.right,
-        height = options.height or _font:getHeight(options.text) + style.padding.top + style.padding.bottom,
-        font = _font,
+        id = props.id or tostring(love.timer.getTime()),
+        x = props.x or 0,
+        y = props.y or 0,
+        width = width,
+        height = height,
+        font = font,
+        -- styles
+        opacity = props.opacity or 1,
+        backgroundColor = props.backgroundColor or Hex '#DBE2EF',
+        hoverColor = props.hoverColor or Hex '#3F72AF',
+        textColor = props.textColor or Hex '#112D4E',
+        cornerRadius = props.cornerRadius or 4,
+        leftPadding = props.leftPadding or 12,
+        rightPadding = props.rightPadding or 12,
+        topPadding = props.topPadding or 8,
+        bottomPadding = props.bottomPadding or 8,
+        borderColor = props.borderColor or { 1, 1, 1 },
+        borderWidth = props.borderWidth or 0,
+        border = props.border or false,
+        angle = props.angle or 0,
+        scale = props.scale or 1,
+        -- logic
+        onClick = props.onClick,
+        onHover = props.onHover,
+        disabled = props.disabled or false,
+        hoverCalled = false,
         --
         draw = function(self)
-            love.graphics.setFont(_font)
+            love.graphics.push()
+            love.graphics.rotate(self.angle)
+            love.graphics.scale(self.scale, self.scale)
+            love.graphics.setFont(font)
             -- border
-            if style.border then
-                love.graphics.setColor(style.borderColor)
-                love.graphics.setLineWidth(style.borderWidth or 0)
-                love.graphics.rectangle('line', self.x, self.y, self.width, self.height, style.cornerRadius)
+            if self.border then
+                love.graphics.setColor(self.borderColor)
+                love.graphics.setLineWidth(self.borderWidth)
+                love.graphics.rectangle('line', self.x, self.y, self.width, self.height, self.cornerRadius)
                 love.graphics.setColor({ 0, 0, 0 })
             end
             --
             love.graphics.setColor({
-                style.backgroundColor[1],
-                style.backgroundColor[2],
-                style.backgroundColor[3],
+                self.backgroundColor[1],
+                self.backgroundColor[2],
+                self.backgroundColor[3],
                 self.opacity })
-            -- hover logic
+            -- hover
             if self:isMouseInside() then
-                if type(self.onHover) == "function" and self.hoverCalled == false then
+                if self.onHover and not self.hoverCalled then
                     --*  onHover return a 'clean up' callback
                     self.onMouseExit = self.onHover(self)
                     self.hoverCalled = true
                 end
                 love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
-                love.graphics.setColor(style.hoverColor)
+                love.graphics.setColor(self.hoverColor)
                 self.hovered = true
             elseif self.hovered then
                 love.mouse.setCursor()
@@ -71,16 +85,12 @@ return function(options)
                 self.hovered = false
                 self.hoverCalled = false
             end
-            -- icon
-            if self.icon ~= nil then
-                love.graphics.draw(self.icon)
-            end
-            --
-            love.graphics.rectangle('fill', self.x, self.y, self.width, self.height, style.cornerRadius)
-            love.graphics.setColor(style.textColor)
-            love.graphics.printf(self.text, self.x + style.padding.left, self.y + style.padding.top,
-                self.width - style.padding.left - style.padding.right, 'center')
+            love.graphics.rectangle('fill', self.x, self.y, self.width, self.height, self.cornerRadius)
+            love.graphics.setColor(self.textColor)
+            love.graphics.printf(self.text, self.x + self.leftPadding, self.y + self.topPadding,
+                self.width - padding.horizontal, 'center')
             love.graphics.setColor({ 1, 1, 1 })
+            love.graphics.pop()
         end
     }
 end
