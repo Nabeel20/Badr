@@ -27,18 +27,16 @@ end
 - Creating a `new` component. `column (boolean)` & `row (boolean)` and `gap (number)` are used for basic layout calculations. For inspiration see [components](components).
 
   ```lua
-  local component = require 'badar'
-  local button = component({
+  local newComponent = component {
     x = 10,
     y = 10,
-    --
-    myCustomProp = true,   -- define your props
-    --
-    column = true,         -- basic column / row layout (optional)
-    gap = 10,
-    draw = function(self) love.graphics.print('Button', self.x, self.y) end, -- don't forget to call
-    onClick = function(self) self.x = self.x + 10 end,
-  })
+    myCustomProp = true,
+    onDrag = myCustomLogic(),
+    -- badar connect draw signal for every "+" or "-" operation.
+    draw = function(self)
+        love.graphics.print('Hello!', self.x, self.y)
+    end,
+  }
   ```
 
 - `component = component + child`
