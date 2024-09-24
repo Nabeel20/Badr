@@ -8,21 +8,25 @@
 --
 --* optional signal for input biding
 local signal = require 'components.signal'
-local badar = {
-    x = 0,
-    y = 0,
-    height = 0,
-    width = 0,
-    parent = { x = 0, y = 0, visible = true },
-    id = tostring(love.timer.getTime()),
-    visible = true,
-    children = {},
-}
+local badar = {}
 badar.__index = badar
 
 function badar:new(t)
     assert(type(t) == "table", 'Badar; passed value must be a table.')
-    return setmetatable(t, badar)
+    local _deafult = {
+        x = 0,
+        y = 0,
+        height = 0,
+        width = 0,
+        parent = { x = 0, y = 0, visible = true },
+        id = tostring(love.timer.getTime()),
+        visible = true,
+        children = {},
+    }
+    for key, value in pairs(t) do
+        _deafult[key] = value
+    end
+    return setmetatable(_deafult, badar)
 end
 
 function badar.__add(self, component)
@@ -38,6 +42,12 @@ function badar.__add(self, component)
         component.x = self.width
         self.width = self.width + component.width + (self.gap or 0)
         self.height = math.max(self.height, component.height)
+    end
+
+    -- update children position if they were decalred before adding (e.g sperate file)
+    for _, child in ipairs(component.children) do
+        child.x = child.x + self.x
+        child.y = child.y + self.y
     end
 
     table.insert(self.children, component)
@@ -85,7 +95,7 @@ function badar:draw()
     end
 end
 
-return setmetatable({ new = badar.new, draw = badar.draw }, {
+return setmetatable({ new = badar.new }, {
     __call = function(t, ...)
         return badar:new(...)
     end,
