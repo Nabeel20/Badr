@@ -33,13 +33,19 @@ function love.load()
                 self.text = 'Clicked: ' .. clicks
             end
         }
-
+        + button {
+            text = 'Click to remove',
+            onClick = function(self)
+                self.parent = self.parent - self
+                love.mouse.setCursor()
+            end
+        }
     menu.y = love.graphics.getHeight() * 0.5 - menu.height * 0.5
     menu.x = love.graphics.getWidth() * 0.5 - menu.width * 0.5
 end
 
 function love.draw()
-    signal.draw:emit()
+    menu:draw()
 end
 
 function love.mousepressed(x, y, btn, isTouch, presses)
