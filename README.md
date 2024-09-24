@@ -28,12 +28,12 @@ end
 
   ```lua
   local newComponent = component {
-    x = 10,
-    y = 10,
+    x = 10, y = 10,
+    visible = true,
     myCustomProp = true,
-    onDrag = myCustomLogic(),
-    -- badar connect draw signal for every "+" or "-" operation.
+    customFunction = myCustomLogic(),
     draw = function(self)
+        if not self.visible then return end
         love.graphics.print('Hello!', self.x, self.y)
     end,
   }

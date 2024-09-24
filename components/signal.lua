@@ -25,7 +25,6 @@ end
 local signal = {
     click = template:new(),
     keyPress = template:new(),
-    draw = template:new()
 }
 
 return signal

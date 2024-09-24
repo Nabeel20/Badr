@@ -4,10 +4,14 @@ local button    = require 'components.button'
 
 -- Copy to your main.lua file
 
+-- declare and call draw function :D
+-- component could be file based like menu.lua
+local menu
+
 function love.load()
     love.graphics.setBackgroundColor({ 1, 1, 1 })
     local clicks = 0
-    local menu = component { column = true, gap = 10 }
+    menu = component { column = true, gap = 10 }
         + button {
             text = 'New game',
             width = 200,

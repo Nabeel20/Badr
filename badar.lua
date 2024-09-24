@@ -13,9 +13,10 @@ local badar = {
     y = 0,
     height = 0,
     width = 0,
-    parent = { x = 0, y = 0 },
+    parent = { x = 0, y = 0, visible = true },
     id = tostring(love.timer.getTime()),
-    children = {}
+    visible = true,
+    children = {},
 }
 badar.__index = badar
 
@@ -27,27 +28,6 @@ end
 function badar.__add(self, component)
     if type(component) ~= "table" or component == nil then return end
 
-    -- Input binding
-    if component.onClick ~= nil then
-        -- signal uses function signature
-        component.onClickHandler = function(button)
-            if component:isMouseInside() and button == 1 then
-                component:onClick()
-            end
-        end
-        signal.click:add(component.onClickHandler)
-    end
-    -- draw signal binding
-    if component.draw then
-        component.drawHandler = function()
-            love.graphics.push()
-            love.graphics.translate(self.x, self.y)
-            component:draw()
-            love.graphics.pop()
-        end
-        signal.draw:add(component.drawHandler)
-    end
-    -- child position realative to its parent
     component.parent = self
     if self.column then
         component.y = self.height
@@ -70,8 +50,10 @@ function badar.__sub(self, component)
         if component.onClickHandler then
             signal.click:remove(component.onClickHandler)
         end
-        if component.drawHandler then
-            signal.draw:remove(component.drawHandler)
+        for index, child in ipairs(self.children) do
+            if child.id == component.id then
+                table.remove(self.children, index)
+            end
         end
     end
     return self
@@ -94,7 +76,16 @@ function badar:isMouseInside()
         mouseY <= self.y + self.parent.y + self.height
 end
 
-return setmetatable({ new = badar.new }, {
+function badar:draw()
+    if not self.visible then return end;
+    if #self.children > 0 then
+        for _, child in ipairs(self.children) do
+            child:draw()
+        end
+    end
+end
+
+return setmetatable({ new = badar.new, draw = badar.draw }, {
     __call = function(t, ...)
         return badar:new(...)
     end,

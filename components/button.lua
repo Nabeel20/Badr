@@ -1,4 +1,5 @@
 local component = require 'badar'
+local signal    = require 'components.signal'
 
 -- https://github.com/s-walrus/hex2color/blob/master/hex2color.lua
 local function Hex(hex, value)
@@ -17,8 +18,7 @@ return function(props)
     }
     local width = math.max(props.width or 0, font:getWidth(props.text) + padding.horizontal)
     local height = math.max(props.height or 0, font:getHeight(props.text) + padding.vertical)
-
-    return component {
+    local output = component {
         text = props.text,
         icon = props.icon or nil,
         --
@@ -50,7 +50,9 @@ return function(props)
         hoverCalled = false,
         --
         draw = function(self)
+            if not self.visible then return love.mouse.setCursor() end
             love.graphics.push()
+            love.graphics.translate(self.parent.x, self.parent.y)
             love.graphics.rotate(self.angle)
             love.graphics.scale(self.scale, self.scale)
             love.graphics.setFont(font)
@@ -93,4 +95,15 @@ return function(props)
             love.graphics.pop()
         end
     }
+    -- Input binding
+    if props.onClick then
+        -- signal uses function signature
+        output.onClickHandler = function(button)
+            if output:isMouseInside() and button == 1 and output.parent.visible then
+                output:onClick()
+            end
+        end
+        signal.click:add(output.onClickHandler)
+    end
+    return output
 end
