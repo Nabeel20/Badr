@@ -56,6 +56,24 @@ end
   ```
 
 - `:isMouseInside()`
+- `:updatePosition(x,y)`
+  Updates components position and all its children.
+- `:animate()`
+  Passes the animation logic for component and all its children. Note that you should add `x` and `y` to your target value to update correctly.
+
+```lua
+button {
+    text = 'animate!',
+    onClick = function(btn)
+        btn.parent:animate(function(self)
+            -- note that we add self.x
+            flux.to(self, 0.4, { x = 100 + self.x })
+        end)
+    end,
+}
+```
+
+---
 
 > [!NOTE]
 > Badar uses `signal.lua` by default. Feel free to use your own methods (eg. update `__add` and `__sub` in badar.lua).
