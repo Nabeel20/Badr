@@ -33,23 +33,39 @@ function badr.__add(self, component)
     if type(component) ~= "table" or component == nil then return end
 
     component.parent = self
+    component.x = self.x + component.x
+    component.y = self.y + component.y
+
+    local lastChild = self.children[#self.children]
+    local childrenDimension = { width = 0, hight = 0 }
+    for _, child in ipairs(self.children) do
+        childrenDimension.width = childrenDimension.width + child.width;
+        childrenDimension.hight = childrenDimension.hight + child.height
+    end
+    if not lastChild then lastChild = { height = 0, width = 0, y = self.y, x = self.x } end
     if self.column then
-        component.y = self.height
-        self.height = self.height + component.height + (self.gap or 0)
+        component.y = lastChild.height + lastChild.y
+        if #self.children > 0 then
+            component.y = component.y + (self.gap or 0)
+        end
+        self.height = math.max(self.height, childrenDimension.hight + component.height)
         self.width = math.max(self.width, component.width)
     end
     if self.row then
-        component.x = self.width
-        self.width = self.width + component.width + (self.gap or 0)
+        component.x = lastChild.width + lastChild.x
+        if #self.children > 0 then
+            component.x = component.x + (self.gap or 0)
+        end
+
+        self.width = math.max(self.width, childrenDimension.width + component.width)
         self.height = math.max(self.height, component.height)
     end
 
-    -- update children position if they were decalred before adding (e.g sperate file)
-    for _, child in ipairs(component.children) do
-        child.x = child.x + self.x
-        child.y = child.y + self.y
+    if #component.children > 0 then
+        for _, child in ipairs(component.children) do
+            child:updatePosition(component.x, component.y)
+        end
     end
-
     table.insert(self.children, component)
     return self
 end
@@ -81,9 +97,9 @@ end
 
 function badr:isMouseInside()
     local mouseX, mouseY = love.mouse.getPosition()
-    return mouseX >= self.x + self.parent.x and mouseX <= self.x + self.parent.x + self.width and
-        mouseY >= self.y + self.parent.y and
-        mouseY <= self.y + self.parent.y + self.height
+    return mouseX >= self.x and mouseX <= self.x + self.width and
+        mouseY >= self.y and
+        mouseY <= self.y + self.height
 end
 
 function badr:draw()
@@ -92,6 +108,14 @@ function badr:draw()
         for _, child in ipairs(self.children) do
             child:draw()
         end
+    end
+end
+
+function badr:updatePosition(x, y)
+    self.x = self.x + x
+    self.y = self.y + y
+    for _, child in ipairs(self.children) do
+        child:updatePosition(x, y)
     end
 end
 
