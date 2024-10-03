@@ -52,7 +52,6 @@ return function(props)
         draw = function(self)
             if not self.visible then return love.mouse.setCursor() end
             love.graphics.push()
-            love.graphics.translate(self.parent.x, self.parent.y)
             love.graphics.rotate(self.angle)
             love.graphics.scale(self.scale, self.scale)
             love.graphics.setFont(font)
@@ -77,7 +76,7 @@ return function(props)
                     self.hoverCalled = true
                 end
                 love.mouse.setCursor(love.mouse.getSystemCursor('hand'))
-                love.graphics.setColor(self.hoverColor)
+                love.graphics.setColor(self.hoverColor[1], self.hoverColor[2], self.hoverColor[3], self.opacity)
                 self.hovered = true
             elseif self.hovered then
                 love.mouse.setCursor()
@@ -88,7 +87,7 @@ return function(props)
                 self.hoverCalled = false
             end
             love.graphics.rectangle('fill', self.x, self.y, self.width, self.height, self.cornerRadius)
-            love.graphics.setColor(self.textColor)
+            love.graphics.setColor(self.textColor[1], self.textColor[2], self.textColor[3], self.opacity)
             love.graphics.printf(self.text, self.x + self.leftPadding, self.y + self.topPadding,
                 self.width - padding.horizontal, 'center')
             love.graphics.setColor({ 1, 1, 1 })
