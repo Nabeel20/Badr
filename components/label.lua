@@ -1,4 +1,4 @@
-local component = require 'badar'
+local component = require 'badr'
 
 local function label(options)
     local _font = options.font or love.graphics.getFont()

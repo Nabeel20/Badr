@@ -1,4 +1,4 @@
-local component = require 'badar'
+local component = require 'badr'
 local signal    = require 'components.signal'
 local button    = require 'components.button'
 

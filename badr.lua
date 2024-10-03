@@ -1,19 +1,19 @@
 --
--- badar
+-- Badr
 --
--- Copyright (c) 2024 Nabeel
+-- Copyright (c) 2024 Nabeel20
 --
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
 --* optional signal for input biding
 local signal = require 'components.signal'
-local badar = {}
-badar.__index = badar
+local badr = {}
+badr.__index = badr
 
-function badar:new(t)
+function badr:new(t)
     assert(type(t) == "table", 'Badar; passed value must be a table.')
-    local _deafult = {
+    local _default = {
         x = 0,
         y = 0,
         height = 0,
@@ -24,12 +24,12 @@ function badar:new(t)
         children = {},
     }
     for key, value in pairs(t) do
-        _deafult[key] = value
+        _default[key] = value
     end
-    return setmetatable(_deafult, badar)
+    return setmetatable(_default, badr)
 end
 
-function badar.__add(self, component)
+function badr.__add(self, component)
     if type(component) ~= "table" or component == nil then return end
 
     component.parent = self
@@ -55,7 +55,7 @@ function badar.__add(self, component)
 end
 
 -- Remove child and its signals
-function badar.__sub(self, component)
+function badr.__sub(self, component)
     if self % component.id then
         if component.onClickHandler then
             signal.click:remove(component.onClickHandler)
@@ -70,7 +70,7 @@ function badar.__sub(self, component)
 end
 
 -- Returns child with specific id
-function badar.__mod(self, id)
+function badr.__mod(self, id)
     assert(type(id) == "string", 'Badar; Provided id must be a string.')
     for _, child in ipairs(self.children) do
         if child.id == id then
@@ -79,14 +79,14 @@ function badar.__mod(self, id)
     end
 end
 
-function badar:isMouseInside()
+function badr:isMouseInside()
     local mouseX, mouseY = love.mouse.getPosition()
     return mouseX >= self.x + self.parent.x and mouseX <= self.x + self.parent.x + self.width and
         mouseY >= self.y + self.parent.y and
         mouseY <= self.y + self.parent.y + self.height
 end
 
-function badar:draw()
+function badr:draw()
     if not self.visible then return end;
     if #self.children > 0 then
         for _, child in ipairs(self.children) do
@@ -95,8 +95,8 @@ function badar:draw()
     end
 end
 
-return setmetatable({ new = badar.new }, {
+return setmetatable({ new = badr.new }, {
     __call = function(t, ...)
-        return badar:new(...)
+        return badr:new(...)
     end,
 })

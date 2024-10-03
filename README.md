@@ -1,6 +1,6 @@
-# Badar 🌕
+# Badr 🌕
 
-Badar _(Full moon in Arabic)_ is a simple and fun way to write UI, prioritizing both _**developer experience**_ and _**readability**_.<br/>
+Badr _(Full moon in Arabic)_ is a simple and fun way to write UI, prioritizing both _**developer experience**_ and _**readability**_.<br/>
 
 ### Usage
 

@@ -1,4 +1,4 @@
-local component = require 'badar'
+local component = require 'badr'
 local signal    = require 'components.signal'
 
 -- https://github.com/s-walrus/hex2color/blob/master/hex2color.lua
