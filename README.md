@@ -4,7 +4,7 @@ Badr _(Full moon in Arabic)_ is a simple and fun way to write UI, prioritizing b
 
 ### Usage
 
-Copy [badar.lua](badar.lua) to your project for basic functionality _and_ [signal.lua](components/signal.lua) for signals handling. <br/>
+Copy [badr.lua](badr.lua) to your project for basic functionality _and_ [signal.lua](components/signal.lua) for signals handling. <br/>
 🌙 For a **_functional_** example see: [example.lua](components/example.lua)
 
 ```lua
@@ -76,7 +76,7 @@ button {
 ---
 
 > [!NOTE]
-> Badar uses `signal.lua` by default. Feel free to use your own methods (eg. update `__add` and `__sub` in badar.lua).
+> Badar uses `signal.lua` by default. Feel free to use your own methods (eg. update `__add` and `__sub` in badr.lua).
 
 ## License
 
