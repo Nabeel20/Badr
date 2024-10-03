@@ -119,6 +119,13 @@ function badr:updatePosition(x, y)
     end
 end
 
+function badr:animate(props)
+    props(self)
+    for _, child in ipairs(self.children) do
+        child:animate(props)
+    end
+end
+
 return setmetatable({ new = badr.new }, {
     __call = function(t, ...)
         return badr:new(...)
