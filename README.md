@@ -1,6 +1,6 @@
 # Badr 🌕
 
-Badr _(Full moon in Arabic)_ is a simple and fun way to write UI, prioritizing both _**developer experience**_ and _**readability**_.<br/>
+Badr _(Full moon in Arabic)_ is a easy and enjoyable way to write user interfaces, prioritizing _**developer experience**_, _**composition**_ and _**readability**_ 🌝
 
 ### Usage
 
@@ -22,61 +22,88 @@ function love.load()
 end
 ```
 
-### Functions
+## Creating a new component
 
-- Creating a `new` component. `column (boolean)` & `row (boolean)` and `gap (number)` are used for basic layout calculations. For inspiration see [components](components).
+Each component acts as a container for values and includes a `draw` function.There are some default properties (`id (string)`, `x`, `y`, `width`, `height`, `visible`, `parent` and `children`). However, you can pass any additional values to a component and utilize them as needed. To create a custom component, simply override the draw function, for inspiration take a look at [components](components).
 
-  ```lua
-  local newComponent = component {
-    x = 10, y = 10,
-    visible = true,
-    myCustomProp = true,
-    customFunction = myCustomLogic(),
-    draw = function(self)
-        if not self.visible then return end
-        love.graphics.print('Hello!', self.x, self.y)
-    end,
-  }
-  ```
+### Basic layout support
 
-- `component = component + child`
+Badr offers built-in support for simple layout composition with `row(boolean)`, `column(boolean)`, and `gap(number)`. For more advanced layouts, you can implement custom drawing logic.
 
-  Adds the child to its parent’s children table and register its signals.
+```lua
+local newComponent = component {
+  x = 10,
+  y = 10,
+  myCustomProp = true,
+  customFunction = myCustomLogic(),
+  draw = function(self)
+      -- your drawing logic here
+      -- don't forget to loop through children to draw them
+      if not self.visible then return end
+      love.graphics.print('Hello!', self.x, self.y)
+  end,
+}
+```
 
-- `component = component - child`
+## Appending a child component
 
-  Removes the child from its parent’s children table, and unregister its signals.
+To append a child component to a parent component, you can use the following syntax `parent = parent + child`.
 
-- `component % id (string)`:
+### Composition
 
-  Returns child by id in its parent children list. Useful for modifying children within the same parent.
+Composition allows you to break your UI into simple, independent components. This approach offers greater flexibility and scalability.
 
-  ```lua
-  (parent % id).value = newValue
-  ```
+```lua
+local customComponent = component { row = true, gap = 10 }
+    + label 'second'
+    + label 'third'
 
-- `:isMouseInside()`
-- `:updatePosition(x,y)`
-  Updates components position and all its children.
-- `:animate()`
-  Passes the animation logic for component and all its children. Note that you should add `x` and `y` to your target value to update correctly.
+local mainComponent = component { column = true }
+    + label 'first'
+    + customComponent
+    + (component() + label 'fourth') -- this work also
+```
+
+## Removing a child component
+
+To remove a child component from its parent, you can use the following syntax: `parent = parent - child`. To hide a component you can use `component.visible = false`.
+
+## Updating a child component
+
+To update a child component, you can directly modify its value using: `child.value = newValue`.
+
+### Retrieving a child component by id
+
+To retrieve a child component by its `id` (string), you can use the following syntax:, use the following syntax: `parent % id`. This will return the targeted child component
+
+### Updating the position of all children
+
+To update the position of a child component and all its children, you can use the following syntax `:updatePosition(x,y)`.
+
+### Animating a child component
+
+To animate any component, you can use `flux`. If you want to animate a component and all its children, you can use `:animate()`.
 
 ```lua
 button {
-    text = 'animate!',
-    onClick = function(btn)
-        btn.parent:animate(function(self)
-            -- note that we add self.x
-            flux.to(self, 0.4, { x = 100 + self.x })
+    text = 'Click for animation',
+    onClick = function(self)
+        -- Animate this component
+        self.opacity = 0
+        flux.to(self, 0.4, { opacity = 1 })
+        -- Animate the whole tree
+        self.parent:animate(function(s)
+            -- note that we pass the current position
+            flux.to(s, 2, { x = s.x + 250 })
         end)
     end,
 }
 ```
 
----
+To check if the mouse is within a component, you can use `:isMouseInside()`
 
 > [!NOTE]
-> Badar uses `signal.lua` by default. Feel free to use your own methods (eg. update `__add` and `__sub` in badr.lua).
+> Badar uses `signal.lua` by default to handle click events. Feel free to use your own methods (eg. update `__sub` in badr.lua).
 
 ## License
 
