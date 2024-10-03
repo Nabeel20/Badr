@@ -2,7 +2,7 @@ local component = require 'badr'
 
 local function label(options)
     local _font = options.font or love.graphics.getFont()
-    local color = options.color or { 1, 1, 1 }
+    local color = options.color or { 0, 0, 0 }
 
     return component {
         text = options.text or options,
