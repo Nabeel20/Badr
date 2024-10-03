@@ -40,8 +40,11 @@ function love.load()
                 love.mouse.setCursor()
             end
         }
-    menu.y = love.graphics.getHeight() * 0.5 - menu.height * 0.5
-    menu.x = love.graphics.getWidth() * 0.5 - menu.width * 0.5
+
+    menu:updatePosition(
+        love.graphics.getWidth() * 0.5 - menu.width * 0.5,
+        love.graphics.getHeight() * 0.5 - menu.height * 0.5
+    )
 end
 
 function love.draw()
