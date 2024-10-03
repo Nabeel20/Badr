@@ -12,7 +12,7 @@ local badr = {}
 badr.__index = badr
 
 function badr:new(t)
-    assert(type(t) == "table", 'Badar; passed value must be a table.')
+    t = t or {}
     local _default = {
         x = 0,
         y = 0,
