@@ -1,5 +1,4 @@
 local component = require 'badr'
-local signal    = require 'components.signal'
 
 -- https://github.com/s-walrus/hex2color/blob/master/hex2color.lua
 local function Hex(hex, value)
@@ -18,7 +17,7 @@ return function(props)
     }
     local width = math.max(props.width or 0, font:getWidth(props.text) + padding.horizontal)
     local height = math.max(props.height or 0, font:getHeight(props.text) + padding.vertical)
-    local output = component {
+    return component {
         text = props.text,
         icon = props.icon or nil,
         --
@@ -48,6 +47,16 @@ return function(props)
         onHover = props.onHover,
         disabled = props.disabled or false,
         hoverCalled = false,
+        onUpdate = function(self)
+            if love.mouse.isDown(1) then
+                if self.mousePressed == false and self:isMouseInside() and self.parent.visible then
+                    self.mousePressed = true
+                    if props.onClick then self:onClick() end
+                end
+            else
+                self.mousePressed = false
+            end
+        end,
         --
         draw = function(self)
             if not self.visible then return love.mouse.setCursor() end
@@ -94,15 +103,4 @@ return function(props)
             love.graphics.pop()
         end
     }
-    -- Input binding
-    if props.onClick then
-        -- signal uses function signature
-        output.onClickHandler = function(button)
-            if output:isMouseInside() and button == 1 and output.parent.visible then
-                output:onClick()
-            end
-        end
-        signal.click:add(output.onClickHandler)
-    end
-    return output
 end

@@ -4,12 +4,12 @@ Badr _(Full moon in Arabic)_ is a easy and enjoyable way to write user interface
 
 ### Usage
 
-Copy [badr.lua](badr.lua) to your project for basic functionality _and_ [signal.lua](components/signal.lua) for signals handling. <br/>
+Copy [badr.lua](badr.lua) to your project. <br>
 🌙 For a **_functional_** example see: [example.lua](components/example.lua)
 
 ```lua
 function love.load()
-    local menu = component { column = true, gap = 10 }
+    menu = component { column = true, gap = 10 }
         + label 'Hello, World!'
         + label { text = 'love2d', id = '#2' }
         + button {
@@ -70,7 +70,7 @@ To remove a child component from its parent, you can use the following syntax: `
 
 ## Updating a child component
 
-To update a child component, you can directly modify its value using: `child.value = newValue`.
+To update a child component, you can directly modify its value using: `child.value = newValue`. For continuous updates, use `:onUpdate()`, and ensure to call component update method.
 
 ### Retrieving a child component by id
 
@@ -100,10 +100,11 @@ button {
 }
 ```
 
-To check if the mouse is within a component, you can use `:isMouseInside()`
-
 > [!NOTE]
-> Badar uses `signal.lua` by default to handle click events. Feel free to use your own methods (eg. update `__sub` in badr.lua).
+> Don't forget to call `:draw()` and `:update()`.
+
+To check if the mouse is within a component, you can use `:isMouseInside()`. Badr uses mouse.isDown() to check for mouse clicks. Feel free to use your own methods when creating your components.<br>
+Feedback and ideas appreciated ✨
 
 ## License
 

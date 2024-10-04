@@ -6,8 +6,6 @@
 -- This library is free software; you can redistribute it and/or modify it
 -- under the terms of the MIT license. See LICENSE for details.
 --
---* optional signal for input biding
-local signal = require 'components.signal'
 local badr = {}
 badr.__index = badr
 
@@ -70,12 +68,9 @@ function badr.__add(self, component)
     return self
 end
 
--- Remove child and its signals
+-- Remove child
 function badr.__sub(self, component)
     if self % component.id then
-        if component.onClickHandler then
-            signal.click:remove(component.onClickHandler)
-        end
         for index, child in ipairs(self.children) do
             if child.id == component.id then
                 table.remove(self.children, index)
@@ -123,6 +118,15 @@ function badr:animate(props)
     props(self)
     for _, child in ipairs(self.children) do
         child:animate(props)
+    end
+end
+
+function badr:update()
+    if self.onUpdate then
+        self:onUpdate()
+    end
+    for _, child in ipairs(self.children) do
+        child:update()
     end
 end
 

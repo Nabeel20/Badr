@@ -1,5 +1,4 @@
 local component = require 'badr'
-local signal    = require 'components.signal'
 local button    = require 'components.button'
 
 -- Copy to your main.lua file
@@ -51,6 +50,6 @@ function love.draw()
     menu:draw()
 end
 
-function love.mousepressed(x, y, btn, isTouch, presses)
-    signal.click:emit(btn)
+function love.update()
+    menu:update()
 end
