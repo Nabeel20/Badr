@@ -34,28 +34,29 @@ function badr.__add(self, component)
     component.x = self.x + component.x
     component.y = self.y + component.y
 
-    local lastChild = self.children[#self.children]
-    local childrenDimension = { width = 0, hight = 0 }
+    local childrenSize = { width = 0, hight = 0 }
     for _, child in ipairs(self.children) do
-        childrenDimension.width = childrenDimension.width + child.width;
-        childrenDimension.hight = childrenDimension.hight + child.height
+        childrenSize.width = childrenSize.width + child.width;
+        childrenSize.hight = childrenSize.hight + child.height
     end
-    if not lastChild then lastChild = { height = 0, width = 0, y = self.y, x = self.x } end
+
+    local gap = self.gap or 0
+    local lastChild = self.children[#self.children] or {}
+
     if self.column then
-        component.y = lastChild.height + lastChild.y
+        component.y = (lastChild.height or 0) + (lastChild.y or self.y)
         if #self.children > 0 then
-            component.y = component.y + (self.gap or 0)
+            component.y = component.y + gap
         end
-        self.height = math.max(self.height, childrenDimension.hight + component.height)
+        self.height = math.max(self.height, childrenSize.hight + component.height + gap * #self.children)
         self.width = math.max(self.width, component.width)
     end
     if self.row then
-        component.x = lastChild.width + lastChild.x
+        component.x = (lastChild.width or 0) + (lastChild.x or self.x)
         if #self.children > 0 then
-            component.x = component.x + (self.gap or 0)
+            component.x = component.x + gap
         end
-
-        self.width = math.max(self.width, childrenDimension.width + component.width)
+        self.width = math.max(self.width, childrenSize.width + component.width + gap * #self.children)
         self.height = math.max(self.height, component.height)
     end
 
